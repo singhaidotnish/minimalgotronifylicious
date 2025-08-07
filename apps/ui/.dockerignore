@@ -1,0 +1,13 @@
+# apps/ui/.dockerignore
+
+node_modules/
+.next/
+out/
+build/
+.env
+*.log
+*.tsbuildinfo
+.cache/
+*.swp
+*.tmp
+

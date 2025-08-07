@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="717b2414-94d7-4365-98c3-b801bf6f3929" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +14,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
+  "associatedIndex": 7
 }]]></component>
-  <component name="ProjectId" id="30wdIUyveReZRqxxv4CifRE9IMH" />
+  <component name="ProjectId" id="30xAFeVrsW5qPnzDO2vbdd3nwwl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -29,7 +27,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/minimalgotronifylicious"
+    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/miscellonifytastic"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -41,11 +39,11 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="717b2414-94d7-4365-98c3-b801bf6f3929" name="Changes" comment="" />
-      <created>1754542489468</created>
+      <changelist id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="" />
+      <created>1754558748222</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1754542489468</updated>
+      <updated>1754558748222</updated>
     </task>
     <servers />
   </component>

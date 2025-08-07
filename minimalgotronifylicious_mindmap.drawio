@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Mindmap Architecture" id="minimalgotronifylicious">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+<mxCell id="graph" value="\N" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="node" value="\N" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="CORE" value="🧠 minimalgotronifylicious" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#fdf6e3;" vertex="1" parent="1">
+  <mxGeometry x="300" y="200" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="FE" value="Frontend (Next.js)
+apps/ui" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#b3d9ff;" vertex="1" parent="1">
+  <mxGeometry x="100" y="60" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="BE" value="Backend (FastAPI)
+apps/backend" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#d9fdd3;" vertex="1" parent="1">
+  <mxGeometry x="500" y="60" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI" value="AI Modules" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffe0b3;" vertex="1" parent="1">
+  <mxGeometry x="100" y="340" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="INFRA" value="Infrastructure" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#e0e0e0;" vertex="1" parent="1">
+  <mxGeometry x="500" y="340" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="FE1" value="Condition Builder" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="0" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="FE2" value="Preview Block" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="60" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="FE3" value="Strategy Composer" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="120" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="BE1" value="/api/candles
+/api/orders" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="0" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="BE2" value="/ws/stream" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="60" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="BE3" value="symbols.json
+brokers.yaml" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="120" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI1" value="Signal Gen (LSTM, XGBoost)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="280" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI2" value="Optimizer (Genetic Algo, RL)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="340" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI3" value="Sentiment NLP (FinBERT)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="400" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI4" value="Pattern Detection (CNN)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="460" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="AI5" value="Regime Classifier (HMM)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="40" y="520" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="INF1" value="Docker
+(Dockerfile, Compose)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="280" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="INF2" value="validate_structure.sh" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="340" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="INF3" value=".env.example" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="580" y="400" width="200" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="\n" value="\N" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;" vertex="1" parent="1">
+  <mxGeometry x="0" y="0" width="200" height="60" as="geometry"/>
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

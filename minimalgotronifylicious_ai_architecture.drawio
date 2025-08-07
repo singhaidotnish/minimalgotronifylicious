@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="AI Architecture" id="minimalgotronifylicious">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+<mxCell id="graph" value="\N" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="node" value="\N" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="280" y="40" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="U" value="User" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="520" y="40" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="UI" value="Frontend (Next.js)
+apps/ui" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="760" y="40" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="BE" value="Backend (FastAPI)
+apps/backend" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="140" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="API" value="REST API
+/api/candles
+/api/orders" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="280" y="140" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="WS" value="WebSocket
+/ws/stream" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="520" y="140" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="DATA" value="Static Data
+(symbols.json,
+brokers.yaml)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="760" y="140" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="A1" value="Signal Generation
+(LSTM, XGBoost)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="240" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="A2" value="Strategy Optimizer
+(Genetic Algo, RL)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="280" y="240" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="A3" value="Sentiment Analyzer
+(NLP, FinBERT)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="520" y="240" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="A4" value="Pattern Detector
+(Clustering, CNN)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="760" y="240" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="A5" value="Market Regime Detector
+(HMM, GARCH)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="340" width="180" height="60" as="geometry"/>
+</mxCell>
+
+<mxCell id="\n" value="\N" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="280" y="340" width="180" height="60" as="geometry"/>
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

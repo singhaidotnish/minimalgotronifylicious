@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Docker Metaphor" id="docker-adhd">
+    <mxGraphModel>
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+<mxCell id="A" value="Dockerfile
+📜 Recipe Card
+(Setup Instructions)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="220" height="80" as="geometry"/>
+</mxCell>
+
+<mxCell id="B" value="Image
+🍱 Packed Lunchbox
+(Prepped Code + Env)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="300" y="40" width="220" height="80" as="geometry"/>
+</mxCell>
+
+<mxCell id="C" value="Container
+🧊 Opened Lunchbox
+(Running App)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="560" y="40" width="220" height="80" as="geometry"/>
+</mxCell>
+
+<mxCell id="D" value="docker-compose.yml
+🍽️ Bento Box
+(Run Multiple Together)" style="shape=rectangle;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+  <mxGeometry x="300" y="180" width="220" height="80" as="geometry"/>
+</mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
