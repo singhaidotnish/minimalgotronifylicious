@@ -1,0 +1,4 @@
+brokers:
+  - Zerodha
+  - AngelOne
+  - Upstox

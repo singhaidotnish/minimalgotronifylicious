@@ -1,0 +1,118 @@
+.
+├── add_to_bashrc.sh
+├── ARCHITECTURE.md
+├── backend_tree_structure.txt
+├── build.sh
+├── data
+│   ├── brokers.yaml
+│   └── static
+│       ├── bo_derivative_data.yaml
+│       ├── bo_stock_data.yaml
+│       ├── config.yaml.example
+│       └── strategies.yaml
+├── documentation.md
+├── FIRST_STEPS.md
+├── __init__.py
+├── INSTALL.md
+├── LICENSE
+├── main.py
+├──  misc
+│   └── websocket_programming.py
+├── nixpacks.toml
+├── package-lock.json
+├── Procfile
+├── public
+│   └── symbols.json
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+├── setup.cfg
+├── setup.py
+├── src
+│   ├── algomin
+│   │   ├── api
+│   │   │   ├── brokers.py
+│   │   │   ├── __init__.py
+│   │   │   └── routes.py
+│   │   ├── brokers
+│   │   │   ├── abstract_trading_client.py
+│   │   │   ├── abstract_websocket_client.py
+│   │   │   ├── angelone_smart_connect_client.py
+│   │   │   ├── angelone_websocket_client.py
+│   │   │   ├── angelone_websocket_event_handler.py
+│   │   │   ├── base_event_handler.py
+│   │   │   ├── base_websocket_client.py
+│   │   │   ├── custom_angel_one_web_socket.py
+│   │   │   ├── __init__.py
+│   │   │   ├── mixins
+│   │   │   ├── order_client_factory.py
+│   │   │   ├── USAGE.md
+│   │   │   └── websocket_client_factory.py
+│   │   ├── config_loader
+│   │   │   ├── base_config_loader.py
+│   │   │   ├── broker_config_loader.py
+│   │   │   ├── common.yaml.example
+│   │   │   ├── data_loader
+│   │   │   └── __init__.py
+│   │   ├── factory
+│   │   │   └── broker_factory.py
+│   │   ├── __init__.py
+│   │   ├── models
+│   │   │   ├── __init__.py
+│   │   │   └── models.py
+│   │   ├── observer
+│   │   │   ├── alert.py
+│   │   │   ├── base_observer.py
+│   │   │   ├── chart.py
+│   │   │   ├── database.py
+│   │   │   ├── email.py
+│   │   │   ├── ema_indicator_query.py
+│   │   │   ├── ema.py
+│   │   │   ├── __init__.py
+│   │   │   ├── limit_order_trigger.py
+│   │   │   ├── logger.py
+│   │   │   ├── mongodaba.py
+│   │   │   ├── price_prediction.py
+│   │   │   └── web_socket_base.py
+│   │   ├── orders
+│   │   │   ├── base_order_strategy.py
+│   │   │   ├── bracket_order_derivative_stock.py
+│   │   │   ├── __init__.py
+│   │   │   ├── limit_order.py
+│   │   │   ├── market_order.py
+│   │   │   ├── normal_order_derivative_stock.py
+│   │   │   ├── order_factory.py
+│   │   │   └── stop_loss_order.py
+│   │   ├── sessions
+│   │   │   ├── angelone_session.py
+│   │   │   ├── base_broker_session.py
+│   │   │   ├── __init__.py
+│   │   │   └── zerodha_session.py
+│   │   ├── strategies
+│   │   │   ├── base_order_strategy.py
+│   │   │   ├── __init__.py
+│   │   │   └── strategy_loader
+│   │   ├── utils
+│   │   │   ├── __init__.py
+│   │   │   ├── loader_factory.py
+│   │   │   └── order_builder.py
+│   │   └── web_socket_manager.py
+│   └── __init__.py
+├── templates
+│   └── index.html
+├── tests
+│   ├── conftest.py
+│   ├── test_api_routes.py
+│   ├── test_config_loader.py
+│   ├── test_live_data_like_start_websocket.py
+│   ├── test_live_data_looking_like_start_websocket.py
+│   ├── test_live_data.py
+│   ├── test_order_client.py
+│   ├── test_placeOrder.py
+│   ├── test_run_live_order.py
+│   └── test_websocket_manager.py
+├── TODO.md
+├── tree_structure_backend.txt
+└── tree_structure.txt
+
+21 directories, 94 files

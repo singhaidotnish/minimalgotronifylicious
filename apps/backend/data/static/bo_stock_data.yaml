@@ -1,0 +1,19 @@
+# config.yaml.example
+
+ob:     # order basic
+    exchange: "NSE"  # NSE or BSE
+    producttype: "INTRADAY"  # Bracket Order only supports INTRADAY
+    duration: "DAY"
+    ordertype: "LIMIT"  # Bracket orders allow only LIMIT orders
+
+sp:     # stock specific
+    tradingsymbol: "RELIANCE"   # Stock symbol
+    symboltoken: 2885  # Token for the stock
+    transactiontype: "BUY"  # BUY or SELL
+    quantity: 10  # Number of shares
+    price: 2500.00  # Entry price
+    triggerprice: 2495.00  # Stop-loss trigger price
+    squareoff: 20.00  # Target (profit) in absolute points
+    stoploss: 10.00  # Stop-loss in absolute points
+    trailingStopLoss: 5.00  # Optional trailing SL
+    variety: "STOPLOSS_BO"  # Bracket Order type

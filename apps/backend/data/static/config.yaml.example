@@ -1,0 +1,10 @@
+credentials:
+  api_key: YOUR_API_KEY
+  secret_key: YOUR_SECRET_KEY
+
+websocket:
+  correlation_id: "sub_default"
+  mode: "full"
+  subscriptions:
+    - exchangeType: 1
+      tokens: ["26009"]

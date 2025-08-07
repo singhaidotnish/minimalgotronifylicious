@@ -1,0 +1,18 @@
+link_strategies:
+  - module: "social-stock-exchanges-sses"  # This can be the name of the module (like innerworth, chapter1, etc.)
+    selector: "section.chapter-list a.inv[href]"
+    strategy: "parse_with_heading_and_paragraphs"
+  - module: "innerworth"
+    selector: "tbody a[href]"
+    strategy: "parse_with_paragraphs_only"
+  - module: "insurance"  # This can be the name of the module (like innerworth, chapter1, etc.)
+    selector: "section.chapter-list a.inv[href]"
+    strategy: "parse_with_heading_and_paragraphs"
+
+limit_order_strategies:
+  - symbol_token: "2885"
+    tradingsymbol: "RELIANCE-EQ"
+    target_price: 700
+    quantity: 1
+    order_type: "BUY"
+    exchangeType: 1

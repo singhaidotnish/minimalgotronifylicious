@@ -1,0 +1,43 @@
+order_defaults:  # order basic
+  exchange: "NFO"  # NSE Derivative Segment
+  producttype: "INTRADAY"  # Bracket Order only supports INTRADAY
+  duration: "DAY"
+  ordertype: "LIMIT"   # LIMIT or MARKET
+
+data_source:
+  type: yaml
+  path: data/strategies.yaml
+
+websocket:
+  retry:
+    max_attempt: 5
+    strategy: 2
+    delay: 2
+    multiplier: 2
+    duration: 60
+
+  mode: full
+  correlation_id: "sub_001"
+  subscriptions:
+    - exchangeType: 1
+      tokens: ["26009"]
+
+order:
+  tradingsymbol: SBIN-EQ
+  symboltoken: "3045"
+  transactiontype: BUY
+  exchange: NSE
+  ordertype: LIMIT
+  producttype: INTRADAY
+  quantity: 1
+  variety: NORMAL
+  duration: DAY
+  price: "60"
+  squareoff: "0"
+  stoploss: "0"
+
+smart_connect:
+  api_key: YOUR_API_KEY  # As generated in smart API panel
+  client_id: YOUR_CLIENT_ID  # Your Angel login user-id
+  password: YOUR_PASSWORD  # Your Angel login password
+  totp_secret: YOUR_TOTP_SECRET

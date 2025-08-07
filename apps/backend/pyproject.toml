@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "algomin"
+version = "0.1.0"
+description = "Modular trading and analytics tool using WebSockets, observers, and YAML configuration"
+authors = [
+    { name="Nishith Singhai", email="singhai.nish@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pandas",
+    "pyyaml",
+    "plotly"
+]
+
+[project.scripts]
+algomin-cli = "cli.run_client:main"
+# Replace "cli.run_client:main" with the actual function if you want algomin-cli to work as a CLI entry point.
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["algomin*"]

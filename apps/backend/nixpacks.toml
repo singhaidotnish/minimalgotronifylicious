@@ -1,0 +1,14 @@
+[variables]
+PYTHON_VERSION = "3.11"
+
+[phases.setup]
+nixPkgs = ["python311", "python311Packages.pip", "python311Packages.setuptools", "python311Packages.wheel"]
+
+[phases.build]
+cmds = [
+    "pip install --upgrade pip setuptools wheel",
+    "pip install -r requirements.txt"
+]
+
+[start]
+cmd = "PYTHONPATH=$(pwd) uvicorn server:app --host 0.0.0.0 --port 8000"

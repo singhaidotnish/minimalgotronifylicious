@@ -1,0 +1,19 @@
+# config.yaml.example
+
+ob:  # order basic
+    exchange: "NFO"  # NSE Derivative Segment
+    producttype: "INTRADAY"  # Bracket Order only supports INTRADAY
+    duration: "DAY"
+    ordertype: "LIMIT"   # LIMIT or MARKET
+
+dp:     # derivative specific
+    tradingsymbol: "RELIANCE"  # Stock symbol
+    symboltoken: 12345  # Get token from API
+    transactiontype: "BUY"  # BUY or SELL
+    quantity: 50  # Number of shares
+    price: 100.00  # Entry price
+    triggerprice: 98.00  # Stop-loss trigger price
+    squareoff: 5.00  # Target (profit) in absolute points
+    stoploss: 2.00  # Stop-loss in absolute points
+    trailingStopLoss: 1.00  # Optional trailing SL
+    variety: "STOPLOSS_BO"  # Bracket Order type
