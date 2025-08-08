@@ -1,6 +1,6 @@
 # brokers/order_client_factory.py
 
-from src.algomin.brokers.angelone_smart_connect_client import AngelOneConnectClient
+from src.minimalgotronifylicious.brokers.angelone_smart_connect_client import AngelOneConnectClient
 # from brokers.zerodha_order_client import ZerodhaOrderClient
 
 class OrderClientFactory:

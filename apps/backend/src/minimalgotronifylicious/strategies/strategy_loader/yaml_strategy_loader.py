@@ -1,6 +1,6 @@
 # yaml_strategy_loader.py
 import yaml
-from src.algomin.strategies.strategy_loader.base_strategy_loader import BaseStrategyLoader
+from src.minimalgotronifylicious.strategies.strategy_loader.base_strategy_loader import BaseStrategyLoader
 
 class YAMLStrategyLoader(BaseStrategyLoader):
     def load_strategies(self, path: str) -> list:

@@ -1,7 +1,7 @@
-from src.algomin.sessions.angelone_session import AngelOneSession
-from src.algomin.config_loader import BrokerConfigLoader
-from src.algomin.brokers.angelone_websocket_client import AngelOneWebSocketV2Client
-from src.algomin.brokers.angelone_websocket_event_handler import AngelOneWebSocketEventHandler
+from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
+from src.minimalgotronifylicious.config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.brokers.angelone_websocket_client import AngelOneWebSocketV2Client
+from src.minimalgotronifylicious.brokers.angelone_websocket_event_handler import AngelOneWebSocketEventHandler
 
 # Step 1: Load config
 config_loader = BrokerConfigLoader()

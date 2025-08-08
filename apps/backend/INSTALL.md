@@ -19,7 +19,7 @@ Make sure you have the following installed:
 
 ```bash
 git clone https://github.com/yourusername/algomin.git
-cd algomin
+cd minimalgotronifylicious
 
 
 python -m venv .venv
@@ -28,8 +28,8 @@ pip install -r requirements.txt
 pip install -e .
 
 # confirm installation
-pip list | grep algomin
+pip list | grep minimalgotronifylicious
 # you should see
-algomin    0.1     (editable)
+minimalgotronifylicious    0.1     (editable)
 
 ```

@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="algomin",
+    name="minimalgotronifylicious",
     version="0.1.0",
-    packages=find_packages(),  # should find "algomin"
+    packages=find_packages(),  # should find "minimalgotronifylicious"
     install_requires=[],
 )

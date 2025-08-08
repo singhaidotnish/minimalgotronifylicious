@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from src.algomin.web_socket_manager import WebSocketManager
+from src.minimalgotronifylicious.web_socket_manager import WebSocketManager
 
 def test_watchdog_reconnects_on_disconnect():
     fake_client = MagicMock()

@@ -1,14 +1,12 @@
 # apps/ui/Dockerfile
 
+# syntax=docker/dockerfile:1.7
 FROM node:20
-
 WORKDIR /app
 
 COPY package*.json ./
-ENV npm_config_cache=/tmp/.npm
-RUN npm install --omit=dev  # 👈
+RUN npm ci             # dev deps included
 
 COPY . .
-
 EXPOSE 3000
-CMD ["npm", "run", "dev"]
+CMD ["npm","run","dev"]

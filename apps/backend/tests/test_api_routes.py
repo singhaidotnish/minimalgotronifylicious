@@ -47,7 +47,7 @@ def test_ping_endpoint():
     assert response.status_code == 200
     payload = response.json()
     assert payload.get("status") == "ok"
-    assert "algomin backend is live" in payload.get("message", "")
+    assert "minimalgotronifylicious backend is live" in payload.get("message", "")
 
 
 def test_ws_stream_info():
@@ -65,7 +65,7 @@ def test_ws_stream_connection(monkeypatch):
         pytest.skip("Market is open; skipping fake data override to allow real data stream")
 
     # Dummy event generator
-    from src.algomin.api.routes import stream_events  # adjust import to actual generator
+    from src.minimalgotronifylicious.api.routes import stream_events  # adjust import to actual generator
 
     test_message = {"symbol": "TESTSYM", "price": 123.45}
 
@@ -75,7 +75,7 @@ def test_ws_stream_connection(monkeypatch):
 
     # Override the generator
     monkeypatch.setattr(
-        "src.algomin.api.routes.stream_events", lambda: dummy_generator()
+        "src.minimalgotronifylicious.api.routes.stream_events", lambda: dummy_generator()
     )
 
     with client.websocket_connect("/ws/stream") as ws:

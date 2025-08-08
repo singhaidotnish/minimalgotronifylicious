@@ -2,7 +2,7 @@ import pyotp
 from logzero import logger
 from SmartApi import SmartConnect
 from typing import Any, Dict, Optional
-from src.algomin.sessions.base_broker_session import BaseBrokerSession  # your abstract base
+from src.minimalgotronifylicious.sessions.base_broker_session import BaseBrokerSession  # your abstract base
 
 
 class AngelOneSession(BaseBrokerSession):

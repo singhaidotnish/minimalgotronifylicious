@@ -1,7 +1,7 @@
 # brokers/smart_trading_client.py
 from logzero import logger
 
-from src.algomin.brokers.abstract_trading_client import AbstractOrderClient
+from src.minimalgotronifylicious.brokers.abstract_trading_client import AbstractOrderClient
 
 
 class AngelOneConnectClient(AbstractOrderClient):

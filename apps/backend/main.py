@@ -21,7 +21,7 @@ async def add_csp_header(request: Request, call_next):
     response.headers["Content-Security-Policy"] = (
         "default-src 'self'; "
         "connect-src 'self' http://localhost:5001 "
-        "wss://algomin-backend.up.railway.app "
+        "wss://minimalgotronifylicious-backend.up.railway.app "
         "ws://127.0.0.1:46630 "
         "script-src 'self'; "
         "img-src 'self';"
@@ -35,5 +35,5 @@ async def serve_symbols():
     return FileResponse(symbols_file, media_type="application/json")
 
 # 4) Your other API routers
-from src.algomin.api import router
+from src.minimalgotronifylicious.api import router
 app.include_router(router)

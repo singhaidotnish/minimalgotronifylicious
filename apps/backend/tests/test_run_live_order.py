@@ -1,9 +1,9 @@
 from logzero import logger
 
-from src.algomin.sessions.angelone_session import AngelOneSession
-from src.algomin.config_loader import BrokerConfigLoader
-from src.algomin.brokers.order_client_factory import OrderClientFactory
-from src.algomin.utils.order_builder import OrderBuilder
+from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
+from src.minimalgotronifylicious.config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.brokers.order_client_factory import OrderClientFactory
+from src.minimalgotronifylicious.utils.order_builder import OrderBuilder
 
 def main():
 		print("🚀 Starting Live Order Placement Test for AngelOne")

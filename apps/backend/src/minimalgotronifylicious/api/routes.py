@@ -2,14 +2,14 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Query, HTTPExcept
 
 from typing import Optional
 from pydantic import BaseModel
-from src.algomin.brokers.order_client_factory import OrderClientFactory
-from src.algomin.sessions.angelone_session import AngelOneSession
-from src.algomin.config_loader.broker_config_loader import BrokerConfigLoader
-from src.algomin.utils.order_builder import OrderBuilder
+from src.minimalgotronifylicious.brokers.order_client_factory import OrderClientFactory
+from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
+from src.minimalgotronifylicious.config_loader.broker_config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.utils.order_builder import OrderBuilder
 
-from src.algomin.web_socket_manager import WebSocketManager
-from src.algomin.brokers.websocket_client_factory import WebSocketClientFactory
-from src.algomin.api.brokers import router as brokers_router
+from src.minimalgotronifylicious.web_socket_manager import WebSocketManager
+from src.minimalgotronifylicious.brokers.websocket_client_factory import WebSocketClientFactory
+from src.minimalgotronifylicious.api.brokers import router as brokers_router
 
 router = APIRouter()
 router.include_router(brokers_router)
@@ -100,7 +100,7 @@ def health_check():
 
 @router.get("/ping")
 def ping():
-    return {"status": "ok", "message": "algomin backend is live"}
+    return {"status": "ok", "message": "minimalgotronifylicious backend is live"}
 
 
 @router.get("/ws/stream")

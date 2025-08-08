@@ -1,7 +1,7 @@
 import yaml
 import pytest
 
-from src.algomin.config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.config_loader import BrokerConfigLoader
 
 @pytest.fixture(autouse=True)
 def fake_config(tmp_path, monkeypatch):
@@ -31,7 +31,7 @@ def test_load_websocket_config(fake_config):
 def test_missing_file(tmp_path):
     # Point to a non-existent file
     bad_path = tmp_path / "nope.yaml"
-    from src.algomin.config_loader.broker_config_loader import BrokerConfigLoader
+    from src.minimalgotronifylicious.config_loader.broker_config_loader import BrokerConfigLoader
     monkey = pytest.MonkeyPatch()
     monkey.setattr(BrokerConfigLoader, "CONFIG_PATH", bad_path)
     loader = BrokerConfigLoader()

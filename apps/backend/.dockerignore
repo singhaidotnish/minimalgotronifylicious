@@ -2,9 +2,7 @@ __pycache__/
 .venv/
 *.pyc
 *.pyo
-*.pyd
-.Python
-env/
-*.egg-info/
 build/
 dist/
+*.egg-info/
+.env*

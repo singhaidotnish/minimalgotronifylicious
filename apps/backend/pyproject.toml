@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 
 [project]
-name = "algomin"
+name = "minimalgotronifylicious"
 version = "0.1.0"
 description = "Modular trading and analytics tool using WebSockets, observers, and YAML configuration"
 authors = [
@@ -22,7 +22,7 @@ dependencies = [
 
 [project.scripts]
 algomin-cli = "cli.run_client:main"
-# Replace "cli.run_client:main" with the actual function if you want algomin-cli to work as a CLI entry point.
+# Replace "cli.run_client:main" with the actual function if you want minimalgotronifylicious-cli to work as a CLI entry point.
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["algomin*"]

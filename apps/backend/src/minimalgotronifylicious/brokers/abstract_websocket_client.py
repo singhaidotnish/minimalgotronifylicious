@@ -1,5 +1,5 @@
 # brokers/abstract_websocket_client.py
-from src.algomin.brokers.base_websocket_client import BaseWebSocketClient
+from src.minimalgotronifylicious.brokers.base_websocket_client import BaseWebSocketClient
 
 
 class AbstractWebSocketClient(BaseWebSocketClient):

@@ -1,9 +1,9 @@
 import time
 import threading
 
-from src.algomin.brokers.abstract_websocket_client import AbstractWebSocketClient
-from src.algomin.brokers.mixins.observer_mixin import ObserverMixin
-from src.algomin.brokers.custom_angel_one_web_socket import CustomAngelOneWebSocketV2
+from src.minimalgotronifylicious.brokers.abstract_websocket_client import AbstractWebSocketClient
+from src.minimalgotronifylicious.brokers.mixins.observer_mixin import ObserverMixin
+from src.minimalgotronifylicious.brokers.custom_angel_one_web_socket import CustomAngelOneWebSocketV2
 
 class AngelOneWebSocketV2Client(AbstractWebSocketClient, ObserverMixin):
     def __init__(self,

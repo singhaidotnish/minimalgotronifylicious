@@ -1,7 +1,7 @@
 from typing import Any, Type, Dict
-from src.algomin.config_loader.broker_config_loader import BrokerConfigLoader
-from src.algomin.sessions.angelone_session import AngelOneSession
-from src.algomin.sessions.zerodha_session import ZerodhaSession
+from src.minimalgotronifylicious.config_loader.broker_config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
+from src.minimalgotronifylicious.sessions.zerodha_session import ZerodhaSession
 
 class BrokerFactory:
     """

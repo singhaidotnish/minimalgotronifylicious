@@ -4,7 +4,94 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="" />
+    <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/calendar.ics" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/FIRST_STEPS.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/FIRST_STEPS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/INSTALL.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/INSTALL.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/pyproject.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/api/brokers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/brokers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/api/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/USAGE.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/USAGE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/abstract_trading_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/abstract_trading_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/abstract_websocket_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/abstract_websocket_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/angelone_smart_connect_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_smart_connect_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/angelone_websocket_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_websocket_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/angelone_websocket_event_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_websocket_event_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/base_event_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/base_event_handler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/base_websocket_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/base_websocket_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/custom_angel_one_web_socket.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/custom_angel_one_web_socket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/mixins/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/mixins/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/mixins/heartbeat_mixin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/mixins/heartbeat_mixin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/mixins/observer_mixin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/mixins/observer_mixin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/order_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/order_client_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/brokers/websocket_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/websocket_client_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/base_config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/base_config_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/broker_config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/broker_config_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/common.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/common.yaml.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/data_loader/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/data_loader/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/data_loader/base_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/data_loader/base_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/data_loader/db_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/data_loader/db_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/config_loader/data_loader/yaml_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/data_loader/yaml_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/factory/broker_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/factory/broker_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/models/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/alert.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/alert.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/base_observer.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/base_observer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/chart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/ema.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/ema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/ema_indicator_query.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/ema_indicator_query.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/email.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/email.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/limit_order_trigger.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/limit_order_trigger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/logger.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/logger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/mongodaba.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/mongodaba.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/price_prediction.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/price_prediction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/observer/web_socket_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/observer/web_socket_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/base_order_strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/base_order_strategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/bracket_order_derivative_stock.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/bracket_order_derivative_stock.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/limit_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/limit_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/market_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/market_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/normal_order_derivative_stock.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/normal_order_derivative_stock.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/order_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/order_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/orders/stop_loss_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/orders/stop_loss_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/sessions/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/sessions/angelone_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/sessions/base_broker_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/base_broker_session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/sessions/zerodha_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/zerodha_session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/strategies/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/strategies/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/strategies/base_order_strategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/strategies/base_order_strategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/strategies/strategy_loader/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/strategies/strategy_loader/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/strategies/strategy_loader/base_strategy_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/strategies/strategy_loader/base_strategy_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/strategies/strategy_loader/yaml_strategy_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/strategies/strategy_loader/yaml_strategy_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/utils/loader_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/loader_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/utils/order_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/order_builder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/algomin/web_socket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/web_socket_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_api_routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_api_routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_config_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_live_data_like_start_websocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_live_data_like_start_websocket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_live_data_looking_like_start_websocket.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_live_data_looking_like_start_websocket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_websocket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_websocket_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,23 +100,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="30xAFeVrsW5qPnzDO2vbdd3nwwl" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/miscellonifytastic"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/miscellonifytastic&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

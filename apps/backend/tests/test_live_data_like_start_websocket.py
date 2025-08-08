@@ -1,9 +1,9 @@
-from src.algomin.sessions.angelone_session import AngelOneSession
-from src.algomin.config_loader import BrokerConfigLoader
-from src.algomin.brokers.angelone_websocket_event_handler import AngelOneWebSocketEventHandler
+from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
+from src.minimalgotronifylicious.config_loader import BrokerConfigLoader
+from src.minimalgotronifylicious.brokers.angelone_websocket_event_handler import AngelOneWebSocketEventHandler
 
-from src.algomin.brokers.websocket_client_factory import WebSocketClientFactory
-from src.algomin.web_socket_manager import WebSocketManager
+from src.minimalgotronifylicious.brokers.websocket_client_factory import WebSocketClientFactory
+from src.minimalgotronifylicious.web_socket_manager import WebSocketManager
 
 
 def main():

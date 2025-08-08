@@ -2,7 +2,7 @@
 import os
 import yaml
 from pathlib import Path
-from src.algomin.config_loader.base_config_loader import BaseConfigLoader
+from src.minimalgotronifylicious.config_loader.base_config_loader import BaseConfigLoader
 
 class BrokerConfigLoader(BaseConfigLoader):
     def __init__(self, path="config_loader/common.yaml"):

@@ -30,7 +30,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/yourusername/algomin.git
-cd algomin
+cd minimalgotronifylicious
 ```
 #### Install requirements:
 

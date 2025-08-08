@@ -1,8 +1,8 @@
 # orders/order_factory.py
 
-from src.algomin.orders.limit_order import LimitOrderStrategy
-from src.algomin.orders.market_order import MarketOrderStrategy
-from src.algomin.orders.stop_loss_order import StopLossOrderStrategy
+from src.minimalgotronifylicious.orders.limit_order import LimitOrderStrategy
+from src.minimalgotronifylicious.orders.market_order import MarketOrderStrategy
+from src.minimalgotronifylicious.orders.stop_loss_order import StopLossOrderStrategy
 
 class OrderFactory:
     @staticmethod

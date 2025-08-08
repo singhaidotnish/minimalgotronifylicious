@@ -4,7 +4,7 @@
 /logs/
 # critical files
 data/config.yaml
-src/algomin/config_loader/common.yaml
+src/minimalgotronifylicious/config_loader/common.yaml
 
 *.pb
 .algomin
@@ -89,7 +89,7 @@ celerybeat-schedule
 
 # dotenv
 .env
-src/algomin/config_loader/common.yaml
+src/minimalgotronifylicious/config_loader/common.yaml
 
 
 # virtualenv

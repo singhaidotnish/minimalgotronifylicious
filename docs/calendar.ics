@@ -1,0 +1,27 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//minimalgotronifylicious//Milestones//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:mg-weekly-plan@minimalgotronifylicious
+SUMMARY:Plan next week’s milestones (minimalgotronifylicious)
+DTSTART;TZID=Asia/Kolkata:20250811T100000
+RRULE:FREQ=WEEKLY;BYDAY=MO
+DURATION:PT30M
+END:VEVENT
+BEGIN:VEVENT
+UID:mg-daily-jira@minimalgotronifylicious
+SUMMARY:Update Jira & Kanban (minimalgotronifylicious)
+DTSTART;TZID=Asia/Kolkata:20250808T183000
+RRULE:FREQ=DAILY
+DURATION:PT15M
+END:VEVENT
+BEGIN:VEVENT
+UID:mg-weekly-retro@minimalgotronifylicious
+SUMMARY:Weekly demo + retro (minimalgotronifylicious)
+DTSTART;TZID=Asia/Kolkata:20250808T180000
+RRULE:FREQ=WEEKLY;BYDAY=FR
+DURATION:PT30M
+END:VEVENT
+END:VCALENDAR

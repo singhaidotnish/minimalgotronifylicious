@@ -1,4 +1,4 @@
-from src.algomin.brokers.angelone_websocket_client import AngelOneWebSocketV2Client
+from src.minimalgotronifylicious.brokers.angelone_websocket_client import AngelOneWebSocketV2Client
 # from brokers.zerodha_websocket_client import ZerodhaWebSocketClient
 
 class WebSocketClientFactory:
