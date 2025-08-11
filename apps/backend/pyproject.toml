@@ -2,6 +2,12 @@
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["minimalgotronifylicious*"]
 
 [project]
 name = "minimalgotronifylicious"
@@ -21,8 +27,5 @@ dependencies = [
 ]
 
 [project.scripts]
-algomin-cli = "cli.run_client:main"
-# Replace "cli.run_client:main" with the actual function if you want minimalgotronifylicious-cli to work as a CLI entry point.
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["algomin*"]
+minimalgotronifylicious-cli = "minimalgotronifylicious.cli.run_client:main"
+mg = "minimalgotronifylicious.cli.run_client:main"

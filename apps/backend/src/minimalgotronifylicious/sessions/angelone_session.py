@@ -3,7 +3,7 @@ from logzero import logger
 from SmartApi import SmartConnect
 from typing import Any, Dict, Optional
 from src.minimalgotronifylicious.sessions.base_broker_session import BaseBrokerSession  # your abstract base
-
+from src.minimalgotronifylicious.utils.net import get_public_ip
 
 class AngelOneSession(BaseBrokerSession):
     def __init__(self, credentials):
@@ -18,6 +18,16 @@ class AngelOneSession(BaseBrokerSession):
         self.feed_token = None
         self.refresh_token = None
         self.login()
+
+
+        # Resolve public IP once and reuse everywhere
+        self.public_ip = get_public_ip(self.credentials)
+        # default headers some brokers accept (tweak if you have specific names)
+        self.default_headers = {
+            "X-Forwarded-For": self.public_ip,
+            "X-Client-IP": self.public_ip,
+        }
+        # (optional) log at info, not as an exception
 
     def login(self):
         data = self.api.generateSession(self.client_id, self.password, self.totp)

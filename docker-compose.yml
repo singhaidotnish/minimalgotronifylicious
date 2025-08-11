@@ -1,7 +1,5 @@
 # docker-compose.yml
 
-version: "3.8"
-
 volumes:
   ui_node_modules:
 
@@ -9,10 +7,12 @@ services:
   frontend:
     build:
       context: ./apps/ui
+      network: host
     ports:
       - "3000:3000"
     environment:
       NEXT_PUBLIC_API_URL: "http://localhost:8000"
+      NEXT_TELEMETRY_DISABLED: "1"
     depends_on:
       - backend
     volumes:
@@ -22,9 +22,14 @@ services:
   backend:
     build:
       context: ./apps/backend
+      network: host
     ports:
       - "8000:8000"
     volumes:
       - ./apps/backend:/app:rw
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - PUBLIC_IP=192.168.173.127   # your LAN IP
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload --reload-exclude setup.py
+
