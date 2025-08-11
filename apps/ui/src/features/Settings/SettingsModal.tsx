@@ -66,8 +66,8 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
             <input
               id="useDummy"
               type="checkbox"
-              checked={useDummyTicks}
-              onChange={(e) => setUseDummyTicks(e.target.checked)}
+              checked={localUseDummy}
+              onChange={(e) => setLocalUseDummy(e.target.checked)}
               className="mr-2"
             />
             <label htmlFor="useDummy" className="text-sm">

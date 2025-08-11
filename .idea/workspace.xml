@@ -5,12 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/net.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/backend/app/param_options.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/pyproject.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

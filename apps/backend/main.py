@@ -3,6 +3,8 @@ from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
+from app.param_options import PARAM_OPTIONS
+
 
 app = FastAPI()
 
@@ -37,3 +39,12 @@ async def serve_symbols():
 # 4) Your other API routers
 from src.minimalgotronifylicious.api import router
 app.include_router(router)
+
+
+@app.get("/api/param-options")
+def get_param_options(type: str = None):
+    if not type:
+        return {"availableTypes": list(PARAM_OPTIONS.keys())}
+    if type not in PARAM_OPTIONS:
+        return {"error": "Invalid type"}
+    return PARAM_OPTIONS[type]
