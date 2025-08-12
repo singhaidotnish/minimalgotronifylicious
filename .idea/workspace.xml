@@ -5,13 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/backend/app/param_options.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ParamInputs.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/config/conditionGroups.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/config/indicatorRegistry.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/hooks/useParamOptions.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tree_structure-monorepo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tree_structure-monorepo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,10 +42,15 @@
     &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/miscellonifytastic&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-4c141bd692a7-e2d783800521-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26927.90" />
+        <option value="bundled-python-sdk-03e874896e21-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.439" />
       </set>
     </attachedChunks>
   </component>

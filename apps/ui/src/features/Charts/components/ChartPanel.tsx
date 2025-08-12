@@ -26,17 +26,17 @@ export default function ChartPanel({ symbol, height = 400 }: ChartPanelProps) {
   const [seriesType, setSeriesType] = useState<SeriesType>('Line');
   const marketOpen = isMarketOpen();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number>(800);
-
+  const [w, setW] = React.useState<number | null>(null);
   // measure container safely
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
-    ro.observe(el);
-    setWidth(el.clientWidth);
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+      setW(Math.floor(entry.contentRect.width));
+    });
+    ro.observe(containerRef.current);
     return () => ro.disconnect();
   }, []);
+
 
   return (
     <div ref={containerRef} style={{ height }}>
@@ -56,23 +56,13 @@ export default function ChartPanel({ symbol, height = 400 }: ChartPanelProps) {
       </div>
 
       {marketOpen ? (
-        <AdvancedChart
-          widgetProps={{
-            symbol,
-            interval: "1",
-            theme: "dark",
-            style: styleMap[seriesType],
-            locale: "en",
-            autosize: true,
-          }}
-        />
+        <AdvancedChart widgetProps={{ symbol, interval: "1", theme: "dark", style: styleMap[seriesType], locale: "en", autosize: true }} />
+      ) : w != null ? (
+        <FallbackChart type={seriesType} width={w} height={height} />
       ) : (
-        <FallbackChart
-          type={seriesType}
-          width={width}
-          height={height}
-        />
+        <div className="h-full w-full">Loading…</div>
       )}
+
     </div>
   );
 }

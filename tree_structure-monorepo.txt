@@ -2,12 +2,16 @@
 ├── apps
 │   ├── backend
 │   │   ├── add_to_bashrc.sh
+│   │   ├── app
+│   │   │   ├── param_options.py
+│   │   │   └── __pycache__
 │   │   ├── ARCHITECTURE.md
 │   │   ├── backend_tree_structure.txt
 │   │   ├── build.sh
 │   │   ├── data
 │   │   │   ├── brokers.yaml
 │   │   │   └── static
+│   │   ├── Dockerfile
 │   │   ├── documentation.md
 │   │   ├── FIRST_STEPS.md
 │   │   ├── __init__.py
@@ -21,14 +25,18 @@
 │   │   ├── Procfile
 │   │   ├── public
 │   │   │   └── symbols.json
+│   │   ├── __pycache__
+│   │   │   └── main.cpython-310.pyc
 │   │   ├── pyproject.toml
 │   │   ├── README.md
+│   │   ├── requirements.in
 │   │   ├── requirements.txt
 │   │   ├── setup.cfg
 │   │   ├── setup.py
 │   │   ├── src
-│   │   │   ├── algomin
-│   │   │   └── __init__.py
+│   │   │   ├── __init__.py
+│   │   │   ├── minimalgotronifylicious
+│   │   │   └── __pycache__
 │   │   ├── templates
 │   │   │   └── index.html
 │   │   ├── tests
@@ -57,6 +65,7 @@
 │       ├── Condition_Builder_Action_Plan.md
 │       ├── context
 │       │   └── SettingsContext.tsx
+│       ├── Dockerfile
 │       ├── docs
 │       │   ├── algomin-ui_tree_structure.txt
 │       │   ├── backend_tree_structure.txt
@@ -81,6 +90,8 @@
 │       │   ├── plus.png
 │       │   └── problem-with-animation.png
 │       ├── next.config.ts
+│       ├── next-env.d.ts
+│       ├── node_modules
 │       ├── package.json
 │       ├── package-lock.json
 │       ├── postcss.config.mjs
@@ -101,7 +112,6 @@
 │       ├── src
 │       │   ├── components
 │       │   ├── features
-│       │   ├── index.ts
 │       │   ├── lib
 │       │   ├── routes
 │       │   ├── stores
@@ -111,7 +121,22 @@
 │       ├── tree-structure.txt
 │       ├── tsconfig.json
 │       └── tsconfig.node.json
+├── docker-compose.yml
+├── docker_for_adhd_lunchbox.drawio
+├── docker_for_adhd_lunchbox.png
+├── docker-for-adhd-mind.md
+├── docker-one-shot-setup.sh
+├── DOCKER_SETUP.md
+├── docs
+│   └── calendar.ics
+├── minimalgotronifylicious_ai_architecture.drawio
+├── minimalgotronifylicious_ai_architecture.png
+├── minimalgotronifylicious_architecture.png
+├── minimalgotronifylicious_mindmap.drawio
+├── minimalgotronifylicious_mindmap.png
+├── package-lock.json
 ├── README.md
-└── tree_structure-monorepo.txt
+├── tree_structure-monorepo.txt
+└── validate_structure.sh
 
-27 directories, 87 files
+33 directories, 106 files

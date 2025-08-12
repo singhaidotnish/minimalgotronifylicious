@@ -25,6 +25,7 @@ export default function LiveDataPanel({ symbol, broker, useDummy = false }: Live
   const [trend, setTrend] = useState<"up" | "down" | null>(null);
   const [noDataTimeout, setNoDataTimeout] = useState(false);
 
+  useEffect(() => { if (tick) setNoDataTimeout(false); }, [tick]);
   useEffect(() => {
     const timer = setTimeout(() => {
       if (!tick) setNoDataTimeout(true);

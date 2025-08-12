@@ -66,9 +66,9 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
             <input
               id="useDummy"
               type="checkbox"
-              checked={localUseDummy}
+              checked={marketClosed ? true : localUseDummy}
+              disabled={marketClosed}
               onChange={(e) => setLocalUseDummy(e.target.checked)}
-              className="mr-2"
             />
             <label htmlFor="useDummy" className="text-sm">
               Use Dummy Ticks {marketClosed && '(market closed, forced)'}
@@ -78,8 +78,8 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
         <div className="mt-6 flex justify-end space-x-2">
           <Button variant="outline" onClick={onClose}>Cancel</Button>
           <Button onClick={() => {
-            // cast localBroker to expected union type
-            setBroker(localBroker as 'angel_one' | 'zerodha');
+            // avoid lying to TS with a cast
+            setBroker(localBroker as any); // or widen the union type to actual brokers you support
             setUseDummyTicks(localUseDummy);
             onClose();
           }}>
