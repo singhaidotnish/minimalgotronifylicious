@@ -20,9 +20,40 @@ interface ChooseBlockProps {
   onKeywordChange: (val: string) => void;
   contextParams: Record<string, string>;
   onContextParamsChange: (params: Record<string, string>) => void;
-  selectedItems: { id: string; label: string }[];
-  onSelectedItemsChange: (items: { id: string; label: string }[]) => void;
+  selectedItems: Array<{ id: string; keyword: string; label: string; params: Record<string, any> }>;
+  onSelectedItemsChange: (items: Array<{ id: string; keyword: string; label: string; params: Record<string, any> }>) => void;
 }
+
+// put this near the top, below imports:
+type ItemWithParams = { id: string; keyword: string; label: string; params: Record<string, any> };
+
+function buildPreview(keyword: string, params: Record<string, any>, fallbackLabel: string) {
+  const series = params.series ?? '—';
+  const period = params.period ?? '—';
+
+  switch (keyword) {
+    case 'linreg':
+      // Linear Regression
+      return `LINEARREG\n${series} ( Symbol | ${period} )`;
+    case 'linreg_slope':
+      return `LINEARREG_SLOPE\n${series} ( Symbol | ${period} )`;
+    case 'linreg_intercept':
+      return `LINEARREG_INTERCEPT\n${series} ( Symbol | ${period} )`;
+    case 'linreg_angle':
+      return `LINEARREG_ANGLE\n${series} ( Symbol | ${period} )`;
+
+    // 🔜 examples you’ll add next:
+    // case 'rsi':       return `RSI\n${series} ( ${period} )`;
+    // case 'ema':       return `EMA\n${series} ( ${period} )`;
+    // case 'harami':    return `HARAMI\nLookback ${params.lookback ?? '—'}`;
+
+    default:
+      // generic fallback
+      const pretty = Object.entries(params).map(([k, v]) => `${k}=${v ?? '—'}`).join(', ');
+      return `${fallbackLabel}\n${pretty || '—'}`;
+  }
+}
+
 
 function generateUniqueId(base: string): string {
   return `${base}-${Math.random().toString(36).substring(2, 9)}`;
@@ -41,7 +72,7 @@ function PreviewBlock({ id, label, content, onRemove }: { id: string; label: str
       className="relative bg-white border border-blue-200 shadow-sm rounded-sm p-1 text-xs text-blue-700 w-fit min-w-[120px] min-h-0 flex items-center gap-1 overflow-visible"
     >
       <button
-        onClick={addClipboard(content)}
+        onClick={() => addClipboard(content)}
         className="absolute -top-3 -left-3 z-10 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow"
         title="Copy Block"
       >
@@ -90,8 +121,8 @@ export default function ChooseBlock({
   }, [inputValue, groups]);
 
   const handleSelect = (optLabel: string) => {
-    const uniqueId = generateUniqueId(optLabel);
-    onSelectedItemsChange([...selectedItems, { id: uniqueId, label: optLabel }]);
+//     const uniqueId = generateUniqueId(optLabel);
+//     onSelectedItemsChange([...selectedItems, { id: uniqueId, label: optLabel }]);
     onSelectOption(optLabel);
     setFiltered([]);
   };
@@ -183,7 +214,10 @@ export default function ChooseBlock({
             onParamChange={(key, val) => onContextParamsChange(prev => ({ ...prev, [key]: val }))}
             onConfirm={(label) => {
               const uniqueId = generateUniqueId(selectedKeyword);
-              onSelectedItemsChange([...selectedItems, { id: uniqueId, label }]);
+              onSelectedItemsChange([
+                ...selectedItems,
+                { id: uniqueId, keyword: selectedKeyword, label, params: contextParams } // ✅ store params here
+              ]);
               onKeywordChange('');
               onContextParamsChange({});
             }}
@@ -197,15 +231,18 @@ export default function ChooseBlock({
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={selectedItems.map(item => item.id)} strategy={horizontalListSortingStrategy}>
             <div className="flex flex-wrap gap-4 items-stretch min-h-[80px]">
-              {selectedItems.map(item => (
-                <PreviewBlock content={JSON.stringify({ label: item.label, params: contextParams })}
-                              key={item.id}
-                              id={item.id}
-                              label={item.label}
-                              content={item.label}
-                              onRemove={handleRemove}
-                />
-              ))}
+              {selectedItems.map(item => {
+                const content = buildPreview(item.keyword, item.params ?? {}, item.label);
+                return (
+                  <PreviewBlock
+                    key={item.id}
+                    id={item.id}
+                    label={item.label}
+                    content={content}
+                    onRemove={handleRemove}
+                  />
+                );
+              })}
             </div>
           </SortableContext>
         </DndContext>

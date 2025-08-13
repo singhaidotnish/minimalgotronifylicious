@@ -28,3 +28,10 @@ export interface IndicatorDef {
   params: BaseParam[];
   preview: (p: Record<string, unknown>) => string; // produces chip text
 }
+
+export type ConditionItem = {
+  id: string;
+  keyword: string;
+  label: string;
+  params: Record<string, any>;
+};

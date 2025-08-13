@@ -3,8 +3,7 @@
 │   ├── backend
 │   │   ├── add_to_bashrc.sh
 │   │   ├── app
-│   │   │   ├── param_options.py
-│   │   │   └── __pycache__
+│   │   │   └── param_options.py
 │   │   ├── ARCHITECTURE.md
 │   │   ├── backend_tree_structure.txt
 │   │   ├── build.sh
@@ -25,8 +24,6 @@
 │   │   ├── Procfile
 │   │   ├── public
 │   │   │   └── symbols.json
-│   │   ├── __pycache__
-│   │   │   └── main.cpython-310.pyc
 │   │   ├── pyproject.toml
 │   │   ├── README.md
 │   │   ├── requirements.in
@@ -35,8 +32,7 @@
 │   │   ├── setup.py
 │   │   ├── src
 │   │   │   ├── __init__.py
-│   │   │   ├── minimalgotronifylicious
-│   │   │   └── __pycache__
+│   │   │   └── minimalgotronifylicious
 │   │   ├── templates
 │   │   │   └── index.html
 │   │   ├── tests
@@ -90,8 +86,6 @@
 │       │   ├── plus.png
 │       │   └── problem-with-animation.png
 │       ├── next.config.ts
-│       ├── next-env.d.ts
-│       ├── node_modules
 │       ├── package.json
 │       ├── package-lock.json
 │       ├── postcss.config.mjs
@@ -139,4 +133,4 @@
 ├── tree_structure-monorepo.txt
 └── validate_structure.sh
 
-33 directories, 106 files
+29 directories, 104 files

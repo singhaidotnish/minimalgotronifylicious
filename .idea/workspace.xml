@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ParamInputs.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/config/conditionGroups.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/config/indicatorRegistry.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/hooks/useParamOptions.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tree_structure-monorepo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tree_structure-monorepo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,15 +26,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/miscellonifytastic&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/minimalgotronifylicious"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder" />
@@ -50,7 +43,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-03e874896e21-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.439" />
+        <option value="bundled-python-sdk-d9fa9deec7cb-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.23892.515" />
       </set>
     </attachedChunks>
   </component>
