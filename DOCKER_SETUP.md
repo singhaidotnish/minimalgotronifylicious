@@ -1,66 +1,38 @@
-# One‑Shot Docker Setup for **minimalgotronifylicious**
+# One‑Shot Docker Setup (auto‑installs or shows commands)
 
-This guide + script build and run the stack **reliably in one go**, including:
-- pulling base images with retries,
-- regenerating **secure pip hashes** for the backend on the correct platform,
-- setting a sensible `PUBLIC_IP`,
-- building with BuildKit and starting the services.
+If Docker isn’t installed, the script will **print exact install commands** for your OS.
+On Ubuntu/Debian with sudo, it will **auto‑install** by default (override with `AUTO_INSTALL=0`).
 
-> TL;DR: run the script and you’re done.
-
----
-
-## 0) Prereqs
-- Docker Engine + Compose
-- Run from the **repo root** (where `docker-compose.yml` lives).
-
-## 1) Use the script
+## Download & run
 ```bash
 chmod +x docker-one-shot-setup.sh
 ./docker-one-shot-setup.sh
 ```
 
 ### Optional flags
-```bash
-RESET=1 ./docker-one-shot-setup.sh            # prune containers/images first
-SKIP_HASH_REGEN=1 ./docker-one-shot-setup.sh  # skip pip-compile (dev only)
-NO_CACHE=1 ./docker-one-shot-setup.sh         # full rebuild from scratch
-```
+- `RESET=1` – prune containers/images/volumes first  
+- `SKIP_HASH_REGEN=1` – skip `pip-compile` (dev quick mode)  
+- `NO_CACHE=1` – force clean rebuild  
+- `AUTO_INSTALL=0` – don’t auto-install Docker; just show commands
 
-## What the script does
+## What it does
+1. If Docker is **missing**, prints the **install commands** for your OS (Ubuntu/Debian/Fedora/Arch/openSUSE/macOS).  
+   On Ubuntu/Debian with sudo + `AUTO_INSTALL=1`, it runs those commands for you.
+2. Ensures `/etc/docker/daemon.json` exists with BuildKit enabled (does not overwrite existing file).
+3. Pulls base images with retries (`python:3.10-slim`, `node:20`).
+4. Regenerates backend **pip hashes** inside the same base image (so hashes match what Docker downloads).
+5. Writes a `PUBLIC_IP` into `.env` if missing.
+6. Builds with **BuildKit**, starts services, tails logs, prints URLs.
 
-1. **Checks Docker** is running and warns if low space under Docker’s data-root.
-2. **Pulls base images** (`python:3.10-slim`, `node:20`) with automatic retries.
-3. **Regenerates backend requirement hashes** inside `python:3.10-slim` so the
-   hashes match exactly what your Docker build will download.
-4. Ensures a `PUBLIC_IP` entry exists in your `.env` (best-effort guess).
-5. Builds images with **BuildKit** and starts the stack.
-6. Tails logs and prints the URLs:
-   - UI: `http://localhost:3000`
-   - API docs: `http://localhost:8000/docs`
-
-## Notes
-
-- If your backend shows `--reload-include/exclude have no effect`, add `watchfiles`
-  to `apps/backend/requirements.txt` and rebuild:
-  ```bash
-  echo "watchfiles" >> apps/backend/requirements.txt
-  DOCKER_BUILDKIT=1 docker compose build backend --no-cache
-  ```
-
-- If Docker Hub pulls are flaky, consider adding to `/etc/docker/daemon.json`:
+## Tips
+- Add mirrors/DNS in `/etc/docker/daemon.json` if pulls are slow:
   ```json
-  {
-    "features": { "buildkit": true },
+  { "features": { "buildkit": true },
     "registry-mirrors": ["https://mirror.gcr.io"],
-    "dns": ["8.8.8.8", "1.1.1.1"]
+    "dns": ["8.8.8.8","1.1.1.1"]
   }
   ```
-  then `sudo systemctl restart docker`.
+- Low disk under Docker’s data-root? Move it and restart the daemon.
+- Backend `--reload-*` warning? Add `watchfiles` to `apps/backend/requirements.txt` and rebuild.
 
-- The script **does not modify** your Dockerfiles or compose. It only regenerates
-  Python hashes and builds/starts. You’re safe to run it repeatedly.
-
----
-
-Happy shipping 🚢
+Happy building 🚢
