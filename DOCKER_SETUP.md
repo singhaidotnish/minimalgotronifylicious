@@ -1,38 +1,26 @@
-# One‑Shot Docker Setup (auto‑installs or shows commands)
+# One‑Shot Docker Setup (adds user to `docker` group)
 
-If Docker isn’t installed, the script will **print exact install commands** for your OS.
-On Ubuntu/Debian with sudo, it will **auto‑install** by default (override with `AUTO_INSTALL=0`).
+Updates:
+- If Docker isn’t installed, the script **prints OS-specific commands** and on Ubuntu/Debian can **auto‑install**.
+- If Docker requires sudo, the script **adds your user to the `docker` group** (default). This lets you use Docker **without sudo** after you log out/in (or run `newgrp docker`).
 
-## Download & run
+## Run
 ```bash
 chmod +x docker-one-shot-setup.sh
 ./docker-one-shot-setup.sh
 ```
 
-### Optional flags
+### Flags
 - `RESET=1` – prune containers/images/volumes first  
-- `SKIP_HASH_REGEN=1` – skip `pip-compile` (dev quick mode)  
+- `SKIP_HASH_REGEN=1` – skip `pip-compile` (dev speed)  
 - `NO_CACHE=1` – force clean rebuild  
-- `AUTO_INSTALL=0` – don’t auto-install Docker; just show commands
+- `AUTO_INSTALL=0` – don’t auto-install Docker; just show commands  
+- `ADD_TO_DOCKER_GROUP=0` – don’t modify user groups
 
-## What it does
-1. If Docker is **missing**, prints the **install commands** for your OS (Ubuntu/Debian/Fedora/Arch/openSUSE/macOS).  
-   On Ubuntu/Debian with sudo + `AUTO_INSTALL=1`, it runs those commands for you.
-2. Ensures `/etc/docker/daemon.json` exists with BuildKit enabled (does not overwrite existing file).
-3. Pulls base images with retries (`python:3.10-slim`, `node:20`).
-4. Regenerates backend **pip hashes** inside the same base image (so hashes match what Docker downloads).
-5. Writes a `PUBLIC_IP` into `.env` if missing.
-6. Builds with **BuildKit**, starts services, tails logs, prints URLs.
+After the first run (if you weren’t in the `docker` group), either:
+```bash
+newgrp docker   # apply group change to current shell
+# or log out and back in
+```
 
-## Tips
-- Add mirrors/DNS in `/etc/docker/daemon.json` if pulls are slow:
-  ```json
-  { "features": { "buildkit": true },
-    "registry-mirrors": ["https://mirror.gcr.io"],
-    "dns": ["8.8.8.8","1.1.1.1"]
-  }
-  ```
-- Low disk under Docker’s data-root? Move it and restart the daemon.
-- Backend `--reload-*` warning? Add `watchfiles` to `apps/backend/requirements.txt` and rebuild.
-
-Happy building 🚢
+The rest of the flow is unchanged: it pulls base images (with retries), regenerates backend **pip hashes** on `python:3.10-slim`, builds with **BuildKit**, starts the stack, tails logs, and prints URLs.

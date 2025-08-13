@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 # docker-one-shot-setup.sh
 # Build & run minimalgotronifylicious end-to-end.
-# If Docker isn't installed, this script will:
-#  - SHOW OS-specific install commands (always), and
-#  - On Ubuntu/Debian WITH sudo, AUTO-INSTALL by default (override: AUTO_INSTALL=0)
+# If Docker isn't installed, the script will show OS-specific install commands
+# and on Ubuntu/Debian (with sudo) auto-install by default (AUTO_INSTALL=0 to disable).
+# If Docker requires sudo, the script will (safely) add your user to the 'docker' group
+# so future sessions can run 'docker' without sudo (ADD_TO_DOCKER_GROUP=0 to skip).
 #
 # Usage:
 #   chmod +x docker-one-shot-setup.sh
 #   ./docker-one-shot-setup.sh
 #
 # Flags:
-#   RESET=1            # prune containers/images first
-#   SKIP_HASH_REGEN=1  # skip pip-compile (dev speed mode)
-#   NO_CACHE=1         # full rebuild
-#   AUTO_INSTALL=0     # show instructions only; don't auto-install Docker
+#   RESET=1              # prune containers/images first
+#   SKIP_HASH_REGEN=1    # skip pip-compile (dev speed mode)
+#   NO_CACHE=1           # full rebuild
+#   AUTO_INSTALL=0       # don't auto-install Docker (show commands only)
+#   ADD_TO_DOCKER_GROUP=0  # don't modify user groups
 #
 set -euo pipefail
 
@@ -27,6 +29,7 @@ PULL_RETRIES="${PULL_RETRIES:-3}"
 RESET="${RESET:-0}"
 SKIP_HASH_REGEN="${SKIP_HASH_REGEN:-0}"
 AUTO_INSTALL="${AUTO_INSTALL:-1}"
+ADD_TO_DOCKER_GROUP="${ADD_TO_DOCKER_GROUP:-1}"
 
 # ---------------- Helpers ----------------
 cecho(){ printf "\033[1;36m%s\033[0m\n" "$*"; }
@@ -141,7 +144,7 @@ install_docker_if_missing(){
 
   print_install_instructions
 
-  if [ "$AUTO_INSTALL" -eq 1 ] && [ "${OS_ID}" = "ubuntu" -o "${OS_ID}" = "debian" ]; then
+  if [ "$AUTO_INSTALL" -eq 1 ] && { [ "${OS_ID}" = "ubuntu" ] || [ "${OS_ID}" = "debian" ]; }; then
     if ! can_sudo; then
       yecho "AUTO_INSTALL=1 but sudo not available. Please run the above commands manually."
       exit 1
@@ -157,14 +160,13 @@ install_docker_if_missing(){
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     sudo systemctl enable --now docker
     gecho "Docker installed ✅  (compose & buildx included)"
-    yecho "Tip: add yourself to the docker group and re-login:  sudo usermod -aG docker \"$USER\""
   else
     yecho "AUTO-INSTALL disabled or unsupported distro. Please run the commands above, then re-run this script."
     exit 1
   fi
 }
 
-# ---------------- Ensure daemon.json sane (BuildKit on) ----------------
+# ---------------- Ensure BuildKit ----------------
 ensure_daemon_json(){
   local dj="/etc/docker/daemon.json"
   if [ -f "$dj" ]; then
@@ -180,7 +182,28 @@ ensure_daemon_json(){
   fi
 }
 
-# ---------------- Preflight checks ----------------
+# ---------------- Make 'docker' usable without sudo (proper fix) ----------------
+ensure_user_in_docker_group(){
+  # If docker works without sudo, nothing to do
+  if docker info >/dev/null 2>&1; then return 0; fi
+  # If it works with sudo, offer to add user to 'docker' group for future sessions
+  if can_sudo && sudo docker info >/dev/null 2>&1; then
+    if [ "$ADD_TO_DOCKER_GROUP" -eq 1 ]; then
+      cecho "👥 Adding $USER to the 'docker' group (so no sudo needed next time)..."
+      sudo groupadd docker 2>/dev/null || true
+      sudo usermod -aG docker "$USER" || true
+      yecho "You must log out & log back in (or run 'newgrp docker') for this to take effect."
+      yecho "Continuing this run with 'sudo docker'..."
+    else
+      yecho "Skipping group change (ADD_TO_DOCKER_GROUP=0). To do it later:"
+      echo "  sudo groupadd docker 2>/dev/null || true"
+      echo "  sudo usermod -aG docker \"$USER\""
+      echo "  # log out/in or run: newgrp docker"
+    fi
+  fi
+}
+
+# ---------------- Preflight ----------------
 test -f docker-compose.yml || { recho "Run this from the repo root (docker-compose.yml not found)"; exit 1; }
 test -d "$BACKEND_DIR" || { recho "Backend dir not found: $BACKEND_DIR"; exit 1; }
 test -d "$FRONTEND_DIR" || { recho "Frontend dir not found: $FRONTEND_DIR"; exit 1; }
@@ -202,6 +225,7 @@ if ! $DOCKERCMD info >/dev/null 2>&1; then
 fi
 
 ensure_daemon_json
+ensure_user_in_docker_group   # add user to docker group if needed (for next session)
 
 # Space check
 DOCKER_ROOT="$($DOCKERCMD info --format '{{.DockerRootDir}}' 2>/dev/null || echo /var/lib/docker)"
@@ -239,7 +263,7 @@ else
 fi
 
 # ---------------- Ensure PUBLIC_IP in .env ----------------
-if ! grep -q '^PUBLIC_IP=' .env 2>/div/null; then
+if ! grep -q '^PUBLIC_IP=' .env 2>/dev/null; then
   ip_guess="$(hostname -I 2>/dev/null | awk '{print $1}')"
   if [ -n "$ip_guess" ]; then
     cecho "🌐 Setting PUBLIC_IP=$ip_guess in .env (override later if needed)"
