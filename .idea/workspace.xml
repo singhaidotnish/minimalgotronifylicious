@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextUI.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextUI.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNode.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/tsconfig.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/tsconfig.tsbuildinfo" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
