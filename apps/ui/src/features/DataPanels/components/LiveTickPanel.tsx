@@ -47,7 +47,7 @@ export function LiveTickPanel({ symbol, broker, useDummy = false }: LiveTickPane
               </Table.Body>
             </Table>
             <div className="mt-4 h-64">
-              <ChartPanel symbol={symbol} height={200} />
+              <ChartPanel symbol={symbol} height={200} seriesType="Line" />
             </div>
           </>
         )}

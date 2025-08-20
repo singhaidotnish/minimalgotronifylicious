@@ -1,21 +1,57 @@
+// src/features/ConditionBuilder/components/ConditionBuilder.tsx
 'use client';
 
 import React from 'react';
+import type { ConditionGroup } from '@/features/ConditionBuilder/types';
+import ConditionCard from './ConditionCard';
 
-interface ConditionBuilderProps {
-  id: string;
-  onDelete: () => void;
-}
+export type ConditionBuilderProps = {
+  /** preferred */
+  group?: ConditionGroup;
+  /** legacy alias */
+  node?: ConditionGroup;
+  onChange: React.Dispatch<React.SetStateAction<ConditionGroup>>;
+};
 
-export default function ConditionBuilder({ id, onDelete }: ConditionBuilderProps) {
+export default function ConditionBuilder(props: ConditionBuilderProps) {
+  const { onChange } = props;
+  const group = props.group ?? props.node;
+  if (!group) {
+    if (process.env.NODE_ENV !== 'production') {
+      throw new Error('ConditionBuilder: pass `group` (preferred) or `node`');
+    }
+    return null;
+  }
+
+  // EXAMPLE RENDER: map children into presentational cards
   return (
-    <div className="bg-white border rounded-md p-4 shadow-md flex justify-between items-center">
-      <span className="text-gray-800 text-sm">Condition Block ID: {id}</span>
+    <div className="space-y-2">
+      {group.conditions.map((child, idx) => (
+        <ConditionCard
+          key={child.id ?? idx}
+          id={child.id ?? String(idx)}
+          onDelete={() => {
+            onChange(cur => ({
+              ...cur,
+              conditions: cur.conditions.filter((_, i) => i !== idx),
+            }));
+          }}
+        />
+      ))}
+
       <button
-        onClick={onDelete}
-        className="red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600"
+        className="bg-blue-600 text-white text-xs px-3 py-1 rounded hover:bg-blue-700"
+        onClick={() =>
+          onChange(cur => ({
+            ...cur,
+            conditions: [
+              ...cur.conditions,
+              { id: crypto.randomUUID(), type: 'condition' } as any, // stub leaf
+            ],
+          }))
+        }
       >
-        ❌
+        + Add Condition
       </button>
     </div>
   );

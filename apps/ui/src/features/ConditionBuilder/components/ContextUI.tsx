@@ -110,7 +110,7 @@ export default function ContextUI({ keyword, params, onParamChange, onConfirm, o
             Cancel
           </button>
           <button
-            onClick={() => onConfirm(option.label)}
+            onClick={onConfirm} // ✅ zero-arg
             className="bg-blue-600 text-white px-4 py-1 rounded shadow-sm text-sm hover:bg-blue-700"
           >
             OK

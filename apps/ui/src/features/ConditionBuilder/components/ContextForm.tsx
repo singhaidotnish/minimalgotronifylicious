@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { KEYWORD_META, ParamDef } from './KeywordMeta';
+import { KEYWORD_META, type ParamDef } from './KeywordMeta';
 
 interface ContextFormProps {
   keyword: string;
@@ -13,13 +13,13 @@ interface ContextFormProps {
 export default function ContextForm({ keyword, onSubmit, onCancel }: ContextFormProps) {
   const meta = KEYWORD_META[keyword];
   const initial: Record<string, any> = {};
-  meta.params.forEach(p => { initial[p.name] = ''; });
+  meta.params.forEach((p: ParamDef) => { initial[p.name] = ''; });
   const [values, setValues] = useState(initial);
 
   return (
     <div className="absolute bg-white border rounded shadow-lg p-4 z-20 w-80">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-bold text-lg">{meta.title} Parameters</h3>
+        <h3 className="font-bold text-lg">Parameters</h3>
         <button onClick={onCancel} className="text-gray-500 hover:text-gray-800">×</button>
       </div>
       {meta.params.map((p: ParamDef) => (
@@ -32,8 +32,8 @@ export default function ContextForm({ keyword, onSubmit, onCancel }: ContextForm
               className="border rounded w-full px-2 py-1"
             >
               <option value="">Select {p.label}</option>
-              {p.options!.map(o => (
-                <option key={o} value={o}>{o}</option>
+              {p.options!.map((o: { label: string; value: string }) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
           ) : (

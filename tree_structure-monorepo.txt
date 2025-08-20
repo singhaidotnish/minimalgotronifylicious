@@ -82,7 +82,203 @@
 │       │   ├── plus.png
 │       │   └── problem-with-animation.png
 │       ├── next.config.ts
+│       ├── next-env.d.ts
 │       ├── node_modules
+│       │   ├── accepts
+│       │   ├── @alloc
+│       │   ├── @ampproject
+│       │   ├── aria-hidden
+│       │   ├── asynckit
+│       │   ├── axios
+│       │   ├── @babel
+│       │   ├── body-parser
+│       │   ├── busboy
+│       │   ├── bytes
+│       │   ├── call-bind-apply-helpers
+│       │   ├── call-bound
+│       │   ├── caniuse-lite
+│       │   ├── chownr
+│       │   ├── classcat
+│       │   ├── classnames
+│       │   ├── class-variance-authority
+│       │   ├── client-only
+│       │   ├── clsx
+│       │   ├── color
+│       │   ├── color-convert
+│       │   ├── color-name
+│       │   ├── color-string
+│       │   ├── combined-stream
+│       │   ├── content-disposition
+│       │   ├── content-type
+│       │   ├── cookie
+│       │   ├── cookie-signature
+│       │   ├── csstype
+│       │   ├── d3-array
+│       │   ├── d3-color
+│       │   ├── d3-dispatch
+│       │   ├── d3-drag
+│       │   ├── d3-ease
+│       │   ├── d3-format
+│       │   ├── d3-interpolate
+│       │   ├── d3-path
+│       │   ├── d3-scale
+│       │   ├── d3-selection
+│       │   ├── d3-shape
+│       │   ├── d3-time
+│       │   ├── d3-time-format
+│       │   ├── d3-timer
+│       │   ├── d3-transition
+│       │   ├── d3-zoom
+│       │   ├── date-fns
+│       │   ├── debug
+│       │   ├── decimal.js-light
+│       │   ├── delayed-stream
+│       │   ├── depd
+│       │   ├── detect-libc
+│       │   ├── detect-node-es
+│       │   ├── @dnd-kit
+│       │   ├── dnd-kit
+│       │   ├── dom-helpers
+│       │   ├── dunder-proto
+│       │   ├── ee-first
+│       │   ├── @emnapi
+│       │   ├── encodeurl
+│       │   ├── enhanced-resolve
+│       │   ├── escape-html
+│       │   ├── es-define-property
+│       │   ├── es-errors
+│       │   ├── es-object-atoms
+│       │   ├── es-set-tostringtag
+│       │   ├── etag
+│       │   ├── eventemitter3
+│       │   ├── express
+│       │   ├── fancy-canvas
+│       │   ├── fast-equals
+│       │   ├── finalhandler
+│       │   ├── @floating-ui
+│       │   ├── follow-redirects
+│       │   ├── form-data
+│       │   ├── forwarded
+│       │   ├── fresh
+│       │   ├── function-bind
+│       │   ├── get-intrinsic
+│       │   ├── get-nonce
+│       │   ├── get-proto
+│       │   ├── goober
+│       │   ├── gopd
+│       │   ├── graceful-fs
+│       │   ├── hasown
+│       │   ├── has-symbols
+│       │   ├── has-tostringtag
+│       │   ├── http-errors
+│       │   ├── iconv-lite
+│       │   ├── @img
+│       │   ├── inherits
+│       │   ├── internmap
+│       │   ├── ipaddr.js
+│       │   ├── @isaacs
+│       │   ├── is-arrayish
+│       │   ├── is-promise
+│       │   ├── jiti
+│       │   ├── @jridgewell
+│       │   ├── js-tokens
+│       │   ├── lightningcss
+│       │   ├── lightningcss-linux-x64-gnu
+│       │   ├── lightningcss-linux-x64-musl
+│       │   ├── lightweight-charts
+│       │   ├── lodash
+│       │   ├── loose-envify
+│       │   ├── lucide-react
+│       │   ├── magic-string
+│       │   ├── math-intrinsics
+│       │   ├── media-typer
+│       │   ├── merge-descriptors
+│       │   ├── mime-db
+│       │   ├── mime-types
+│       │   ├── minipass
+│       │   ├── minizlib
+│       │   ├── mkdirp
+│       │   ├── ms
+│       │   ├── nanoid
+│       │   ├── negotiator
+│       │   ├── @next
+│       │   ├── next
+│       │   ├── object-assign
+│       │   ├── object-inspect
+│       │   ├── once
+│       │   ├── on-finished
+│       │   ├── parseurl
+│       │   ├── path-to-regexp
+│       │   ├── picocolors
+│       │   ├── postcss
+│       │   ├── prettier
+│       │   ├── prop-types
+│       │   ├── proxy-addr
+│       │   ├── proxy-from-env
+│       │   ├── qs
+│       │   ├── @radix-ui
+│       │   ├── range-parser
+│       │   ├── raw-body
+│       │   ├── react
+│       │   ├── react-dom
+│       │   ├── @reactflow
+│       │   ├── reactflow
+│       │   ├── react-hot-toast
+│       │   ├── react-is
+│       │   ├── react-remove-scroll
+│       │   ├── react-remove-scroll-bar
+│       │   ├── react-router
+│       │   ├── react-router-dom
+│       │   ├── react-smooth
+│       │   ├── react-style-singleton
+│       │   ├── react-tradingview-embed
+│       │   ├── react-transition-group
+│       │   ├── recharts
+│       │   ├── recharts-scale
+│       │   ├── @remix-run
+│       │   ├── router
+│       │   ├── safe-buffer
+│       │   ├── safer-buffer
+│       │   ├── scheduler
+│       │   ├── semver
+│       │   ├── send
+│       │   ├── serve-static
+│       │   ├── setprototypeof
+│       │   ├── sharp
+│       │   ├── side-channel
+│       │   ├── side-channel-list
+│       │   ├── side-channel-map
+│       │   ├── side-channel-weakmap
+│       │   ├── simple-swizzle
+│       │   ├── sonner
+│       │   ├── source-map-js
+│       │   ├── statuses
+│       │   ├── streamsearch
+│       │   ├── styled-jsx
+│       │   ├── @swc
+│       │   ├── @tailwindcss
+│       │   ├── tailwindcss
+│       │   ├── tailwind-merge
+│       │   ├── tapable
+│       │   ├── tar
+│       │   ├── tiny-invariant
+│       │   ├── toidentifier
+│       │   ├── tslib
+│       │   ├── tw-animate-css
+│       │   ├── type-is
+│       │   ├── @types
+│       │   ├── typescript
+│       │   ├── undici-types
+│       │   ├── unpipe
+│       │   ├── use-callback-ref
+│       │   ├── use-sidecar
+│       │   ├── use-sync-external-store
+│       │   ├── uuid
+│       │   ├── vary
+│       │   ├── victory-vendor
+│       │   ├── wrappy
+│       │   ├── yallist
+│       │   └── zustand
 │       ├── package.json
 │       ├── package-lock.json
 │       ├── postcss.config.mjs
@@ -112,7 +308,8 @@
 │       │   └── utils
 │       ├── tree-structure.txt
 │       ├── tsconfig.json
-│       └── tsconfig.node.json
+│       ├── tsconfig.node.json
+│       └── tsconfig.tsbuildinfo
 ├── docker-compose.yml
 ├── docker_for_adhd_lunchbox.drawio
 ├── docker_for_adhd_lunchbox.png
@@ -128,10 +325,11 @@
 ├── minimalgotronifylicious_mindmap.drawio
 ├── minimalgotronifylicious_mindmap.png
 ├── package-lock.json
+├── QUESTIONS.md
 ├── README.md
 ├── scripts
 │   └── dev-fresh.sh
 ├── tree_structure-monorepo.txt
 └── validate_structure.sh
 
-30 directories, 104 files
+225 directories, 107 files

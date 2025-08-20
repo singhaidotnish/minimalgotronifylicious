@@ -1,4 +1,6 @@
-// src/features/ConditionBuilder/components/types.ts
+// src/features/ConditionBuilder/types.ts
+export type LogicOp = 'AND' | 'OR';
+
 export type ParamType =
   | 'number'
   | 'select'
@@ -35,3 +37,32 @@ export type ConditionItem = {
   label: string;
   params: Record<string, any>;
 };
+
+
+/**
+ * A single leaf/atomic condition (non-group).
+ * Extend this with whatever your evaluateCondition() needs
+ * (e.g., keyword, params, operator, thresholds, etc.)
+ */
+export type ConditionLeaf = {
+  type: 'condition';      // discriminant
+  id: string;
+  symbol?: string;
+  keyword?: string;
+  params?: Record<string, string>;
+  // add fields you actually evaluate:
+  // comparator?: '>' | '>=' | '<' | '<=' | '==' | '!=';
+  // leftKey?: string;
+  // rightValue?: number;
+};
+
+/** A group of conditions combined with AND/OR */
+export type ConditionGroup = {
+  type: 'group';          // discriminant
+  id: string;
+  logic: LogicOp;         // 'AND' | 'OR'
+  conditions: ConditionNode[];
+};
+
+/** Discriminated union used everywhere */
+export type ConditionNode = ConditionGroup | ConditionLeaf;

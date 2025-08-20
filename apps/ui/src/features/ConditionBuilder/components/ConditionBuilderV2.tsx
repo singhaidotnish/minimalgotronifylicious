@@ -8,7 +8,7 @@ import TechnicalsConfig from './TechnicalsConfig';
 export interface Condition {
   type: 'price' | 'technical';
   symbol: { symbol: string; token: string };
-  operator: string;
+  operator: '>' | '<' | '>=' | '<=' | '==' | '!=';
   value: number;
   technicals?: {
     indicator: string;
@@ -20,19 +20,20 @@ interface ConditionBuilderProps {
   onChange: (conds: Condition[]) => void;
 }
 
-const OPERATORS = ['>', '<', '>=', '<=', '==', '!='];
+const OPERATORS = ['>', '<', '>=', '<=', '==', '!='] as const;
 
 export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) {
-  const [conditions, setConditions] = useState<Condition[]>([{
-    type: 'price',
-    symbol: { symbol: '', token: '' },
-    operator: '>',
-    value: 0,
-  }]);
+  const [conditions, setConditions] = useState<Condition[]>([
+    {
+      type: 'price',
+      symbol: { symbol: '', token: '' },
+      operator: '>',
+      value: 0,
+    },
+  ]);
 
-  useEffect(() => {
-    onChange(conditions);
-  }, [conditions, onChange]);
+  type SymbolObj = Condition['symbol'];
+  type TechnicalsObj = NonNullable<Condition['technicals']>;
 
   const updateCondition = <K extends keyof Condition>(
     index: number,
@@ -47,12 +48,15 @@ export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) 
   };
 
   const addCondition = () => {
-    setConditions(prev => [...prev, {
-      type: 'price',
-      symbol: { symbol: '', token: '' },
-      operator: '>',
-      value: 0,
-    }]);
+    setConditions(prev => [
+      ...prev,
+      {
+        type: 'price',
+        symbol: { symbol: '', token: '' },
+        operator: '>',
+        value: 0,
+      },
+    ]);
   };
 
   const removeCondition = (index: number) => {
@@ -62,11 +66,21 @@ export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) 
   return (
     <div className="space-y-4">
       {conditions.map((c, i) => (
-        <div key={i} className="rounded-md border flex items-stretch overflow-hidden bg-white shadow">
+        <div
+          key={i}
+          className="rounded-md border flex items-stretch overflow-hidden bg-white shadow"
+        >
           {/* Left icon block */}
           <div className="bg-gray-300 p-3 flex items-center justify-center">
             <div className="text-blue-600">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8 16h8M8 12h8m-8-4h8" />
               </svg>
             </div>
@@ -74,11 +88,14 @@ export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) 
 
           {/* Main form section */}
           <div className="flex-1 px-4 py-3 space-y-3">
+            {/* Type */}
             <div className="flex items-center gap-2">
               <label className="text-sm font-medium">Type:</label>
               <select
                 value={c.type}
-                onChange={(e) => updateCondition(i, 'type', e.target.value as 'price' | 'technical')}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  updateCondition(i, 'type', e.target.value as Condition['type'])
+                }
                 className="border px-2 py-1 rounded"
               >
                 <option value="price">Price</option>
@@ -86,37 +103,48 @@ export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) 
               </select>
             </div>
 
+            {/* Symbol (expects value: string; onChange: (string) => void) */}
             <SymbolSelect
-              value={c.symbol}
-              onChange={val => updateCondition(i, 'symbol', val)}
-              placeholder="Select trading symbol"
-              error={false}
+              value={c.symbol} // { symbol, token }
+              onChange={(obj: { symbol: string; token: string }) =>
+                updateCondition(i, 'symbol', obj)
+              }
             />
-
+            {/* Price condition controls */}
             {c.type === 'price' && (
               <div className="flex items-center gap-3">
                 <select
                   value={c.operator}
-                  onChange={e => updateCondition(i, 'operator', e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    updateCondition(i, 'operator', e.target.value as Condition['operator'])
+                  }
                   className="border px-2 py-1 rounded"
                 >
                   {OPERATORS.map(op => (
-                    <option key={op} value={op}>{op}</option>
+                    <option key={op} value={op}>
+                      {op}
+                    </option>
                   ))}
                 </select>
                 <input
                   type="number"
-                  value={c.value}
-                  onChange={e => updateCondition(i, 'value', parseFloat(e.target.value))}
+                  value={Number.isFinite(c.value) ? c.value : 0}
+                  onChange={(e) => {
+                    const v = e.target.value === '' ? 0 : Number(e.target.value);
+                    updateCondition(i, 'value', v);
+                  }}
                   className="border px-2 py-1 rounded w-32"
                 />
               </div>
             )}
 
+            {/* Technicals config */}
             {c.type === 'technical' && (
               <TechnicalsConfig
-                value={c.technicals}
-                onChange={(val) => updateCondition(i, 'technicals', val)}
+                value={c.technicals ?? {}}
+                onChange={(val: Record<string, unknown>) =>
+                  updateCondition(i, 'technicals', val as unknown as TechnicalsObj)
+                }
               />
             )}
           </div>
@@ -134,10 +162,7 @@ export default function ConditionBuilderV2({ onChange }: ConditionBuilderProps) 
         </div>
       ))}
 
-      <button
-        onClick={addCondition}
-        className="bg-blue-600 text-white px-3 py-1 rounded shadow"
-      >
+      <button onClick={addCondition} className="bg-blue-600 text-white px-3 py-1 rounded shadow">
         + Add Condition
       </button>
     </div>

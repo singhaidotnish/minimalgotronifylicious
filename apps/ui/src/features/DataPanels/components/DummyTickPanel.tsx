@@ -46,7 +46,7 @@ export function DummyTickPanel({ symbol, broker }: DummyTickPanelProps) {
           <div className="p-4 text-gray-500">Generating dummy data...</div>
         ) : (
           <div className="mt-4 h-64">
-            <ChartPanel symbol={symbol} height={200} />
+            <ChartPanel symbol={symbol} height={200} seriesType="Line" />
           </div>
         )}
       </CardContent>

@@ -1,4 +1,4 @@
-// components/ChooseBlock.tsx
+// src/features/ConditionBuilder/components/ChooseBlock.tsx
 'use client';
 
 import React, { useEffect } from 'react';
@@ -7,10 +7,16 @@ import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { getClipboard, setClipboard } from '@/utils/clipboard';
-import { GROUPS } from '@/features/ConditionBuilder/models/conditionGroups';
+import { GROUPS, buildPreviewFromKey } from '@/features/ConditionBuilder/models/conditionGroups';
 import ContextUI from './ContextUI';
-import { buildPreview } from '../utils/previewBuilder';
-import { buildPreviewFromKey } from '@/features/ConditionBuilder/models/conditionGroups';
+
+// ✅ keep keyword optional so legacy {id,label} arrays still type-check
+type SelectedItem = {
+  id: string;
+  label: string;                       // full two-line label
+  keyword?: string;                    // optional (older callers may not include it)
+  params?: Record<string, string>;
+};
 
 interface ChooseBlockProps {
   onDelete: () => void;
@@ -20,67 +26,36 @@ interface ChooseBlockProps {
   groups: { label: string; options: { key: string; label: string }[] }[];
   selectedKeyword: string;
   onKeywordChange: (val: string) => void;
+
+  // ✅ ContextUI needs an object, not ParamDef[]
   contextParams: Record<string, string>;
-  onContextParamsChange: (params: Record<string, string>) => void;
-  selectedItems: { id: string; label: string; params?: Record<string, string> }[];
-  onSelectedItemsChange: (items: { id: string; label: string; params?: Record<string, string> }[]) => void;
+  onContextParamsChange: (obj: Record<string, string>) => void;
+
+  selectedItems: SelectedItem[];
+  onSelectedItemsChange: (items: SelectedItem[]) => void;
 }
 
-
-
-// put this near the top, below imports:
-type ItemWithParams = { id: string; keyword: string; label: string; params: Record<string, any> };
-
-function buildPreview(keyword: string, params: Record<string, any>, fallbackLabel: string) {
-  const series = params.series ?? '—';
-  const period = params.period ?? '—';
-
-  switch (keyword) {
-    case 'linreg':
-      // Linear Regression
-      return `LINEARREG\n${series} ( Symbol | ${period} )`;
-    case 'linreg_slope':
-      return `LINEARREG_SLOPE\n${series} ( Symbol | ${period} )`;
-    case 'linreg_intercept':
-      return `LINEARREG_INTERCEPT\n${series} ( Symbol | ${period} )`;
-    case 'linreg_angle':
-      return `LINEARREG_ANGLE\n${series} ( Symbol | ${period} )`;
-
-    // 🔜 examples you’ll add next:
-    // case 'rsi':       return `RSI\n${series} ( ${period} )`;
-    // case 'ema':       return `EMA\n${series} ( ${period} )`;
-    // case 'harami':    return `HARAMI\nLookback ${params.lookback ?? '—'}`;
-
-    default:
-      // generic fallback
-      const pretty = Object.entries(params).map(([k, v]) => `${k}=${v ?? '—'}`).join(', ');
-      return `${fallbackLabel}\n${pretty || '—'}`;
-  }
-}
-
+// ❌ delete any local buildPreview() or previewBuilder util imports — we ONLY use buildPreviewFromKey
 
 function generateUniqueId(base: string): string {
-  return `${base}-${Math.random().toString(36).substring(2, 9)}`;
+  return `${base}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-function PreviewBlock({ id, label, content, onRemove }: { id: string; label: string; content: string; onRemove: (id: string) => void }) {
+function PreviewBlock({
+  id, label, content, onRemove,
+}: { id: string; label: string; content: string; onRemove: (id: string) => void }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const style = { transform: CSS.Transform.toString(transform), transition };
-  const addClipboard = (content: string) => {
+  const copyToClipboard = (content: string) => {
     console.log('🔍 Copying content:', content);
     setClipboard(content);
   };
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}
-      className="relative bg-white border border-blue-200 shadow-sm rounded-sm p-1 text-xs text-blue-700 w-fit min-w-[120px] min-h-0 flex items-center gap-1 overflow-visible"
-    >
-      <button
-        onClick={() => addClipboard(content)}
-        className="absolute -top-3 -left-3 z-10 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow"
-        title="Copy Block"
-      >
-        <Copy className="w-3.5 h-3.5 text-blue-600 group-hover:text-green-600" />
+      className="relative bg-white border border-blue-200 shadow-sm rounded-sm p-1 text-xs text-blue-700 w-fit min-w-[120px] min-h-0 flex items-center gap-1 overflow-visible">
+      <button onClick={() => copyToClipboard(content)} className="absolute -top-3 -left-3 z-10 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow" title="Copy Block">
+        <Copy className="w-3.5 h-3.5 text-blue-600" />
       </button>
       <button onClick={() => onRemove(id)} className="absolute -top-3 -right-3 z-10 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow" title="Remove Block">
         <X className="w-3.5 h-3.5 text-red-600" />
@@ -92,41 +67,28 @@ function PreviewBlock({ id, label, content, onRemove }: { id: string; label: str
   );
 }
 
-export default function ChooseBlock({
-  onDelete,
-  inputValue,
-  onChange,
-  onSelectOption,
-  groups,
-  selectedKeyword,
-  onKeywordChange,
-  contextParams,
-  onContextParamsChange,
-  selectedItems,
-  onSelectedItemsChange,
-}: ChooseBlockProps) {
+export default function ChooseBlock(props: ChooseBlockProps) {
+  const {
+    onDelete, inputValue, onChange, onSelectOption, groups,
+    selectedKeyword, onKeywordChange,
+    contextParams, onContextParamsChange,
+    selectedItems, onSelectedItemsChange,
+  } = props;
+
   const [filtered, setFiltered] = React.useState<typeof groups>([]);
 
-  const selectedOption = GROUPS
-    .flatMap(group => group.options)
-    .find(opt => opt.key === selectedKeyword);
+  const selectedOption = GROUPS.flatMap(g => g.options).find(o => o.key === selectedKeyword);
 
   useEffect(() => {
-    if (!inputValue.trim()) {
-      setFiltered([]);
-      return;
-    }
-    const search = inputValue.toLowerCase();
-    const matches = groups.map(group => ({
-      label: group.label,
-      options: group.options.filter(opt => opt.label.toLowerCase().includes(search)),
-    })).filter(g => g.options.length > 0);
+    if (!inputValue.trim()) { setFiltered([]); return; }
+    const q = inputValue.toLowerCase();
+    const matches = groups
+      .map(g => ({ label: g.label, options: g.options.filter(o => o.label.toLowerCase().includes(q)) }))
+      .filter(g => g.options.length > 0);
     setFiltered(matches);
   }, [inputValue, groups]);
 
   const handleSelect = (optLabel: string) => {
-//     const uniqueId = generateUniqueId(optLabel);
-//     onSelectedItemsChange([...selectedItems, { id: uniqueId, label: optLabel }]);
     onSelectOption(optLabel);
     setFiltered([]);
   };
@@ -140,20 +102,20 @@ export default function ChooseBlock({
       onSelectOption(data);
       setFiltered([]);
     }
-    setClipboard(null);
+    // ❌ setClipboard(null) → string only
+    setClipboard('');
   };
 
   const handleRemove = (id: string) => {
-    onSelectedItemsChange(selectedItems.filter(item => item.id !== id));
+    onSelectedItemsChange(selectedItems.filter(it => it.id !== id));
   };
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over?.id) {
-      const oldIndex = selectedItems.findIndex(item => item.id === active.id);
-      const newIndex = selectedItems.findIndex(item => item.id === over.id);
-      const newOrder = arrayMove(selectedItems, oldIndex, newIndex);
-      onSelectedItemsChange(newOrder);
+      const oldIndex = selectedItems.findIndex(i => i.id === active.id);
+      const newIndex = selectedItems.findIndex(i => i.id === over.id);
+      onSelectedItemsChange(arrayMove(selectedItems, oldIndex, newIndex));
     }
   };
 
@@ -172,7 +134,7 @@ export default function ChooseBlock({
         <div className="flex flex-col gap-2 shrink-0 z-10 w-48">
           <select
             value={selectedKeyword || ''}
-            onChange={e => {
+            onChange={(e) => {
               const key = e.target.value;
               onKeywordChange(key);
               onContextParamsChange({});
@@ -193,15 +155,11 @@ export default function ChooseBlock({
 
           {filtered.length > 0 && (
             <ul className="absolute top-full left-0 w-full bg-white border z-50 shadow text-xs">
-              {filtered.map((group, gi) => (
+              {filtered.map((g, gi) => (
                 <React.Fragment key={gi}>
-                  <li className="px-2 py-1 font-semibold text-gray-500 bg-gray-50 cursor-default">{group.label}</li>
-                  {group.options.map((opt, i) => (
-                    <li
-                      key={i}
-                      className="px-2 py-1 hover:bg-blue-100 cursor-pointer"
-                      onClick={() => handleSelect(opt.label)}
-                    >
+                  <li className="px-2 py-1 font-semibold text-gray-500 bg-gray-50 cursor-default">{g.label}</li>
+                  {g.options.map((opt, i) => (
+                    <li key={i} className="px-2 py-1 hover:bg-blue-100 cursor-pointer" onClick={() => handleSelect(opt.label)}>
                       {opt.label}
                     </li>
                   ))}
@@ -214,31 +172,19 @@ export default function ChooseBlock({
         {selectedKeyword && selectedOption && (
           <ContextUI
             keyword={selectedKeyword}
-            params={selectedOption?.params || []}
-            onParamChange={(key, val) =>
-              onContextParamsChange(prev => ({ ...prev, [key]: val }))
+            // ✅ ContextUI wants an object of current values
+            params={contextParams}
+            // ✅ ContextUI prop is onParamChange, NOT onContextParamsChange
+            onParamChange={(key: string, val: string) =>
+              onContextParamsChange({ ...contextParams, [key]: val })
             }
+            // ✅ onConfirm has 0 args in your current ContextUI
             onConfirm={() => {
-              // ✅ Build the Tradetron-style two-line label
-              const label = buildPreviewFromKey(
-                selectedKeyword,
-                contextParams,
-                selectedOption?.label
-              );
-
-              const uniqueId = generateUniqueId(selectedKeyword);
-
-              // ✅ Store params snapshot too (so each block keeps its own values)
+              const label = buildPreviewFromKey(selectedKeyword, contextParams, selectedOption.label);
               onSelectedItemsChange([
                 ...selectedItems,
-                {
-                  id: uniqueId,
-                  keyword: selectedKeyword,
-                  label,                   // full two-line text
-                  params: { ...contextParams },
-                },
+                { id: generateUniqueId(selectedKeyword), keyword: selectedKeyword, label, params: { ...contextParams } },
               ]);
-
               onKeywordChange('');
               onContextParamsChange({});
             }}
@@ -250,20 +196,17 @@ export default function ChooseBlock({
         )}
 
         <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={selectedItems.map(item => item.id)} strategy={horizontalListSortingStrategy}>
+          <SortableContext items={selectedItems.map(i => i.id)} strategy={horizontalListSortingStrategy}>
             <div className="flex flex-wrap gap-4 items-stretch min-h-[80px]">
-              {selectedItems.map(item => {
-                const content = buildPreview(item.keyword, item.params ?? {}, item.label);
-                return (
-                  <PreviewBlock
-                    key={item.id}
-                    id={item.id}
-                    label={item.label.split('\n')[0]}  // e.g., LINEARREG_SLOPE
-                    content={item.label}               // full two-line text from the builder
-                    onRemove={handleRemove}
-                  />
-                );
-              })}
+              {selectedItems.map(item => (
+                <PreviewBlock
+                  key={item.id}
+                  id={item.id}
+                  label={item.label.split('\n')[0]}
+                  content={item.label}            // full two-line label we already built
+                  onRemove={handleRemove}
+                />
+              ))}
             </div>
           </SortableContext>
         </DndContext>

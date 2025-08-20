@@ -19,20 +19,17 @@ import RootGroupNode, { ChooseBlockData } from './RootGroupNode';
 
 const nodeTypes = { rootGroupNode: RootGroupNode };
 
-const initialNodes: Node<unknown, { operator: 'AND' | 'OR' }>[] = [
-  {
-    id: 'root-1',
-    type: 'rootGroupNode',
-    position: { x: 0, y: 0 },
-    data: { operator: 'AND' },
-    style: { width: '100vw', height: '100vh' },
-  },
+type RootData = { operator: 'AND' | 'OR' };
+
+const initialNodes: Node<RootData>[] = [
+  { id: 'root', type: 'rootGroupNode', data: { operator: 'AND' }, position: { x: 0, y: 0 }, style: { width: '100vw', height: '100vh' } }
 ];
+
 
 const initialEdges: Edge[] = [];
 
 export default function RootGroupNodeBuilder() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, setNodes, onNodesChange] = useNodesState<RootData>(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
@@ -71,4 +68,5 @@ export default function RootGroupNodeBuilder() {
     </ReactFlowProvider>
 
   );
+  return null; // placeholder
 }

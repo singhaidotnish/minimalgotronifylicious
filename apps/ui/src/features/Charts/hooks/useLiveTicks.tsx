@@ -1,6 +1,6 @@
 // hooks/useLiveTicks.ts
 import { useEffect, useRef, useState } from 'react';
-import { isMarketClosed } from '@/lib/marketHours';
+import { isMarketOpen } from '@/lib/marketHours';
 import { WS_URL } from '@/lib/config';
 
 interface Tick {
@@ -32,7 +32,7 @@ export default function useLiveTicks(
     if (!symbol || !broker) return;
 
     // dummy mode (forced when market closed, or caller asked)
-    if (useDummy || isMarketClosed()) {
+    if (useDummy || !isMarketOpen()) {
       let ltp = 100 + Math.random() * 50;
       const id = window.setInterval(() => {
         const change = (Math.random() - 0.5) * 2;

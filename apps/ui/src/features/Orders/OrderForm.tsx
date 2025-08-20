@@ -2,7 +2,7 @@
 import React from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import SymbolSelect from "@/components/SymbolSelect";
+import SymbolSelect from "@/features/ConditionBuilder/components/SymbolSelect";
 import { API_BASE } from "@/lib/config"
 
 export type OrderFormData = {

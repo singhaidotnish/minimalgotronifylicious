@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useSettings } from '@/context/SettingsContext';
-import { isMarketClosed } from '@/lib/marketHours';
+import { isMarketOpen } from '@/lib/marketHours';
 
 interface SettingsModalProps {
   open: boolean;
@@ -16,7 +16,7 @@ export default function SettingsModal({ open, onClose }: SettingsModalProps) {
   // localBroker as string to accept any value
   const [localBroker, setLocalBroker] = useState<string>(broker);
   const [localUseDummy, setLocalUseDummy] = useState(useDummyTicks);
-  const marketClosed = isMarketClosed();
+  const marketClosed = !isMarketOpen();
   const [brokerList, setBrokerList] = useState<string[]>([]);
 
   useEffect(() => {

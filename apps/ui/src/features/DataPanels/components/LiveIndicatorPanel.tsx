@@ -2,7 +2,7 @@
 'use client'
 
 import { useState } from "react";
-import SymbolSelect from "@/components/SymbolSelect";
+import SymbolSelect from "@/features/ConditionBuilder/components/SymbolSelect";
 
 export default function LiveIndicatorPanel() {
   const [selectedSymbol, setSelectedSymbol] = useState<{ symbol: string, token: string }>({ symbol: "", token: "" });
