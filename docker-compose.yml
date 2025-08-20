@@ -8,16 +8,13 @@ services:
       context: ./apps/backend
       dockerfile: Dockerfile.dev
     environment:
-      # Python
       PYTHONUNBUFFERED: "1"
-      # === main.py reads these (env-driven CORS/CSP) ===
       FRONTEND_ORIGINS: ${FRONTEND_ORIGINS:-http://localhost:${FRONTEND_PORT:-3003}}
       DEV_BACKEND_HTTP: ${DEV_BACKEND_HTTP:-http://localhost:${BACKEND_HOST_PORT:-5000}}
       DEV_BACKEND_WS: ${DEV_BACKEND_WS:-ws://localhost:${BACKEND_HOST_PORT:-5000}}
       CORS_ALLOW_METHODS: ${CORS_ALLOW_METHODS:-GET,POST,PUT,PATCH,DELETE,OPTIONS}
       CSP_CONNECT_EXTRAS: ${CSP_CONNECT_EXTRAS:-}
     ports:
-      # host:container (stay env-driven so you can dodge port clashes)
       - "${BACKEND_HOST_PORT:-5000}:${BACKEND_CONTAINER_PORT:-8000}"
     volumes:
       - ./apps/backend:/app:rw
@@ -25,11 +22,11 @@ services:
       sh -lc "uvicorn main:app --host 0.0.0.0 --port ${BACKEND_CONTAINER_PORT:-8000}
       --reload --reload-exclude setup.py"
     healthcheck:
-      # runs INSIDE the container; use container port & 127.0.0.1
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:${BACKEND_CONTAINER_PORT:-8000}/docs || exit 1"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://localhost:8000/health').status==200 else sys.exit(1)"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+      start_period: 10s
 
   frontend:
     user: "${UID:-1000}:${GID:-1000}"
@@ -38,13 +35,10 @@ services:
       dockerfile: Dockerfile.dev
     working_dir: /app
     environment:
-      # UI port (browser port)
+      NODE_ENV: development                         # ✅ fix Next warning
+      APP_ENV: ${APP_ENV:-local}                    # optional custom env flag
       FRONTEND_PORT: ${FRONTEND_PORT:-3003}
-
-      # Browser → API (host-mapped). On Render you’ll set this to your public backend URL.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:${BACKEND_HOST_PORT:-5000}}
-
-      # Server-side (SSR/API routes) → API (Docker service). On Render this equals the public backend URL.
       BACKEND_INTERNAL_URL: ${BACKEND_INTERNAL_URL:-http://backend:${BACKEND_CONTAINER_PORT:-8000}}
     command: sh -lc "npm run dev -- -p ${FRONTEND_PORT:-3003}"
     ports:

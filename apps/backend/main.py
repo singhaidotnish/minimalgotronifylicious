@@ -93,7 +93,6 @@ def get_param_options(type: Optional[str] = None):
         return {"error": "Invalid type"}
     return PARAM_OPTIONS[type]
 
-# 6) Health (handy for Docker/Render healthchecks)
 @app.get("/health")
 def health():
-    return {"ok": True}
+    return {"status": "ok"}

@@ -4,11 +4,13 @@
 # make logs    # tail everything
 
 
-.PHONY: fresh dev up down logs ui-logs api-logs build-ui-prod build-api-prod nuke verify-imports verify-ui-mods fix-imports list-ui-imports ui-build ui-type ui-lint ui-dev
+.PHONY: fresh clear-screen dev up down logs ui-logs api-logs build-ui-prod build-api-prod nuke verify-imports verify-ui-mods fix-imports list-ui-imports ui-build ui-type ui-lint ui-dev
 
+clear-screen:
+	@{ tput reset || tput clear || clear || printf '\033[3J\033[H\033[2J'; } 2>/dev/null
 
 # ADHD: one-button fresh start (safe)
-fresh:
+fresh: | clear-screen
 	@echo "▶️  Stopping & removing stack (containers + volumes)…"
 	- docker compose down -v --remove-orphans
 	@echo "🧹 Clearing local caches…"
@@ -20,49 +22,53 @@ fresh:
 	@echo "🚀 Up with rebuild…"
 	docker compose --env-file .env up --build
 
+fresh-nonstrict: clear-screen
+	@echo "🚀 Up with rebuild (non-strict)…"
+	- docker compose --env-file .env up --build
+
 # Dev up (rebuild if Dockerfiles changed)
-dev:
+dev: | clear-screen
 	docker compose --env-file .env up --build
 
-up:
+up: | clear-screen
 	docker compose --env-file .env up
 
-down:
+down: | clear-screen
 	docker compose down -v --remove-orphans
 
-logs:
+logs: | clear-screen
 	docker compose logs -f --tail=100
 
-ui-logs:
+ui-logs: | clear-screen
 	docker compose logs -f --tail=100 frontend
 
-api-logs:
+api-logs: | clear-screen
 	docker compose logs -f --tail=100 backend
 
 # CI-style local production builds (no run)
-build-ui-prod:
+build-ui-prod: | clear-screen
 	docker build -f apps/ui/Dockerfile -t ui-prod apps/ui
 
-build-api-prod:
+build-api-prod: | clear-screen
 	docker build -f apps/backend/Dockerfile -t api-prod apps/backend
 
 # Nuclear option (use rarely)
-nuke:
+nuke: | clear-screen
 	- docker compose down -v --remove-orphans
 	- docker system prune -af --volumes
 	docker compose --env-file .env up --build
 
-verify-imports:
+verify-imports: | clear-screen
 	@echo "🔎 Checking for bad '@/src/' imports…"
 	@! rg -n "@/src/" apps/ui/src || (echo "❌ Found bad '@/src/' imports. Run: rg -l \"@/src/\" apps/ui/src | xargs -r sed -i 's#@/src/#@/#g'"; exit 1)
 	@echo "✅ No '@/src/' issues."
 
 # Lists every "@/components/ui/<mod>" import so you see what's required
-list-ui-imports:
+list-ui-imports: | clear-screen
 	@rg -no "from ['\"]@/components/ui/([^'\"\)]+)['\"]" apps/ui/src | sort -u || true
 
 # Fails if an "@/components/ui/<mod>" import doesn't have a matching file under src/components/ui
-verify-ui-mods:
+verify-ui-mods: | clear-screen
 	@echo "🔎 verifying ui/* imports exist..."
 	@missing=0; \
 	for m in $$(rg -no "from ['\"]@/components/ui/([^'\"\)]+)['\"]" apps/ui/src | sed -E 's#.*ui/([^'\''"]+).*#\1#' | sort -u); do \
@@ -72,18 +78,18 @@ verify-ui-mods:
 	exit $$missing
 
 # (handy) Fixes stray '@/src/' imports -> '@/'
-fix-imports:
+fix-imports: | clear-screen
 	@rg -l "@/src/" apps/ui/src | xargs -r sed -i 's#@/src/#@/#g' || true
 
-ui-type:
-	clear && cd apps/ui && npm run typecheck
+ui-type: | clear-screen
+	cd apps/ui && npm run typecheck
 
-ui-lint:
-	clear && cd apps/ui && npm run lint
+ui-lint: | clear-screen
+	cd apps/ui && npm run lint
 
-ui-build:
-	clear && cd apps/ui && rm -rf node_modules .next && npm ci && npm run typecheck && npm run build
+ui-build: | clear-screen
+	cd apps/ui && rm -rf node_modules .next && npm ci && npm run typecheck && npm run build
 
 
-ui-dev:
-	clear && cd apps/ui && npm run dev
+ui-dev: | clear-screen
+	cd apps/ui && npm run dev

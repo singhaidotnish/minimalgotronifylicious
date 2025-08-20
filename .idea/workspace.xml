@@ -5,31 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/QUESTIONS.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ConditionCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/KeywordMeta.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/TechnicalsConfig.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/.env" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/components/SymbolSelect.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/SymbolSelect.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/context/SettingsContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/context/SettingsContext.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ConditionBuilder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ConditionBuilder.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ConditionBuilderV2.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ConditionBuilderV2.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextUI.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ContextUI.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNodeBuilder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNodeBuilder.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/StrategyBuilderPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/StrategyBuilderPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/DummyTickPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/DummyTickPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveIndicatorPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveIndicatorPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveTickPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveTickPanel.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Orders/OrderForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Orders/OrderForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/lib/marketHours.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/lib/marketHours.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/tsconfig.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/tsconfig.tsbuildinfo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_structure-monorepo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tree_structure-monorepo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
