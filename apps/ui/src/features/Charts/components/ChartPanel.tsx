@@ -6,19 +6,28 @@ import FallbackChart from './FallbackChart';
 import { AdvancedChart } from 'react-tradingview-embed';
 import { isMarketOpen } from '@/lib/marketHours';
 
-export type SeriesType = 'Line' | 'Area' | 'Candlestick' | 'Bar';
+// was: export type SeriesType = 'Line' | 'Area' | 'Candlestick' | 'Bar';
+type ChartSeriesType = 'Line' | 'Area' | 'Candlestick' | 'Bar';
 
-export interface ChartPanelProps {
-  symbol: string; // e.g. "NASDAQ:AAPL" or "BTCUSD"
+// apps/ui/src/features/Charts/components/ChartPanel.tsx
+
+// 1) ensure styleMap returns strings
+const styleMap: Record<ChartSeriesType, `${number}`> = {
+  Line: '2',
+  Area: '3',
+  Candlestick: '1',
+  Bar: '0',
+} as const;
+
+interface ChartPanelProps {
+  symbol: string;
+  seriesType: ChartSeriesType;
   height?: number;
 }
 
-const styleMap: Record<SeriesType, number> = {
-  Line: 2,
-  Area: 3,
-  Candlestick: 1,
-  Bar: 0,
-};
+// (if you have a SeriesType union, this keeps types tight)
+type SeriesType = keyof typeof styleMap;
+
 
 const chartOptions: SeriesType[] = ['Line', 'Area', 'Candlestick', 'Bar'];
 

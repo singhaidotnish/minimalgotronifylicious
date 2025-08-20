@@ -3,8 +3,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Handle, Position } from 'reactflow';
-import { GROUPS } from '@/src/features/ConditionBuilder/models/conditionGroups';
-import ChooseBlock from '@/src/features/ConditionBuilder/components/ChooseBlock';
+import { GROUPS } from '@/features/ConditionBuilder/models/conditionGroups';
+import ChooseBlock from '@/features/ConditionBuilder/components/ChooseBlock';
 import { v4 as uuidv4 } from 'uuid';
 import { useReactFlow } from 'reactflow';
 

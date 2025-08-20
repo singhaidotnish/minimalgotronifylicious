@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useSettings } from '@/context/SettingsContext';
-import { isMarketClosed } from '@/utils/market';
+import { isMarketClosed } from '@/lib/marketHours';
 
 interface SettingsModalProps {
   open: boolean;

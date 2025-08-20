@@ -1,6 +1,6 @@
 // hooks/useLiveTicks.ts
 import { useEffect, useRef, useState } from 'react';
-import { isMarketClosed } from '@/utils/market';
+import { isMarketClosed } from '@/lib/marketHours';
 import { WS_URL } from '@/lib/config';
 
 interface Tick {

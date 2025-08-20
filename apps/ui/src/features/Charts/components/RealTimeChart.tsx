@@ -8,7 +8,7 @@ import {
   UTCTimestamp,
 } from 'lightweight-charts';
 import { useEffect, useRef } from 'react';
-import useLiveTicks from '@/hooks/useLiveTicks';
+import useLiveTicks from '@/features/Charts/hooks/useLiveTicks';
 
 interface Props {
   symbol: string;

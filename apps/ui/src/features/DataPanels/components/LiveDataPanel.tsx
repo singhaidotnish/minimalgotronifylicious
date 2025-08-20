@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from "react";
-import useLiveTicks from "@/hooks/useLiveTicks";
+import useLiveTicks from "@/features/Charts/hooks/useLiveTicks";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 interface LiveDataPanelProps {

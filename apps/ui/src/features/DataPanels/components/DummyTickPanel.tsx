@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader } from '@/components/ui';
-import ChartPanel from './ChartPanel';
+import ChartPanel from '@/features/Charts/components/ChartPanel';
 
 export interface DummyTickPanelProps {
   symbol: string;

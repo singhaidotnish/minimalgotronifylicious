@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { PARAM_OPTIONS } from '../features/ConditionBuilder/config/paramOptions';
+import { PARAM_OPTIONS } from '@/features/ConditionBuilder/config/paramOptions';
 
 const router = Router();
 

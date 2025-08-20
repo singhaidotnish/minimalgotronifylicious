@@ -5,8 +5,59 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/Dockerfile.dev" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/input.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/config/appConfig.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/utils/previewBuilder.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/brokers/BrokersWidget.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/features/brokers/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/lib/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/lib/apiClient.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/ui/src/lib/urls.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/dev-fresh.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/ misc/websocket_programming.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/misc/websocket_programming.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/Dockerfile.dev" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/.env.local.example" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.env.local.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/components/ui/Table.tsx.old" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/table.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/components/ui/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/components/ui/input.tsx.old" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/_archive/input.tsx.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/components/ui/select.tsx.old" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/_archive/select.tsx.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/context/SettingsContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/context/SettingsContext.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/components/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/Card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/components/button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/components/ui/button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/ChartPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/FallbackChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/RealTimeChart.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/components/RealTimeChart.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Charts/hooks/useLiveTicks.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/ChooseBlock.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components/RootGroupNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/models/conditionGroups.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/models/conditionGroups.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/models/conditionGroups.ts.large" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/models/conditionGroups.ts.old" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Dashboard/Dashboard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Dashboard/Dashboard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/DummyTickPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/DummyTickPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveDataPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LivePriceSubscriber.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LivePriceSubscriber.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveTickPanel.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/DataPanels/components/LiveTickPanel.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/features/Settings/SettingsModal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/src/routes/paramOptions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/routes/paramOptions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/tree-structure-frontend.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tree_structure-monorepo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tree_structure-monorepo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,17 +75,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/minimalgotronifylicious&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/varsity-audio-monorepo"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/ui" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/ui/src/components/ui" />
+      <recent name="$PROJECT_DIR$/apps/ui/src" />
       <recent name="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder" />
     </key>
   </component>

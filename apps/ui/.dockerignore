@@ -8,3 +8,8 @@ build/
 *.log
 .env*
 *.tsbuildinfo
+.vercel
+.turbo
+.git
+.env
+src/components/ui/_archive

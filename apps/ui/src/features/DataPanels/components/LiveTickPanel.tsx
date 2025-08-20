@@ -2,9 +2,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import useLiveTicks from '@/hooks/useLiveTicks';
+import useLiveTicks from '@/features/Charts/hooks/useLiveTicks';
 import { Card, CardHeader, CardContent, Table } from '@/components/ui';
-import ChartPanel from './ChartPanel';
+import ChartPanel from '@/features/Charts/components/ChartPanel';
 
 export interface LiveTickPanelProps {
   symbol: string;

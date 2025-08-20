@@ -6,9 +6,11 @@ import { X, Copy, ClipboardPaste } from 'lucide-react';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { getClipboard, setClipboard } from '@/src/utils/clipboard';
-import { GROUPS } from '@/src/features/ConditionBuilder/models/conditionGroups';
+import { getClipboard, setClipboard } from '@/utils/clipboard';
+import { GROUPS } from '@/features/ConditionBuilder/models/conditionGroups';
 import ContextUI from './ContextUI';
+import { buildPreview } from '../utils/previewBuilder';
+import { buildPreviewFromKey } from '@/features/ConditionBuilder/models/conditionGroups';
 
 interface ChooseBlockProps {
   onDelete: () => void;
@@ -20,9 +22,11 @@ interface ChooseBlockProps {
   onKeywordChange: (val: string) => void;
   contextParams: Record<string, string>;
   onContextParamsChange: (params: Record<string, string>) => void;
-  selectedItems: Array<{ id: string; keyword: string; label: string; params: Record<string, any> }>;
-  onSelectedItemsChange: (items: Array<{ id: string; keyword: string; label: string; params: Record<string, any> }>) => void;
+  selectedItems: { id: string; label: string; params?: Record<string, string> }[];
+  onSelectedItemsChange: (items: { id: string; label: string; params?: Record<string, string> }[]) => void;
 }
+
+
 
 // put this near the top, below imports:
 type ItemWithParams = { id: string; keyword: string; label: string; params: Record<string, any> };
@@ -83,7 +87,7 @@ function PreviewBlock({ id, label, content, onRemove }: { id: string; label: str
       </button>
 
       <div className="font-bold text-center text-blue-700 mb-1">{label}</div>
-      <div className="text-xs text-gray-700 text-center whitespace-nowrap">{content}</div>
+      <div className="text-xs text-center text-blue-700 whitespace-pre-line">{content}</div>
     </div>
   );
 }
@@ -210,14 +214,31 @@ export default function ChooseBlock({
         {selectedKeyword && selectedOption && (
           <ContextUI
             keyword={selectedKeyword}
-            params={selectedOption?.params || []} // ✅ Must be an array!
-            onParamChange={(key, val) => onContextParamsChange(prev => ({ ...prev, [key]: val }))}
-            onConfirm={(label) => {
+            params={selectedOption?.params || []}
+            onParamChange={(key, val) =>
+              onContextParamsChange(prev => ({ ...prev, [key]: val }))
+            }
+            onConfirm={() => {
+              // ✅ Build the Tradetron-style two-line label
+              const label = buildPreviewFromKey(
+                selectedKeyword,
+                contextParams,
+                selectedOption?.label
+              );
+
               const uniqueId = generateUniqueId(selectedKeyword);
+
+              // ✅ Store params snapshot too (so each block keeps its own values)
               onSelectedItemsChange([
                 ...selectedItems,
-                { id: uniqueId, keyword: selectedKeyword, label, params: contextParams } // ✅ store params here
+                {
+                  id: uniqueId,
+                  keyword: selectedKeyword,
+                  label,                   // full two-line text
+                  params: { ...contextParams },
+                },
               ]);
+
               onKeywordChange('');
               onContextParamsChange({});
             }}
@@ -237,8 +258,8 @@ export default function ChooseBlock({
                   <PreviewBlock
                     key={item.id}
                     id={item.id}
-                    label={item.label}
-                    content={content}
+                    label={item.label.split('\n')[0]}  // e.g., LINEARREG_SLOPE
+                    content={item.label}               // full two-line text from the builder
                     onRemove={handleRemove}
                   />
                 );

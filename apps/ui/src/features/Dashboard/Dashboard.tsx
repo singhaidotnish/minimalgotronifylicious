@@ -2,13 +2,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { Settings as SettingsIcon } from 'lucide-react';
-import OrderForm, { OrderFormData } from './OrderForm';
-import MarketDataPanel from './MarketDataPanel';
-import StrategyBuilderPanel from './StrategyBuilderPanel';
-import SettingsModal from './SettingsModal';
+import OrderForm, { OrderFormData } from '@/features/Orders/OrderForm';
+import MarketDataPanel from '@/features/DataPanels/components/MarketDataPanel';
+import StrategyBuilderPanel from '@/features/ConditionBuilder/components/StrategyBuilderPanel';
+import SettingsModal from '@/features/Settings/SettingsModal';
 import { useSettings } from '@/context/SettingsContext';
-// import StrategyGraphBuilder from '@/src/condition-builder/StrategyGraphBuilder';
-import RootGroupNodeBuilder from '@/src/features/ConditionBuilder/components/RootGroupNode'
+// import StrategyGraphBuilder from '@/condition-builder/StrategyGraphBuilder';
+import RootGroupNodeBuilder from '@/features/ConditionBuilder/components/RootGroupNode'
 
 export default function Dashboard() {
   return (

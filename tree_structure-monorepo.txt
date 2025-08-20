@@ -10,14 +10,14 @@
 │   │   ├── data
 │   │   │   ├── brokers.yaml
 │   │   │   └── static
-│   │   ├── Dockerfile
+│   │   ├── Dockerfile.dev
 │   │   ├── documentation.md
 │   │   ├── FIRST_STEPS.md
 │   │   ├── __init__.py
 │   │   ├── INSTALL.md
 │   │   ├── LICENSE
 │   │   ├── main.py
-│   │   ├──  misc
+│   │   ├── misc
 │   │   │   └── websocket_programming.py
 │   │   ├── nixpacks.toml
 │   │   ├── package-lock.json
@@ -55,13 +55,9 @@
 │       │   ├── globals.css
 │       │   ├── layout.tsx
 │       │   └── page.tsx
-│       ├── components
-│       │   └── ui
 │       ├── components.json
 │       ├── Condition_Builder_Action_Plan.md
-│       ├── context
-│       │   └── SettingsContext.tsx
-│       ├── Dockerfile
+│       ├── Dockerfile.dev
 │       ├── docs
 │       │   ├── algomin-ui_tree_structure.txt
 │       │   ├── backend_tree_structure.txt
@@ -86,6 +82,7 @@
 │       │   ├── plus.png
 │       │   └── problem-with-animation.png
 │       ├── next.config.ts
+│       ├── node_modules
 │       ├── package.json
 │       ├── package-lock.json
 │       ├── postcss.config.mjs
@@ -105,13 +102,14 @@
 │       ├── setup-folders.sh
 │       ├── src
 │       │   ├── components
+│       │   ├── config
+│       │   ├── context
 │       │   ├── features
 │       │   ├── lib
 │       │   ├── routes
 │       │   ├── stores
 │       │   ├── types
 │       │   └── utils
-│       ├── tree-structure-frontend.txt
 │       ├── tree-structure.txt
 │       ├── tsconfig.json
 │       └── tsconfig.node.json
@@ -123,6 +121,7 @@
 ├── DOCKER_SETUP.md
 ├── docs
 │   └── calendar.ics
+├── Makefile
 ├── minimalgotronifylicious_ai_architecture.drawio
 ├── minimalgotronifylicious_ai_architecture.png
 ├── minimalgotronifylicious_architecture.png
@@ -130,7 +129,9 @@
 ├── minimalgotronifylicious_mindmap.png
 ├── package-lock.json
 ├── README.md
+├── scripts
+│   └── dev-fresh.sh
 ├── tree_structure-monorepo.txt
 └── validate_structure.sh
 
-29 directories, 104 files
+30 directories, 104 files

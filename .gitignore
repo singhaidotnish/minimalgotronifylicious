@@ -1,0 +1,29 @@
+# Node / Next
+node_modules/
+.next/
+.vercel/
+.turbo/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env.*
+
+# OS/editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Logs
+*.log
+coverage/
+
+
+**/.venv/
+**/__pycache__/
+*.pyc
+apps/ui/src/components/ui/_archive/

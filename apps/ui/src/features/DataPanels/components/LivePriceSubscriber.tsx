@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import useLiveTicks from '@/hooks/useLiveTicks';
+import useLiveTicks from '@/features/Charts/hooks/useLiveTicks';
 import { useSettings } from '@/context/SettingsContext';
 
 

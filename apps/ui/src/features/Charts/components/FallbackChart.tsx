@@ -1,33 +1,37 @@
-// components/FallbackChart.tsx
 'use client';
 
 import React, { useRef, useEffect } from 'react';
 import {
   createChart,
-  IChartApi,
-  UTCTimestamp,
   CrosshairMode,
   LineStyle,
-  // ✅ import only option types if you need them (optional)
-  AreaSeriesPartialOptions,
-  BarSeriesPartialOptions,
-  CandlestickSeriesPartialOptions,
-  LineSeriesPartialOptions,
+  UTCTimestamp,
+  type ISeriesApi,
 } from 'lightweight-charts';
 
-interface FallbackChartProps {
-  type: 'Line' | 'Area' | 'Candlestick' | 'Bar';
-  width: number;
-  height: number;
+type SeriesKind = 'Line' | 'Area' | 'Candlestick' | 'Bar';
+
+// derive chart instance type (safe), but DON'T look up methods on it in types
+type ChartApi = ReturnType<typeof createChart>;
+
+// Describe ONLY what we need the chart to have for compile-time safety
+interface ChartWithAdders {
+  addLineSeries: (opts?: unknown) => ISeriesApi<'Line'>;
+  addAreaSeries: (opts?: unknown) => ISeriesApi<'Area'>;
+  addCandlestickSeries: (opts?: unknown) => ISeriesApi<'Candlestick'>;
+  addBarSeries: (opts?: unknown) => ISeriesApi<'Bar'>;
 }
 
-export default function FallbackChart({ type, width, height }: FallbackChartProps) {
+type AnySeries =
+  | ISeriesApi<'Line'>
+  | ISeriesApi<'Area'>
+  | ISeriesApi<'Candlestick'>
+  | ISeriesApi<'Bar'>;
+
+export default function FallbackChart({ type, width, height }: { type: SeriesKind; width: number; height: number; }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const chartRef = useRef<IChartApi | null>(null);
-  const seriesRef = useRef<ReturnType<IChartApi['addLineSeries']> |
-                           ReturnType<IChartApi['addAreaSeries']> |
-                           ReturnType<IChartApi['addCandlestickSeries']> |
-                           ReturnType<IChartApi['addBarSeries']> | null>(null);
+  const chartRef = useRef<ChartApi | null>(null);
+  const seriesRef = useRef<AnySeries | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -42,69 +46,67 @@ export default function FallbackChart({ type, width, height }: FallbackChartProp
 
     chartRef.current = chart;
 
-    // initial series
-    const makeSeries = () => {
-      if (!chartRef.current) return;
-      switch (type) {
-        case 'Candlestick':
-          seriesRef.current = chartRef.current.addCandlestickSeries({});
-          break;
-        case 'Bar':
-          seriesRef.current = chartRef.current.addBarSeries({});
-          break;
-        case 'Area':
-          seriesRef.current = chartRef.current.addAreaSeries({
-            topColor: 'rgba(33, 150, 243, 0.56)',
-            bottomColor: 'rgba(33, 150, 243, 0.04)',
-          });
-          break;
-        case 'Line':
-        default:
-          seriesRef.current = chartRef.current.addLineSeries({ lineStyle: LineStyle.Solid });
-      }
-    };
-
-    makeSeries();
-
-    return () => {
-      chart.remove();
-      chartRef.current = null;
-      seriesRef.current = null;
-    };
-  }, []); // init once
-
-  useEffect(() => {
-    if (!chartRef.current) return;
-    chartRef.current.applyOptions({ width, height });
-
-    // rebuild series when type changes
-    if (seriesRef.current) {
-      chartRef.current.removeSeries(seriesRef.current);
-      seriesRef.current = null;
-    }
-
+    // --- create initial series
+    const c = chartRef.current as unknown as ChartWithAdders;
     switch (type) {
       case 'Candlestick':
-        seriesRef.current = chartRef.current.addCandlestickSeries({});
+        seriesRef.current = c.addCandlestickSeries({});
         break;
       case 'Bar':
-        seriesRef.current = chartRef.current.addBarSeries({});
+        seriesRef.current = c.addBarSeries({});
         break;
       case 'Area':
-        seriesRef.current = chartRef.current.addAreaSeries({
+        seriesRef.current = c.addAreaSeries({
+          // sample styling
           topColor: 'rgba(33, 150, 243, 0.56)',
           bottomColor: 'rgba(33, 150, 243, 0.04)',
         });
         break;
       case 'Line':
       default:
-        seriesRef.current = chartRef.current.addLineSeries({ lineStyle: LineStyle.Solid });
+        seriesRef.current = c.addLineSeries({ lineStyle: LineStyle.Solid });
     }
 
-    // dummy data
+    return () => {
+      chart.remove();
+      chartRef.current = null;
+      seriesRef.current = null;
+    };
+  }, []); // once
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+    chartRef.current.applyOptions({ width, height });
+
+    // rebuild series on type change
+    if (seriesRef.current) {
+      chartRef.current.removeSeries(seriesRef.current);
+      seriesRef.current = null;
+    }
+
+    const c = chartRef.current as unknown as ChartWithAdders;
+    switch (type) {
+      case 'Candlestick':
+        seriesRef.current = c.addCandlestickSeries({});
+        break;
+      case 'Bar':
+        seriesRef.current = c.addBarSeries({});
+        break;
+      case 'Area':
+        seriesRef.current = c.addAreaSeries({
+          topColor: 'rgba(33, 150, 243, 0.56)',
+          bottomColor: 'rgba(33, 150, 243, 0.04)',
+        });
+        break;
+      case 'Line':
+      default:
+        seriesRef.current = c.addLineSeries({ lineStyle: LineStyle.Solid });
+    }
+
+    // dummy data (same as before) ...
     const now = Date.now();
     const points = Array.from({ length: 120 }).map((_, i) => {
-      const t = (now - (120 - i) * 60_000) / 1000 as UTCTimestamp; // 1‑min steps
+      const t = (now - (120 - i) * 60_000) / 1000 as UTCTimestamp;
       const base = 100 + Math.sin(i / 8) * 2 + (Math.random() - 0.5) * 0.5;
       return {
         time: t,
@@ -119,17 +121,13 @@ export default function FallbackChart({ type, width, height }: FallbackChartProp
     if (!seriesRef.current) return;
 
     if (type === 'Candlestick' || type === 'Bar') {
-      // @ts-expect-error type narrowed at runtime
-      seriesRef.current.setData(points.map(p => ({
-        time: p.time,
-        open: p.open,
-        high: p.high,
-        low: p.low,
-        close: p.close,
-      })));
+      (seriesRef.current as ISeriesApi<'Candlestick'> | ISeriesApi<'Bar'>).setData(
+        points.map(p => ({ time: p.time, open: p.open, high: p.high, low: p.low, close: p.close }))
+      );
     } else {
-      // @ts-expect-error type narrowed at runtime
-      seriesRef.current.setData(points.map(p => ({ time: p.time, value: p.value })));
+      (seriesRef.current as ISeriesApi<'Line'> | ISeriesApi<'Area'>).setData(
+        points.map(p => ({ time: p.time, value: p.value }))
+      );
     }
   }, [type, width, height]);
 
