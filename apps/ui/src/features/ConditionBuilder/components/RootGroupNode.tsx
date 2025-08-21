@@ -4,14 +4,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Handle, Position, useReactFlow } from 'reactflow';
 import { GROUPS } from '@/features/ConditionBuilder/models/conditionGroups';
-import ChooseBlock from './ChooseBlock';              // ⬅ no named type import
+import ChooseBlock from './ChooseBlock';
 import { v4 as uuidv4 } from 'uuid';
 
-// 👇 derive the canonical types from ChooseBlock props (so we never drift)
+import { toWireGroup } from '@/features/ConditionBuilder/models/wire';
+import { testOnAngelOne } from '@/features/ConditionBuilder/api/testStrategy';
+
+// derive canonical types from ChooseBlock so we never drift
 type ChooseBlockProps = Parameters<typeof ChooseBlock>[0];
 type SelectedItem = NonNullable<ChooseBlockProps['selectedItems']>[number];
 
-// export so RootGroupNodeBuilder can import it
 export type ChooseBlockData = {
   id: string;
   inputValue: string;
@@ -20,10 +22,16 @@ export type ChooseBlockData = {
   selectedItems: SelectedItem[];
 };
 
-// layout knobs for the connector lines
-const SPINE_LEFT = 'left-8';
-const ROW_GUTTER = 'pl-24';
-const STUB_WIDTH = 'w-14';
+// keep blocks where they are
+const PAD_PX = 280;               // pl-24 = 96px (don’t change unless you change the class)
+const DESIRED_GAP_PX = 18;        // ↓ smaller => spine closer to blocks (6–12 is nice)
+// put the spine just to the LEFT of the blocks by 'DESIRED_GAP_PX'
+const SPINE_ABS_LEFT_PX = PAD_PX - DESIRED_GAP_PX;
+
+// compute a stub that always connects spine ↔︎ block edge
+const MIN_STUB = 40;                                  // tiny but visible
+const STUB_LEFT = Math.min(PAD_PX, SPINE_ABS_LEFT_PX);
+const STUB_WIDTH = Math.max(MIN_STUB, Math.abs(PAD_PX - SPINE_ABS_LEFT_PX));
 
 export default function RootGroupNode({ data }: any) {
   const [chooseBlocks, setChooseBlocks] = useState<ChooseBlockData[]>([
@@ -35,7 +43,7 @@ export default function RootGroupNode({ data }: any) {
   const nodeRef = useRef<HTMLDivElement>(null);
   const addLockRef = useRef(false);
 
-  // keep RF node height in sync with content
+  // keep RF node height in sync
   useEffect(() => {
     if (!nodeRef.current) return;
     const height = nodeRef.current.offsetHeight;
@@ -46,10 +54,8 @@ export default function RootGroupNode({ data }: any) {
     );
   }, [chooseBlocks.length, data?.id, setNodes]);
 
-  // guarded add handlers (prevent duplicate rows)
   const addCondition = (e?: React.MouseEvent) => {
-    e?.preventDefault();
-    e?.stopPropagation();
+    e?.preventDefault(); e?.stopPropagation();
     if (addLockRef.current) return;
     addLockRef.current = true;
 
@@ -61,17 +67,59 @@ export default function RootGroupNode({ data }: any) {
     queueMicrotask(() => { addLockRef.current = false; });
   };
 
-  const addGroup = (e?: React.MouseEvent) => {
-    // TODO: real nested group later; for now mirror addCondition
-    addCondition(e);
-  };
+  const addGroup = (e?: React.MouseEvent) => { addCondition(e); };
+
+  // expose CSS vars so spine + stubs move together without moving blocks
+  const cssVars = {
+    // where the vertical line sits (inside the padding)
+    // @ts-expect-error css var ok
+    '--cb-pad': `${PAD_PX}px`,
+    // @ts-expect-error css var ok
+    '--cb-gap': `${DESIRED_GAP_PX}px`,
+    // @ts-expect-error css var ok
+    '--cb-spine-left': `calc(var(--cb-pad) - var(--cb-gap))`,
+  } as React.CSSProperties;
+
+  //handle submit
+  const [submitting, setSubmitting] = React.useState(false);
+  const [lastResult, setLastResult] = React.useState<null | { ok: boolean; [k: string]: any }>(null);
+
+  async function handleSubmit() {
+    try {
+      setSubmitting(true);
+      setLastResult(null);
+
+      const wire = toWireGroup(chooseBlocks, logic);
+      const result = await testOnAngelOne(wire);
+      setLastResult(result);
+      console.log('AngelOne test result:', result);
+    } catch (err: any) {
+      console.error(err);
+      setLastResult({ ok: false, error: err?.message || String(err) });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
 
   return (
     <div
       ref={nodeRef}
-      className="bg-gray-100 p-4 w-full"
+      className="cb-sanitize bg-gray-100 p-4 w-full"
       onClick={(e) => e.stopPropagation()}
+      style={cssVars}
     >
+      {/* scoped CSS to kill stray tab indicators that draw the long blue bar */}
+      <style jsx global>{`
+        .cb-sanitize .tabs::after,
+        .cb-sanitize [role="tablist"]::after,
+        .cb-sanitize .tab.tab-active::before,
+        .cb-sanitize .tab::before,
+        .cb-sanitize .MuiTabs-indicator {
+          display: none !important;
+        }
+      `}</style>
+
       <div className="border rounded bg-gray-100 shadow p-4 w-full">
         {/* AND/OR + buttons */}
         <div className="relative flex items-center gap-2 mb-3">
@@ -113,8 +161,7 @@ export default function RootGroupNode({ data }: any) {
               type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
+                e.preventDefault(); e.stopPropagation();
                 setChooseBlocks([{ id: uuidv4(), inputValue: '', keyword: '', contextParams: {}, selectedItems: [] }]);
               }}
               className="text-xs px-2 py-1 bg-red-200 rounded hover:bg-red-300"
@@ -124,25 +171,25 @@ export default function RootGroupNode({ data }: any) {
           </div>
         </div>
 
-        {/* spine anchored to rows only */}
         <div className="relative">
-          <div className="relative">
+          <div className="relative pl-24">{/* ← blocks stay put */}
+            {/* vertical spine (absolute, independent of padding) */}
             <div
-              className={[
-                'absolute', SPINE_LEFT, 'top-0', 'bottom-0', 'w-px', 'bg-gray-300', 'pointer-events-none',
-              ].join(' ')}
+              className="absolute top-0 bottom-0 w-px bg-gray-300 pointer-events-none"
+              style={{ left: SPINE_ABS_LEFT_PX }}
               aria-hidden
             />
-            <div className="flex flex-col gap-4">
+
+            <div className="flex flex-col gap-6">
               {chooseBlocks.map((block) => (
-                <div key={block.id} className={['relative', ROW_GUTTER].join(' ')}>
+                <div key={block.id} className="relative">
+                  {/* horizontal stub from spine into the row */}
                   <div
-                    className={[
-                      'absolute', SPINE_LEFT, 'top-1/2', '-translate-y-1/2',
-                      STUB_WIDTH, 'h-px', 'bg-gray-400', 'pointer-events-none',
-                    ].join(' ')}
+                    className="absolute top-1/2 -translate-y-1/2 border-t border-gray-400 pointer-events-none"
+                    style={{ left: STUB_LEFT, width: STUB_WIDTH }}
                     aria-hidden
                   />
+                  {/* your row */}
                   <ChooseBlock
                     inputValue={block.inputValue}
                     onChange={(val) =>
@@ -167,11 +214,9 @@ export default function RootGroupNode({ data }: any) {
                       )
                     }
                     selectedItems={block.selectedItems}
-                    onSelectedItemsChange={(items: SelectedItem[]) =>
+                    onSelectedItemsChange={(items) =>
                       setChooseBlocks((prev) =>
-                        prev.map((b) =>
-                          b.id === block.id ? { ...b, selectedItems: items } : b
-                        )
+                        prev.map((b) => (b.id === block.id ? { ...b, selectedItems: items } : b))
                       )
                     }
                     onSelectOption={(opt) => console.log('Selected:', opt)}
@@ -182,15 +227,23 @@ export default function RootGroupNode({ data }: any) {
           </div>
         </div>
 
-        <div className="pt-4 flex justify-center">
+        <div className="pt-6 flex flex-col items-center gap-3">
           <button
             type="button"
             onMouseDown={(e) => e.preventDefault()}
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); console.log('Submit pressed'); }}
-            className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSubmit(); }}
+            className="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700 disabled:opacity-60"
+            disabled={submitting}
           >
-            Submit
+            {submitting ? 'Testing…' : 'Submit (Test on Angel One)'}
           </button>
+
+          {/* quick feedback block */}
+          {lastResult && (
+            <pre className="max-w-full whitespace-pre-wrap text-xs bg-slate-50 border rounded p-3">
+              {JSON.stringify(lastResult, null, 2)}
+            </pre>
+          )}
         </div>
 
         <Handle type="source" position={Position.Bottom} />

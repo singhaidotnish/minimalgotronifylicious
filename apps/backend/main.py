@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
 
+from routers import angel_one
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Config (single source of truth)
@@ -83,6 +84,7 @@ async def serve_symbols():
 
 # 4) Your other API routers (unchanged)
 app.include_router(router)
+app.include_router(angel_one.router)
 
 # 5) Param options (unchanged)
 @app.get("/api/param-options")

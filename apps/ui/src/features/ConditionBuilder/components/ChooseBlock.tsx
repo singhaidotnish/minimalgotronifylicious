@@ -1,7 +1,7 @@
 // src/features/ConditionBuilder/components/ChooseBlock.tsx
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, Copy, ClipboardPaste } from 'lucide-react';
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { arrayMove, SortableContext, useSortable, horizontalListSortingStrategy } from '@dnd-kit/sortable';
@@ -11,7 +11,7 @@ import { GROUPS, buildPreviewFromKey } from '@/features/ConditionBuilder/models/
 import ContextUI from './ContextUI';
 
 // ✅ keep keyword optional so legacy {id,label} arrays still type-check
-type SelectedItem = {
+export type SelectedItem = {
   id: string;
   label: string;                       // full two-line label
   keyword?: string;                    // optional (older callers may not include it)
@@ -35,8 +35,6 @@ interface ChooseBlockProps {
   onSelectedItemsChange: (items: SelectedItem[]) => void;
 }
 
-// ❌ delete any local buildPreview() or previewBuilder util imports — we ONLY use buildPreviewFromKey
-
 function generateUniqueId(base: string): string {
   return `${base}-${Math.random().toString(36).slice(2, 9)}`;
 }
@@ -47,13 +45,17 @@ function PreviewBlock({
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const style = { transform: CSS.Transform.toString(transform), transition };
   const copyToClipboard = (content: string) => {
-    console.log('🔍 Copying content:', content);
     setClipboard(content);
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}
-      className="relative bg-white border border-blue-200 shadow-sm rounded-sm p-1 text-xs text-blue-700 w-fit min-w-[120px] min-h-0 flex items-center gap-1 overflow-visible">
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="relative bg-white border border-blue-200 shadow-sm rounded-sm p-1 text-xs text-blue-700 w-fit min-w-[120px] min-h-0 flex items-center gap-1 overflow-visible"
+    >
       <button onClick={() => copyToClipboard(content)} className="absolute -top-3 -left-3 z-10 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow" title="Copy Block">
         <Copy className="w-3.5 h-3.5 text-blue-600" />
       </button>
@@ -76,34 +78,48 @@ export default function ChooseBlock(props: ChooseBlockProps) {
   } = props;
 
   const [filtered, setFiltered] = React.useState<typeof groups>([]);
+  const [open, setOpen] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = GROUPS.flatMap(g => g.options).find(o => o.key === selectedKeyword);
 
+  // Close overlay on outside click
   useEffect(() => {
-    if (!inputValue.trim()) { setFiltered([]); return; }
+    const onDown = (e: MouseEvent | PointerEvent) => {
+      const el = e.target as Node;
+      if (!wrapperRef.current?.contains(el)) setOpen(false);
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, []);
+
+  // Text filter (if you later add a search input)
+  useEffect(() => {
+    if (!inputValue.trim()) { setFiltered([]); setOpen(false); return; }
     const q = inputValue.toLowerCase();
     const matches = groups
       .map(g => ({ label: g.label, options: g.options.filter(o => o.label.toLowerCase().includes(q)) }))
       .filter(g => g.options.length > 0);
     setFiltered(matches);
+    setOpen(matches.length > 0);
   }, [inputValue, groups]);
 
   const handleSelect = (optLabel: string) => {
     onSelectOption(optLabel);
     setFiltered([]);
+    setOpen(false);
   };
 
   const handlePaste = () => {
     const data = getClipboard();
-    console.log('🔍 Pasting content:', data);
     if (data) {
       const uniqueId = generateUniqueId(data);
       onSelectedItemsChange([...selectedItems, { id: uniqueId, label: data }]);
       onSelectOption(data);
       setFiltered([]);
+      setOpen(false);
     }
-    // ❌ setClipboard(null) → string only
-    setClipboard('');
+    setClipboard(''); // reset
   };
 
   const handleRemove = (id: string) => {
@@ -131,14 +147,17 @@ export default function ChooseBlock(props: ChooseBlockProps) {
       </div>
 
       <div className="flex items-start gap-4 px-2 pt-2">
-        <div className="flex flex-col gap-2 shrink-0 z-10 w-48">
+        {/* 🔒 local anchor for dropdown so it never stretches full-width */}
+        <div ref={wrapperRef} className="relative flex flex-col gap-2 shrink-0 z-10 w-48">
           <select
             value={selectedKeyword || ''}
             onChange={(e) => {
               const key = e.target.value;
               onKeywordChange(key);
               onContextParamsChange({});
-              onChange(key);
+              onChange('');          // ← don't feed select key into the text filter
+              setFiltered([]);       // ← collapse overlay
+              setOpen(false);
               onSelectOption(key);
             }}
             className="border border-gray-300 rounded h-8"
@@ -153,13 +172,26 @@ export default function ChooseBlock(props: ChooseBlockProps) {
             ))}
           </select>
 
-          {filtered.length > 0 && (
-            <ul className="absolute top-full left-0 w-full bg-white border z-50 shadow text-xs">
+          {/* 🔎 optional typeahead overlay (only shows when open + filtered) */}
+          {open && filtered.length > 0 && (
+            <ul
+              className="absolute left-0 top-[calc(100%+4px)]
+                         min-w-[12rem] w-max max-w-[40rem] max-h-72 overflow-auto
+                         bg-white border z-50 shadow rounded text-xs"
+              role="listbox"
+            >
               {filtered.map((g, gi) => (
                 <React.Fragment key={gi}>
-                  <li className="px-2 py-1 font-semibold text-gray-500 bg-gray-50 cursor-default">{g.label}</li>
+                  <li className="px-2 py-1 font-semibold text-gray-500 bg-gray-50 sticky top-0 cursor-default">
+                    {g.label}
+                  </li>
                   {g.options.map((opt, i) => (
-                    <li key={i} className="px-2 py-1 hover:bg-blue-100 cursor-pointer" onClick={() => handleSelect(opt.label)}>
+                    <li
+                      key={i}
+                      className="px-2 py-1 hover:bg-blue-100 cursor-pointer"
+                      onClick={() => handleSelect(opt.label)}
+                      role="option"
+                    >
                       {opt.label}
                     </li>
                   ))}
@@ -203,7 +235,7 @@ export default function ChooseBlock(props: ChooseBlockProps) {
                   key={item.id}
                   id={item.id}
                   label={item.label.split('\n')[0]}
-                  content={item.label}            // full two-line label we already built
+                  content={item.label}
                   onRemove={handleRemove}
                 />
               ))}
