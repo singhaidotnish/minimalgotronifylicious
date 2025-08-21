@@ -72,8 +72,8 @@ verify-ui-mods: | clear-screen
 	@echo "🔎 verifying ui/* imports exist..."
 	@missing=0; \
 	for m in $$(rg -no "from ['\"]@/components/ui/([^'\"\)]+)['\"]" apps/ui/src | sed -E 's#.*ui/([^'\''"]+).*#\1#' | sort -u); do \
-	  test -f "apps/ui/src/components/ui/$${m}.tsx" || test -f "apps/ui/src/components/ui/$${m}.ts" || { \
-	    echo "❌ Missing: apps/ui/src/components/ui/$${m}.tsx"; missing=1; }; \
+		test -f "apps/ui/src/components/ui/$${m}.tsx" || test -f "apps/ui/src/components/ui/$${m}.ts" || { \
+			echo "❌ Missing: apps/ui/src/components/ui/$${m}.tsx"; missing=1; }; \
 	done; \
 	exit $$missing
 

@@ -27,3 +27,5 @@ coverage/
 **/__pycache__/
 *.pyc
 apps/ui/src/components/ui/_archive/
+.idea/workspace.xml
+*.xml

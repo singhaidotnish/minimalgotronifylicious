@@ -4,17 +4,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Handle, Position, useReactFlow } from 'reactflow';
 import { GROUPS } from '@/features/ConditionBuilder/models/conditionGroups';
-import ChooseBlock from '@/features/ConditionBuilder/components/ChooseBlock';
+import ChooseBlock from './ChooseBlock';              // ⬅ no named type import
 import { v4 as uuidv4 } from 'uuid';
 
-type SelectedItem = {
-  id: string;
-  keyword: string;
-  label: string;
-  params?: Record<string, string>;
-};
+// 👇 derive the canonical types from ChooseBlock props (so we never drift)
+type ChooseBlockProps = Parameters<typeof ChooseBlock>[0];
+type SelectedItem = NonNullable<ChooseBlockProps['selectedItems']>[number];
 
-type ChooseBlockData = {
+// export so RootGroupNodeBuilder can import it
+export type ChooseBlockData = {
   id: string;
   inputValue: string;
   keyword: string;
@@ -22,12 +20,10 @@ type ChooseBlockData = {
   selectedItems: SelectedItem[];
 };
 
-// layout knobs
-const SPINE_LEFT = 'left-8';      // move spine left/right (left-6 | left-8 | left-10)
-const SPINE_TOP = 'top-8';        // where spine starts (just below AND/OR)
-const SPINE_BOTTOM = 'bottom-6';  // where spine ends
-const ROW_GUTTER = 'pl-24';       // left padding to make room for spine+stub
-const STUB_WIDTH = 'w-14';        // length of horizontal connector
+// layout knobs for the connector lines
+const SPINE_LEFT = 'left-8';
+const ROW_GUTTER = 'pl-24';
+const STUB_WIDTH = 'w-14';
 
 export default function RootGroupNode({ data }: any) {
   const [chooseBlocks, setChooseBlocks] = useState<ChooseBlockData[]>([
@@ -39,7 +35,7 @@ export default function RootGroupNode({ data }: any) {
   const nodeRef = useRef<HTMLDivElement>(null);
   const addLockRef = useRef(false);
 
-  // keep RF node height in sync
+  // keep RF node height in sync with content
   useEffect(() => {
     if (!nodeRef.current) return;
     const height = nodeRef.current.offsetHeight;
@@ -50,7 +46,7 @@ export default function RootGroupNode({ data }: any) {
     );
   }, [chooseBlocks.length, data?.id, setNodes]);
 
-  // guarded add handlers
+  // guarded add handlers (prevent duplicate rows)
   const addCondition = (e?: React.MouseEvent) => {
     e?.preventDefault();
     e?.stopPropagation();
@@ -66,7 +62,7 @@ export default function RootGroupNode({ data }: any) {
   };
 
   const addGroup = (e?: React.MouseEvent) => {
-    // TODO: replace with real nested group when ready.
+    // TODO: real nested group later; for now mirror addCondition
     addCondition(e);
   };
 
@@ -77,7 +73,7 @@ export default function RootGroupNode({ data }: any) {
       onClick={(e) => e.stopPropagation()}
     >
       <div className="border rounded bg-gray-100 shadow p-4 w-full">
-        {/* Top bar: AND/OR + add buttons */}
+        {/* AND/OR + buttons */}
         <div className="relative flex items-center gap-2 mb-3">
           <div className="ml-4 inline-flex border rounded overflow-hidden text-xs bg-white shadow relative z-10">
             <button
@@ -126,64 +122,63 @@ export default function RootGroupNode({ data }: any) {
               ×
             </button>
           </div>
-
-          {/* 🔴 removed the junction dot here */}
         </div>
 
-        {/* Spine + rows */}
+        {/* spine anchored to rows only */}
         <div className="relative">
-          {/* vertical spine (no dot, starts clean under pill) */}
-          <div
-            className={[
-              'absolute', SPINE_LEFT, SPINE_TOP, SPINE_BOTTOM, 'w-px', 'bg-gray-300', 'pointer-events-none',
-            ].join(' ')}
-            aria-hidden
-          />
-
-          <div className="flex flex-col gap-4">
-            {chooseBlocks.map((block) => (
-              <div key={block.id} className={['relative', ROW_GUTTER].join(' ')}>
-                {/* horizontal stub from spine to row */}
-                <div
-                  className={[
-                    'absolute', SPINE_LEFT, 'top-1/2', '-translate-y-1/2',
-                    STUB_WIDTH, 'h-px', 'bg-gray-400', 'pointer-events-none',
-                  ].join(' ')}
-                  aria-hidden
-                />
-                <ChooseBlock
-                  inputValue={block.inputValue}
-                  onChange={(val) =>
-                    setChooseBlocks((prev) =>
-                      prev.map((b) => (b.id === block.id ? { ...b, inputValue: val } : b))
-                    )
-                  }
-                  onDelete={() =>
-                    setChooseBlocks((prev) => prev.filter((b) => b.id !== block.id))
-                  }
-                  groups={GROUPS}
-                  selectedKeyword={block.keyword}
-                  onKeywordChange={(val) =>
-                    setChooseBlocks((prev) =>
-                      prev.map((b) => (b.id === block.id ? { ...b, keyword: val } : b))
-                    )
-                  }
-                  contextParams={block.contextParams}
-                  onContextParamsChange={(params) =>
-                    setChooseBlocks((prev) =>
-                      prev.map((b) => (b.id === block.id ? { ...b, contextParams: params } : b))
-                    )
-                  }
-                  selectedItems={block.selectedItems}
-                  onSelectedItemsChange={(items: SelectedItem[]) =>
-                    setChooseBlocks((prev) =>
-                      prev.map((b) => (b.id === block.id ? { ...b, selectedItems: items } : b))
-                    )
-                  }
-                  onSelectOption={(opt) => console.log('Selected:', opt)}
-                />
-              </div>
-            ))}
+          <div className="relative">
+            <div
+              className={[
+                'absolute', SPINE_LEFT, 'top-0', 'bottom-0', 'w-px', 'bg-gray-300', 'pointer-events-none',
+              ].join(' ')}
+              aria-hidden
+            />
+            <div className="flex flex-col gap-4">
+              {chooseBlocks.map((block) => (
+                <div key={block.id} className={['relative', ROW_GUTTER].join(' ')}>
+                  <div
+                    className={[
+                      'absolute', SPINE_LEFT, 'top-1/2', '-translate-y-1/2',
+                      STUB_WIDTH, 'h-px', 'bg-gray-400', 'pointer-events-none',
+                    ].join(' ')}
+                    aria-hidden
+                  />
+                  <ChooseBlock
+                    inputValue={block.inputValue}
+                    onChange={(val) =>
+                      setChooseBlocks((prev) =>
+                        prev.map((b) => (b.id === block.id ? { ...b, inputValue: val } : b))
+                      )
+                    }
+                    onDelete={() =>
+                      setChooseBlocks((prev) => prev.filter((b) => b.id !== block.id))
+                    }
+                    groups={GROUPS}
+                    selectedKeyword={block.keyword}
+                    onKeywordChange={(val) =>
+                      setChooseBlocks((prev) =>
+                        prev.map((b) => (b.id === block.id ? { ...b, keyword: val } : b))
+                      )
+                    }
+                    contextParams={block.contextParams}
+                    onContextParamsChange={(params) =>
+                      setChooseBlocks((prev) =>
+                        prev.map((b) => (b.id === block.id ? { ...b, contextParams: params } : b))
+                      )
+                    }
+                    selectedItems={block.selectedItems}
+                    onSelectedItemsChange={(items: SelectedItem[]) =>
+                      setChooseBlocks((prev) =>
+                        prev.map((b) =>
+                          b.id === block.id ? { ...b, selectedItems: items } : b
+                        )
+                      )
+                    }
+                    onSelectOption={(opt) => console.log('Selected:', opt)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
