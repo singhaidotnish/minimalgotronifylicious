@@ -69,16 +69,15 @@ export default function RootGroupNode({ data }: any) {
 
   const addGroup = (e?: React.MouseEvent) => { addCondition(e); };
 
-  // expose CSS vars so spine + stubs move together without moving blocks
-  const cssVars = {
-    // where the vertical line sits (inside the padding)
-    // @ts-expect-error css var ok
+    // expose CSS vars so spine + stubs move together without moving blocks
+  type CSSVarName = `--${string}`;
+  type CSSVars = Partial<Record<CSSVarName, string | number>>;
+
+  const cssVars: CSSVars = {
     '--cb-pad': `${PAD_PX}px`,
-    // @ts-expect-error css var ok
     '--cb-gap': `${DESIRED_GAP_PX}px`,
-    // @ts-expect-error css var ok
     '--cb-spine-left': `calc(var(--cb-pad) - var(--cb-gap))`,
-  } as React.CSSProperties;
+  };
 
   //handle submit
   const [submitting, setSubmitting] = React.useState(false);
@@ -107,7 +106,7 @@ export default function RootGroupNode({ data }: any) {
       ref={nodeRef}
       className="cb-sanitize bg-gray-100 p-4 w-full"
       onClick={(e) => e.stopPropagation()}
-      style={cssVars}
+      style={cssVars as React.CSSProperties}
     >
       {/* scoped CSS to kill stray tab indicators that draw the long blue bar */}
       <style jsx global>{`

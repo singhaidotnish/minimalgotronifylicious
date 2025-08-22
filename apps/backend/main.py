@@ -8,8 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
-
-from routers import angel_one
+from src.minimalgotronifylicious.routers import angel_one
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Config (single source of truth)
