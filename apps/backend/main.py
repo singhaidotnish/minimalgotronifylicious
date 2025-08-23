@@ -6,10 +6,12 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
+from starlette.middleware.security import SecurityMiddleware
+
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
 from src.minimalgotronifylicious.routers import angel_one
-
+from src.minimalgotronifylicious.api.routes import router as api_router
 # ──────────────────────────────────────────────────────────────────────────────
 # Config (single source of truth)
 #   • FRONTEND_ORIGINS: comma-separated list of allowed UI origins
@@ -19,6 +21,8 @@ from src.minimalgotronifylicious.routers import angel_one
 #   • CSP_CONNECT_EXTRAS: comma-separated list of extra endpoints for connect-src
 #       (use this to allow any temporary ws://localhost:XXXXX or third-party wss)
 # ──────────────────────────────────────────────────────────────────────────────
+
+
 
 def csv_env(name: str, default: str = "") -> list[str]:
     """ADHD tip: tiny helper to parse comma-separated envs safely."""
@@ -41,7 +45,7 @@ CSP_CONNECT_EXTRAS = csv_env("CSP_CONNECT_EXTRAS", "")
 # App setup
 # ──────────────────────────────────────────────────────────────────────────────
 
-app = FastAPI()
+app = FastAPI(title="algomin-backend")
 
 # 1) CORS (env-driven; no hardcoded localhost in code)
 app.add_middleware(
@@ -50,6 +54,18 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=CORS_ALLOW_METHODS if CORS_ALLOW_METHODS else ["*"],
     allow_headers=["*"],
+)
+
+
+app.add_middleware(
+  SecurityMiddleware,
+  content_security_policy=(
+    "default-src 'self'; "
+    "img-src 'self' data: https://fastapi.tiangolo.com; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "font-src 'self' data: https://cdn.jsdelivr.net;"
+  ),
 )
 
 # 2) CSP (env-driven; one place to allow HTTP + WS connect targets)
@@ -84,6 +100,7 @@ async def serve_symbols():
 # 4) Your other API routers (unchanged)
 app.include_router(router)
 app.include_router(angel_one.router)
+app.include_router(api_router)  # ✅ mounts /api/smart/*
 
 # 5) Param options (unchanged)
 @app.get("/api/param-options")
@@ -97,3 +114,19 @@ def get_param_options(type: Optional[str] = None):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.middleware("http")
+async def relax_csp_for_docs(request: Request, call_next):
+    resp = await call_next(request)
+    p = request.url.path
+
+    if p.startswith("/docs") or p.startswith("/redoc") or p.startswith("/openapi"):
+        # Instead of pop/delete, just overwrite CSP with a permissive one for docs only.
+        resp.headers["content-security-policy"] = (
+            "default-src 'self'; "
+            "img-src 'self' data: https://fastapi.tiangolo.com; "
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+            "font-src 'self' data: https://cdn.jsdelivr.net;"
+        )
+    return resp

@@ -10,9 +10,11 @@ from src.minimalgotronifylicious.utils.order_builder import OrderBuilder
 from src.minimalgotronifylicious.web_socket_manager import WebSocketManager
 from src.minimalgotronifylicious.brokers.websocket_client_factory import WebSocketClientFactory
 from src.minimalgotronifylicious.api.brokers import router as brokers_router
-
+from src.minimalgotronifylicious.routers import angel_one
 router = APIRouter()
 router.include_router(brokers_router)
+router.include_router(angel_one.router)  # ✅ add this
+
 
 class OrderRequest(BaseModel):
     tradingsymbol: str

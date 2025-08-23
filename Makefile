@@ -93,3 +93,30 @@ ui-build: | clear-screen
 
 ui-dev: | clear-screen
 	cd apps/ui && npm run dev
+
+# Put a short description after each target like: target: ## your description
+.DEFAULT_GOAL := help
+
+help: ## Show all commands
+	@printf "\n\033[1mAvailable make commands\033[0m\n\n"
+	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_.-]+:.*##/ {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
+	@printf "\n"
+
+fresh: ## Clean slate: down -v, rebuild, up
+dev: ## Rebuild + up (dev)
+up: ## docker compose up -d
+down: ## docker compose down
+logs: ## Tail all logs
+ui-logs: ## Tail UI logs
+api-logs: ## Tail API logs
+build-ui-prod: ## Build UI for production
+build-api-prod: ## Build API for production
+nuke: ## Remove containers, volumes, (careful)
+verify-imports: ## Check TS import paths
+list-ui-imports: ## List UI imports referencing aliases
+verify-ui-mods: ## Verify UI modified modules
+fix-imports: ## Auto-fix TS import aliases
+ui-type: ## Type-check UI (tsc)
+ui-lint: ## Lint UI (eslint)
+ui-build: ## Clean & build UI (Next)
+ui-dev: ## Run UI dev server
