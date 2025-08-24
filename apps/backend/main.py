@@ -5,8 +5,7 @@ from typing import Optional
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-
-from starlette.middleware.security import SecurityMiddleware
+from fastapi import Request
 
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
@@ -47,6 +46,24 @@ CSP_CONNECT_EXTRAS = csv_env("CSP_CONNECT_EXTRAS", "")
 
 app = FastAPI(title="algomin-backend")
 
+DOCS_CSP = (
+    "default-src 'self'; "
+    "img-src 'self' data: https://fastapi.tiangolo.com; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+    "font-src 'self' data: https://cdn.jsdelivr.net;"
+)
+
+@app.middleware("http")
+async def add_csp_for_docs(request: Request, call_next):
+    resp = await call_next(request)
+    p = request.url.path
+    if p.startswith("/docs") or p.startswith("/redoc") or p.startswith("/openapi"):
+        # Only relax CSP for docs endpoints so Swagger loads
+        resp.headers["content-security-policy"] = DOCS_CSP
+    return resp
+
+
 # 1) CORS (env-driven; no hardcoded localhost in code)
 app.add_middleware(
     CORSMiddleware,
@@ -56,17 +73,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-app.add_middleware(
-  SecurityMiddleware,
-  content_security_policy=(
-    "default-src 'self'; "
-    "img-src 'self' data: https://fastapi.tiangolo.com; "
-    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-    "font-src 'self' data: https://cdn.jsdelivr.net;"
-  ),
-)
 
 # 2) CSP (env-driven; one place to allow HTTP + WS connect targets)
 def build_csp() -> str:

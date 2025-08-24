@@ -16,12 +16,6 @@ class WireGroup(BaseModel):
     logic: Literal["AND", "OR"]
     blocks: List[WireCondition]
 
-@router.post("/test")
-def test_strategy(group: WireGroup):
-    if not group.blocks:
-        raise HTTPException(status_code=400, detail="No blocks to test")
-    return {"ok": True, "received": group.model_dump(), "note": "Backend alive. Swap this stub with SmartAPI calls when ready."}
-
 # --- add real trading models/endpoints below ---
 class LtpResp(BaseModel):
     symbol: str
@@ -60,6 +54,31 @@ def get_client():
     sess = AngelOneSession.from_env()
     return order_client_factory("angelone", session=sess)
 
+@router.post("/test")
+def test_strategy(group: WireGroup, client = Depends(get_client)):
+    """
+    Use the real client to fetch LTP as a proof-of-live.
+    (Keep the same endpoint the UI already calls.)
+    """
+    try:
+        # pick a symbol from the group if present, else a safe default
+        symbol = "NSE:SBIN-EQ"
+        for b in group.blocks:
+            # if your UI puts symbol in params, grab it
+            if "symbol" in b.params:
+                symbol = b.params["symbol"]
+                break
+
+        ltp = client.ltp(symbol)  # <-- real call now
+        return {
+            "ok": True,
+            "mode": "live" if str(os.getenv("USE_STUB","true")).lower() != "true" else "stub",
+            "received": group.model_dump(),
+            "ltp": ltp,
+            "note": "LIVE SmartAPI call executed via /angel-one/test",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"SmartAPI error: {e}")
 
 @router.get("/health")
 def smart_health():
