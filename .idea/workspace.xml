@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
