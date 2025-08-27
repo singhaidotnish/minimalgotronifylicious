@@ -1,31 +1,36 @@
-# Node / Next
-node_modules/
-.next/
-.vercel/
-.turbo/
-dist/
+# env & secrets
+.env
+*.env.local
+apps/backend/.env
+apps/ui/.env
+text-to-speech-api-*.json
 
-# Python
+# node / frontend
+node_modules/
+apps/ui/node_modules/
+.next/
+dist/
+build/
+coverage/
+*.log
+
+# python / backend
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 .venv/
-.env.*
+.venv*/
+.mypy_cache/
+.pytest_cache/
+*.sqlite3
+*.db
 
-# OS/editor
+# editor / os junk
 .DS_Store
-*.swp
 .idea/
 .vscode/
+Thumbs.db
 
-# Logs
-*.log
-coverage/
-
-
-**/.venv/
-**/__pycache__/
-*.pyc
-apps/ui/src/components/ui/_archive/
-.idea/workspace.xml
-*.xml
+# docker junk
+**/.dockerignore~
+**/Dockerfile~

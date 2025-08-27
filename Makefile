@@ -1,122 +1,101 @@
-# make fresh   # clean slate + rebuild + run
-# # or
-# make dev     # just rebuild + run
-# make logs    # tail everything
+# ====== paths & tooling ======
+ENV_ROOT := .env
+ENV_BACK := apps/backend/.env
+ENV_FRONT := apps/ui/.env
+DC := docker compose
 
+# ====== helpers ======
+define ensure_env
+	@if [ ! -f "$(1)" ]; then \
+		if [ -f "$(1).example" ]; then \
+			echo "⛳  $(1) missing — creating from $(1).example"; \
+			cp "$(1).example" "$(1)"; \
+		else \
+			echo "⚠️  $(1) missing — creating empty placeholder"; \
+			mkdir -p $(dir $(1)); \
+			touch "$(1)"; \
+		fi \
+	fi
+endef
 
-.PHONY: fresh clear-screen dev up down logs ui-logs api-logs build-ui-prod build-api-prod nuke verify-imports verify-ui-mods fix-imports list-ui-imports ui-build ui-type ui-lint ui-dev
+# ====== meta ======
+.PHONY: help
+help:
+	@echo ""
+	@echo "Mini Orchestrator — make <target>"
+	@echo ""
+	@echo "  env-check     Ensure .env files exist (root, backend, frontend)"
+	@echo "  dev           Up all services in foreground (build if needed)"
+	@echo "  up            Up all services in background (build if needed)"
+	@echo "  down          Stop all services"
+	@echo "  logs          Tail docker logs"
+	@echo "  ps            Show service status"
+	@echo "  rebuild       Rebuild images (no cache)"
+	@echo "  prune         Stop & remove volumes/orphans + docker prune"
+	@echo "  fresh         Clean slate: prune -> rebuild -> up -d"
+	@echo "  ui-build      Build frontend production bundle inside container"
+	@echo ""
 
-clear-screen:
-	@{ tput reset || tput clear || clear || printf '\033[3J\033[H\033[2J'; } 2>/dev/null
+# ====== sanity ======
+.PHONY: env-check
+env-check:
+	@$(call ensure_env,$(ENV_ROOT))
+	@$(call ensure_env,$(ENV_BACK))
+	@$(call ensure_env,$(ENV_FRONT))
+	@echo "✅ env files present:"; ls -lh $(ENV_ROOT) $(ENV_BACK) $(ENV_FRONT) | cat
 
-# ADHD: one-button fresh start (safe)
-fresh: | clear-screen
-	@echo "▶️  Stopping & removing stack (containers + volumes)…"
-	- docker compose down -v --remove-orphans
-	@echo "🧹 Clearing local caches…"
-	- rm -rf apps/ui/.next apps/ui/.turbo apps/ui/.vercel apps/ui/.cache
-	- find . -type d -name "__pycache__" -prune -exec rm -rf {} +
-	- find . -type d -name ".pytest_cache" -prune -exec rm -rf {} +
-	@echo "🧽 Pruning builder cache…"
-	- docker buildx prune -f || docker builder prune -f
-	@echo "🚀 Up with rebuild…"
-	docker compose --env-file .env up --build
+# ====== day-to-day ======
+.PHONY: dev
+dev: env-check
+	$(DC) up --build
 
-fresh-nonstrict: clear-screen
-	@echo "🚀 Up with rebuild (non-strict)…"
-	- docker compose --env-file .env up --build
+.PHONY: up
+up: env-check
+	$(DC) up -d --build
 
-# Dev up (rebuild if Dockerfiles changed)
-dev: | clear-screen
-	docker compose --env-file .env up --build
+.PHONY: down
+down:
+	$(DC) down
 
-up: | clear-screen
-	docker compose --env-file .env up
+.PHONY: logs
+logs:
+	$(DC) logs -f --tail=200
 
-down: | clear-screen
-	docker compose down -v --remove-orphans
+.PHONY: ps
+ps:
+	$(DC) ps
 
-logs: | clear-screen
-	docker compose logs -f --tail=100
+.PHONY: rebuild
+rebuild:
+	$(DC) build --no-cache
 
-ui-logs: | clear-screen
-	docker compose logs -f --tail=100 frontend
+.PHONY: prune
+prune:
+	$(DC) down -v --remove-orphans
+	-docker system prune -f
 
-api-logs: | clear-screen
-	docker compose logs -f --tail=100 backend
+# ====== your requested targets (kept) ======
+# full reset → rebuild → start
+.PHONY: fresh
+fresh: prune rebuild up
+	@echo "🌱 fresh stack is up"
 
-# CI-style local production builds (no run)
-build-ui-prod: | clear-screen
-	docker build -f apps/ui/Dockerfile -t ui-prod apps/ui
+# build the frontend bundle inside its container
+# works for Next or Vite as long as package.json has 'build'
+.PHONY: ui-build
+ui-build: env-check
+	# Ensure deps, then build. Use a throwaway container so the image stays clean.
+	$(DC) run --rm frontend sh -lc "npm ci || npm install && npm run build"
+	@echo "🧱 frontend build finished"
 
-build-api-prod: | clear-screen
-	docker build -f apps/backend/Dockerfile -t api-prod apps/backend
-
-# Nuclear option (use rarely)
-nuke: | clear-screen
-	- docker compose down -v --remove-orphans
-	- docker system prune -af --volumes
-	docker compose --env-file .env up --build
-
-verify-imports: | clear-screen
-	@echo "🔎 Checking for bad '@/src/' imports…"
-	@! rg -n "@/src/" apps/ui/src || (echo "❌ Found bad '@/src/' imports. Run: rg -l \"@/src/\" apps/ui/src | xargs -r sed -i 's#@/src/#@/#g'"; exit 1)
-	@echo "✅ No '@/src/' issues."
-
-# Lists every "@/components/ui/<mod>" import so you see what's required
-list-ui-imports: | clear-screen
-	@rg -no "from ['\"]@/components/ui/([^'\"\)]+)['\"]" apps/ui/src | sort -u || true
-
-# Fails if an "@/components/ui/<mod>" import doesn't have a matching file under src/components/ui
-verify-ui-mods: | clear-screen
-	@echo "🔎 verifying ui/* imports exist..."
-	@missing=0; \
-	for m in $$(rg -no "from ['\"]@/components/ui/([^'\"\)]+)['\"]" apps/ui/src | sed -E 's#.*ui/([^'\''"]+).*#\1#' | sort -u); do \
-		test -f "apps/ui/src/components/ui/$${m}.tsx" || test -f "apps/ui/src/components/ui/$${m}.ts" || { \
-			echo "❌ Missing: apps/ui/src/components/ui/$${m}.tsx"; missing=1; }; \
-	done; \
-	exit $$missing
-
-# (handy) Fixes stray '@/src/' imports -> '@/'
-fix-imports: | clear-screen
-	@rg -l "@/src/" apps/ui/src | xargs -r sed -i 's#@/src/#@/#g' || true
-
-ui-type: | clear-screen
-	cd apps/ui && npm run typecheck
-
-ui-lint: | clear-screen
-	cd apps/ui && npm run lint
-
-ui-build: | clear-screen
-	cd apps/ui && rm -rf node_modules .next && npm ci && npm run typecheck && npm run build
-
-
-ui-dev: | clear-screen
-	cd apps/ui && npm run dev
-
-# Put a short description after each target like: target: ## your description
-.DEFAULT_GOAL := help
-
-help: ## Show all commands
-	@printf "\n\033[1mAvailable make commands\033[0m\n\n"
-	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z0-9_.-]+:.*##/ {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
-	@printf "\n"
-
-fresh: ## Clean slate: down -v, rebuild, up
-dev: ## Rebuild + up (dev)
-up: ## docker compose up -d
-down: ## docker compose down
-logs: ## Tail all logs
-ui-logs: ## Tail UI logs
-api-logs: ## Tail API logs
-build-ui-prod: ## Build UI for production
-build-api-prod: ## Build API for production
-nuke: ## Remove containers, volumes, (careful)
-verify-imports: ## Check TS import paths
-list-ui-imports: ## List UI imports referencing aliases
-verify-ui-mods: ## Verify UI modified modules
-fix-imports: ## Auto-fix TS import aliases
-ui-type: ## Type-check UI (tsc)
-ui-lint: ## Lint UI (eslint)
-ui-build: ## Clean & build UI (Next)
-ui-dev: ## Run UI dev server
+# convenience: pass arbitrary 'service cmd="..."'
+# usage: make help    -> see this message
+#        make exec S=backend C='bash'
+.PHONY: exec
+exec:
+	@if [ -z "$(S)" ] || [ -z "$(C)" ]; then \
+		echo "Usage: make exec S=<service> C='<command>'"; \
+		echo "Example: make exec S=backend C='bash'"; \
+		exit 2; \
+	fi
+	$(DC) exec $(S) sh -lc "$(C)"

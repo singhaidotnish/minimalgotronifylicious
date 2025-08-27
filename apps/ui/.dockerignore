@@ -1,15 +1,13 @@
-# apps/ui/.dockerignore
-
-node_modules/
-.next/
-out/
-build/
-.cache/
-*.log
-.env*
-*.tsbuildinfo
-.vercel
-.turbo
 .git
+.gitignore
 .env
-src/components/ui/_archive
+*.env
+*.env.*
+node_modules
+.next
+dist
+build
+.vscode
+.idea
+coverage
+*.log

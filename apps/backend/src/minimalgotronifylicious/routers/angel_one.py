@@ -45,21 +45,64 @@ def _circuit_open() -> bool:
 def _ok():  # tiny helper
     return {"ok": True}
 
+# --- lightweight stub that mirrors the live client surface ---
+class _StubClient:
+    def __init__(self):
+        self._logged_in = False
 
+    # keep the same method names the live client uses
+    def login(self):
+        self._logged_in = True
+        return {"ok": True, "mode": "stub"}
+
+    def ltp(self, *args, **kwargs):
+        """
+        Accepts either ltp("NSE:SBIN-EQ") OR ltp(exchange="NSE", symbol="SBIN").
+        Returns a float (so router can wrap it in your response model).
+        """
+        if args and isinstance(args[0], str):
+            symbol = args[0]
+        else:
+            ex = kwargs.get("exchange") or "NSE"
+            sym = kwargs.get("symbol") or "SBIN"
+            symbol = f"{ex}:{sym}"
+        # deterministic but fake price for UI/demo/tests
+        return 100 + (hash(symbol) % 500) / 10.0
+
+    def order(self, **kwargs):
+        # pretend we placed an order and return an id
+        import uuid
+        return {"orderId": str(uuid.uuid4()), "status": "ACCEPTED"}
+
+    def positions(self):
+        return []
+
+    def logout(self):
+        self._logged_in = False
+        return {"ok": True}
 
 def get_client():
-    use_stub = str(os.getenv("USE_STUB", "true")).lower() == "true"
-    if use_stub:
-        return _StubClient()  # <- your existing stub class
+    # feature-flag toggle
+    if str(os.getenv("USE_STUB", "true")).lower() == "true":
+        from ._stub_client import StubClient  # your stub class
+        return StubClient()
+
     # LIVE
-    from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
-    from src.minimalgotronifylicious.brokers.order_client_factory import order_client_factory
     required = ["SMARTAPI_API_KEY","SMARTAPI_CLIENT_CODE","SMARTAPI_TOTP_SECRET"]
     missing = [k for k in required if not os.getenv(k)]
     if missing:
-        raise HTTPException(status_code=500, detail=f"Missing env: {', '.join(missing)}")
+        raise HTTPException(500, f"Missing env: {', '.join(missing)}")
+
     sess = AngelOneSession.from_env()
     return order_client_factory("angelone", session=sess)
+
+@router.get("/ltp")
+def ltp(symbol: str, client = Depends(get_client)):
+    try:
+        return {"symbol": symbol, "ltp": float(client.ltp(symbol))}
+    except TypeError:
+        ex, ts = (symbol.split(":", 1) + [""])[:2]
+        return {"symbol": symbol, "ltp": float(client.ltp(exchange=ex or "NSE", symbol=ts or symbol))}
 
 def _pick_symbol(group: WireGroup) -> str:
     # Try to pull from block params; else default
@@ -79,6 +122,8 @@ def _normalize_symbol(sym: str):
 @router.post("/test")
 def test_strategy(group: WireGroup, client = Depends(get_client)):
     mode = "live" if str(os.getenv("USE_STUB","true")).lower() != "true" else "stub"
+    use_stub = str(os.getenv("USE_STUB","true")).lower() == "true"
+    mode = "stub" if use_stub else "live"
     try:
         # If this is a live client, ensure it’s authenticated
         if mode == "live" and hasattr(client, "login"):
@@ -103,7 +148,7 @@ def test_strategy(group: WireGroup, client = Depends(get_client)):
             "used_symbol": combined,
             "received": group.model_dump(),
             "ltp": ltp,
-            "note": "LIVE SmartAPI call executed",
+            "note": "STUB adapter executed" if use_stub else "LIVE SmartAPI call executed",
         }
 
     except HTTPException:
@@ -124,14 +169,6 @@ def smart_login():
     # TODO: call your real Angel One login; for now stub:
     return _ok()
 
-@router.get("/ltp", response_model=LtpResp)
-def smart_ltp(symbol: str):
-    if _circuit_open():
-        raise HTTPException(status_code=503, detail="Circuit open")
-    # TODO: replace with real SmartAPI LTP
-    price = 100 + (hash(symbol) % 500) / 10.0
-    return LtpResp(symbol=symbol, ltp=price, ts=int(time.time() * 1000))
-
 @router.post("/order", response_model=OrderResp)
 def smart_order(req: OrderRequest):
     if _circuit_open():
@@ -150,6 +187,7 @@ def smart_positions():
 def smart_logout():
     return _ok()
 
-@router.get("/ltp")
-def smart_ltp(symbol: str, client = Depends(get_client)):
-    return client.ltp(symbol)
+@router.get("/mode")
+def mode():
+    use_stub = str(os.getenv("USE_STUB", "true")).lower() == "true"
+    return {"mode": "stub" if use_stub else "live"}
