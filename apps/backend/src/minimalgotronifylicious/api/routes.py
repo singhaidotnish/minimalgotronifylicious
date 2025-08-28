@@ -11,10 +11,10 @@ from src.minimalgotronifylicious.web_socket_manager import WebSocketManager
 from src.minimalgotronifylicious.brokers.websocket_client_factory import WebSocketClientFactory
 from src.minimalgotronifylicious.api.brokers import router as brokers_router
 from src.minimalgotronifylicious.routers import angel_one
+from src.minimalgotronifylicious.routers.angel_one import router as angel_router
 router = APIRouter()
 router.include_router(brokers_router)
-router.include_router(angel_one.router)  # ✅ add this
-
+router.include_router(angel_router)
 
 class OrderRequest(BaseModel):
     tradingsymbol: str
@@ -48,7 +48,7 @@ def place_order(order: OrderRequest):
     config_loader = BrokerConfigLoader()
     credentials = config_loader.load_credentials()
     session = AngelOneSession(credentials)
-    client = OrderClientFactory.create("smart_connect", session)
+    client = OrderClientFactory.create("angel_one", session)
 
     clean_order = builder.build()
     return client.place_order(clean_order)

@@ -27,7 +27,7 @@ class BrokerConfigLoader(BaseConfigLoader):
                 "totp_secret": os.environ["TOTP_SECRET"],
             }
         else:
-            return self.config.get("smart_connect", {})
+            return self.config.get("angel_one", {})
 
     def load_websocket_config(self) -> dict:
         return self.config.get("websocket", {})

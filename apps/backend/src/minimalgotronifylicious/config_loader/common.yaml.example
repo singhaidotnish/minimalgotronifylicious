@@ -36,7 +36,7 @@ order:
   squareoff: "0"
   stoploss: "0"
 
-smart_connect:
+angel_one:
   api_key: YOUR_API_KEY  # As generated in smart API panel
   client_id: YOUR_CLIENT_ID  # Your Angel login user-id
   password: YOUR_PASSWORD  # Your Angel login password

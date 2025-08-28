@@ -1,5 +1,7 @@
 # env & secrets
 .env
+.env.live
+.env.paper
 *.env.local
 apps/backend/.env
 apps/ui/.env

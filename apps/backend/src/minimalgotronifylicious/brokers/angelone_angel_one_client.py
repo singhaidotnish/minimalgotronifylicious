@@ -6,6 +6,8 @@ from src.minimalgotronifylicious.brokers.abstract_trading_client import Abstract
 
 class AngelOneConnectClient(AbstractOrderClient):
     def __init__(self, session):
+        if session is None:
+            raise RuntimeError("AngelOneConnectClient requires a live AngelOneSession (got None).")
         self.api = session.api
 
     def place_order(self, order_data: dict) -> dict:

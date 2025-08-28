@@ -5,25 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_factory_exports.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client_factory.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/backend/.env.live" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/paper_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/_stub_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/NEXT-STEPS.md" beforeDir="false" afterPath="$PROJECT_DIR$/NEXT-STEPS.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/USAGE.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/USAGE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_smart_connect_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_angel_one_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/order_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/order_client_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/broker_config_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/broker_config_loader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/common.yaml.example" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/common.yaml.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/.env" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/web_socket_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/web_socket_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_order_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client_factory.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/tree_structure_backend.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tree_structure_backend.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,20 +52,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/labycreatapipelicious"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/miscellonifyntastic&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/ui" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/backend" />
       <recent name="$PROJECT_DIR$/apps/ui/src/features/ConditionBuilder/components" />
       <recent name="$PROJECT_DIR$/apps/ui/src/components/ui" />
       <recent name="$PROJECT_DIR$/apps/ui/src" />
@@ -72,5 +89,16 @@
       <updated>1754558748222</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/angelone_angel_one_client.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

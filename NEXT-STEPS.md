@@ -1,5 +1,5 @@
 Port / interface layer (aka “gateway”): abstract_trading_client.py, order_client_factory.py → perfect place to define broker-agnostic methods.
-Angel One (SmartAPI) client & WS: angelone_smart_connect_client.py, angelone_websocket_client.py, angelone_websocket_event_handler.py → real adapter code lives here.
+Angel One (SmartAPI) client & WS: angelone_angel_one_client.py, angelone_websocket_client.py, angelone_websocket_event_handler.py → real adapter code lives here.
 Sessions: sessions/angelone_session.py → manage login/session tokens.
 HTTP surface: routers/angel_one.py, api/routes.py, main.py → add routes and include the router.
 Static/UI data: public/symbols.json, app/param_options.py → already power your dropdowns and param options.
@@ -11,7 +11,7 @@ ADHD-friendly plan (man to man)
 
 Expose clean FastAPI endpoints under /api/smart/*.
 
-Behind them, switch between Stub and Angel One via USE_STUB env.
+Behind them, switch between Stub and Angel One via PAPER_TRADING env.
 
 Keep the rest of your routes (/symbols.json, /api/param-options, /health) untouched.
 

@@ -1,101 +1,88 @@
-# ====== paths & tooling ======
-ENV_ROOT := .env
-ENV_BACK := apps/backend/.env
-ENV_FRONT := apps/ui/.env
+# ==== Core ====
 DC := docker compose
+BACK_SERVICE := backend
+FRONT_DIR := apps/ui
+BACK_DIR := apps/backend
 
-# ====== helpers ======
-define ensure_env
-	@if [ ! -f "$(1)" ]; then \
-		if [ -f "$(1).example" ]; then \
-			echo "⛳  $(1) missing — creating from $(1).example"; \
-			cp "$(1).example" "$(1)"; \
-		else \
-			echo "⚠️  $(1) missing — creating empty placeholder"; \
-			mkdir -p $(dir $(1)); \
-			touch "$(1)"; \
-		fi \
-	fi
-endef
+.PHONY: help fresh dev up down rebuild logs be-logs ui-logs exec health \
+        paper live ui-dev ui-build ui-type ui-lint fix-imports
 
-# ====== meta ======
-.PHONY: help
 help:
 	@echo ""
-	@echo "Mini Orchestrator — make <target>"
+	@echo "Targets:"
+	@echo "  fresh      - down + prune + build --no-cache + up"
+	@echo "  dev        - build (with cache) + up"
+	@echo "  up/down    - start/stop stack"
+	@echo "  rebuild    - rebuild images (no cache)"
+	@echo "  logs       - tail all services"
+	@echo "  be-logs    - tail backend logs"
+	@echo "  exec       - run a command in a service (S=<service> C='<cmd>')"
+	@echo "  health     - curl backend /api/health"
+	@echo "  paper      - up using .env.paper"
+	@echo "  live       - up using .env.live"
+	@echo "  ui-*       - frontend helpers (dev/build/type/lint)"
+	@echo "  fix-imports- fix '@/src/' -> '@/' in UI src"
 	@echo ""
-	@echo "  env-check     Ensure .env files exist (root, backend, frontend)"
-	@echo "  dev           Up all services in foreground (build if needed)"
-	@echo "  up            Up all services in background (build if needed)"
-	@echo "  down          Stop all services"
-	@echo "  logs          Tail docker logs"
-	@echo "  ps            Show service status"
-	@echo "  rebuild       Rebuild images (no cache)"
-	@echo "  prune         Stop & remove volumes/orphans + docker prune"
-	@echo "  fresh         Clean slate: prune -> rebuild -> up -d"
-	@echo "  ui-build      Build frontend production bundle inside container"
-	@echo ""
 
-# ====== sanity ======
-.PHONY: env-check
-env-check:
-	@$(call ensure_env,$(ENV_ROOT))
-	@$(call ensure_env,$(ENV_BACK))
-	@$(call ensure_env,$(ENV_FRONT))
-	@echo "✅ env files present:"; ls -lh $(ENV_ROOT) $(ENV_BACK) $(ENV_FRONT) | cat
+# ==== Orchestrations ====
+fresh:
+	- $(DC) down -v --remove-orphans
+	- docker builder prune -f
+	$(DC) build --no-cache
+	$(DC) up --force-recreate
 
-# ====== day-to-day ======
-.PHONY: dev
-dev: env-check
-	$(DC) up --build
+dev:
+	$(DC) build
+	$(DC) up
 
-.PHONY: up
-up: env-check
-	$(DC) up -d --build
+up:
+	$(DC) up
 
-.PHONY: down
 down:
-	$(DC) down
+	$(DC) down -v
 
-.PHONY: logs
-logs:
-	$(DC) logs -f --tail=200
-
-.PHONY: ps
-ps:
-	$(DC) ps
-
-.PHONY: rebuild
 rebuild:
 	$(DC) build --no-cache
 
-.PHONY: prune
-prune:
-	$(DC) down -v --remove-orphans
-	-docker system prune -f
+logs:
+	$(DC) logs -f
 
-# ====== your requested targets (kept) ======
-# full reset → rebuild → start
-.PHONY: fresh
-fresh: prune rebuild up
-	@echo "🌱 fresh stack is up"
+be-logs:
+	$(DC) logs -f $(BACK_SERVICE)
 
-# build the frontend bundle inside its container
-# works for Next or Vite as long as package.json has 'build'
-.PHONY: ui-build
-ui-build: env-check
-	# Ensure deps, then build. Use a throwaway container so the image stays clean.
-	$(DC) run --rm frontend sh -lc "npm ci || npm install && npm run build"
-	@echo "🧱 frontend build finished"
+ui-logs:
+	$(DC) logs -f ui
 
-# convenience: pass arbitrary 'service cmd="..."'
-# usage: make help    -> see this message
-#        make exec S=backend C='bash'
-.PHONY: exec
+# run an arbitrary command in a service:
+#   make exec S=backend C='bash'
 exec:
 	@if [ -z "$(S)" ] || [ -z "$(C)" ]; then \
-		echo "Usage: make exec S=<service> C='<command>'"; \
-		echo "Example: make exec S=backend C='bash'"; \
-		exit 2; \
-	fi
+		echo "Usage: make exec S=<service> C='<command>'"; exit 2; fi
 	$(DC) exec $(S) sh -lc "$(C)"
+
+health:
+	@curl -fsS "http://localhost:$${BACKEND_HOST_PORT:-5000}/api/health" && echo "  ✅" || (echo "  ❌" && exit 1)
+
+# ==== Profiles ====
+paper:
+	$(DC) --env-file $(BACK_DIR)/.env.paper up --build
+
+live:
+	$(DC) --env-file $(BACK_DIR)/.env.live up --build
+
+# ==== Frontend ====
+ui-dev:
+	cd $(FRONT_DIR) && npm run dev
+
+ui-build:
+	cd $(FRONT_DIR) && rm -rf node_modules .next && npm ci && npm run typecheck && npm run build
+
+ui-type:
+	cd $(FRONT_DIR) && npm run typecheck
+
+ui-lint:
+	cd $(FRONT_DIR) && npm run lint
+
+# Fix stray '@/src/' imports -> '@/' (optional)
+fix-imports:
+	@rg -l "@/src/" $(FRONT_DIR)/src | xargs -r sed -i 's#@/src/#@/#g' || true

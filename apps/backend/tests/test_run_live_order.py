@@ -16,7 +16,7 @@ def main():
 		# Step 2: Create AngelOne session
 		session = AngelOneSession(credentials)
 
-		client = OrderClientFactory.create("smart_connect", session)
+		client = OrderClientFactory.create("angel_one", session)
 		# Step 3: Create broker-agnostic order client
 		print('+++ smart connect client ', client )
 		# Step 4: Build and validate order

@@ -96,7 +96,7 @@ from brokers.websocket_factory import WebSocketClientFactory
 from web_socket_manager import WebSocketManager
 
 auth_data = {...}
-client = WebSocketClientFactory.create("smart_connect", auth_data)
+client = WebSocketClientFactory.create("angel_one", auth_data)
 
 manager = WebSocketManager(client)
 manager.start()

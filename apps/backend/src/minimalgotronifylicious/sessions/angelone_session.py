@@ -1,61 +1,161 @@
-import pyotp
+# src/minimalgotronifylicious/sessions/angelone_session.py
+from __future__ import annotations
+import os
 from logzero import logger
 from SmartApi import SmartConnect
+from dataclasses import dataclass
 from typing import Any, Dict, Optional
 from src.minimalgotronifylicious.sessions.base_broker_session import BaseBrokerSession  # your abstract base
 from src.minimalgotronifylicious.utils.net import get_public_ip
 
+# Optional base; keep compatibility if you already have it
+try:
+    from src.minimalgotronifylicious.sessions.base_broker_session import BaseBrokerSession  # type: ignore
+except Exception:  # fallback so imports never break
+    class BaseBrokerSession:  # type: ignore
+        pass
+
+
+# ---------- Credentials container ----------
+@dataclass
+class AngelOneCreds:
+    api_key: str
+    client_id: str
+    password: str
+    totp_secret: str
+    pan: Optional[str] = None
+
+    @classmethod
+    def from_env(cls) -> "AngelOneCreds":
+        """
+        Reads SMARTAPI_* environment variables and returns a creds object.
+        Required:
+          SMARTAPI_API_KEY, SMARTAPI_CLIENT_ID, SMARTAPI_PASSWORD, SMARTAPI_TOTP_SECRET
+        Optional:
+          SMARTAPI_PAN
+        """
+        required = [
+            "SMARTAPI_API_KEY",
+            "SMARTAPI_CLIENT_ID",
+            "SMARTAPI_PASSWORD",
+            "SMARTAPI_TOTP_SECRET",
+        ]
+        vals = {k: os.getenv(k, "").strip() for k in required}
+        missing = [k for k, v in vals.items() if not v]
+        if missing:
+            raise RuntimeError(f"Missing env for AngelOne: {', '.join(missing)}")
+
+        pan = os.getenv("SMARTAPI_PAN", "").strip() or None
+        return cls(
+            api_key=vals["SMARTAPI_API_KEY"],
+            client_id=vals["SMARTAPI_CLIENT_ID"],
+            password=vals["SMARTAPI_PASSWORD"],
+            totp_secret=vals["SMARTAPI_TOTP_SECRET"],
+            pan=pan,
+        )
+
+
+# ---------- Session ----------
 class AngelOneSession(BaseBrokerSession):
-    def __init__(self, credentials):
-        self.api_key = credentials["api_key"]
-        self.client_id = credentials["client_id"]
-        self.password = credentials["password"]
-        _totp_secret = credentials["totp_secret"]
-        self.totp = pyotp.TOTP(_totp_secret).now()
-        self.api = SmartConnect(api_key=self.api_key)
+    """
+    Thin wrapper around SmartApi SmartConnect with a simple login flow.
+    Keeps the old method names for backwards compatibility (login, get_auth_info, fetch_candles).
+    """
 
-        self.auth_token = None
-        self.feed_token = None
-        self.refresh_token = None
-        self.login()
+    def __init__(self, credentials: AngelOneCreds):
+        self.creds = credentials
 
+        # Will be set by login()
+        self.api = None                 # SmartConnect instance
+        self.auth_token: Optional[str] = None
+        self.feed_token: Optional[str] = None
+        self.refresh_token: Optional[str] = None
 
-        # Resolve public IP once and reuse everywhere
-        self.public_ip = get_public_ip(self.credentials)
-        # default headers some brokers accept (tweak if you have specific names)
-        self.default_headers = {
-            "X-Forwarded-For": self.public_ip,
-            "X-Client-IP": self.public_ip,
-        }
-        # (optional) log at info, not as an exception
+        self.public_ip: Optional[str] = None
+        self.default_headers: Dict[str, str] = {}
 
-    def login(self):
-        data = self.api.generateSession(self.client_id, self.password, self.totp)
-        if data['status'] == False:
-            logger.error(data)
-        else:
-            # logger.info(f"+++ data: {data}")
-            self.auth_token = data["data"]["jwtToken"]
-            self.refresh_token = data['data']['refreshToken']
-            self.feed_token = self.api.getfeedToken()
-            # logger.info(f" +++ from api Feed-Token :{self.feed_token}")
-            res = self.api.getProfile(self.refresh_token)
-            # logger.info(f"+++ from api Get Profile: {res}")
+    # ---- Factory helpers ----
+    @classmethod
+    def from_env(cls) -> "AngelOneSession":
+        """
+        Reads env, performs login, returns a ready session.
+        """
+        creds = AngelOneCreds.from_env()
+        sess = cls(creds)
+        sess.login()
+        return sess
 
+    # Optional: if you still want YAML support
+    @classmethod
+    def from_config(cls, cfg: Dict[str, Any]) -> "AngelOneSession":
+        creds = AngelOneCreds(
+            api_key=cfg["api_key"],
+            client_id=cfg["client_id"],
+            password=cfg["password"],
+            totp_secret=cfg["totp_secret"],
+            pan=cfg.get("pan"),
+        )
+        sess = cls(creds)
+        sess.login()
+        return sess
+
+    # ---- Live login & tokens ----
+    def login(self) -> None:
+        """
+        Performs SmartApi login. Lazy-imports heavy deps to avoid breaking demo mode imports.
+        """
+        try:
+            # Lazy imports so module import doesn't fail in PAPER_TRADING mode
+            import pyotp  # type: ignore
+            from SmartApi import SmartConnect  # type: ignore
+        except Exception as e:
+            raise RuntimeError(
+                "Required packages for AngelOne live session are missing. "
+                "Install pyotp and smartapi-python (Angel One SmartAPI) to use live mode."
+            ) from e
+
+        totp_now = pyotp.TOTP(self.creds.totp_secret).now()
+        self.api = SmartConnect(api_key=self.creds.api_key)
+
+        data = self.api.generateSession(self.creds.client_id, self.creds.password, totp_now)
+        if not data or data.get("status") is False:
+            logger.error({"where": "angelone.login.generateSession", "resp": data})
+            raise RuntimeError(f"AngelOne login failed: {data}")
+
+        d = data["data"]
+        self.auth_token = d["jwtToken"]
+        self.refresh_token = d["refreshToken"]
+        self.feed_token = self.api.getfeedToken()
+
+        # Optional best-effort calls
+        try:
+            _ = self.api.getProfile(self.refresh_token)
             self.api.generateToken(self.refresh_token)
-            res=res['data']['exchanges']
-            # logger.info(f"+++ from api res data exchanges : {res}")
+        except Exception as e:
+            logger.debug(f"AngelOne post-login extras failed (non-fatal): {e}")
 
+        # Public IP & default headers (best-effort)
+        try:
+            from src.minimalgotronifylicious.utils.net import get_public_ip
+            self.public_ip = get_public_ip()
+            self.default_headers = {
+                "X-Forwarded-For": self.public_ip,
+                "X-Client-IP": self.public_ip,
+            }
+        except Exception as e:
+            logger.debug(f"Could not resolve public IP (non-fatal): {e}")
 
-    def get_auth_info(self):
+    # ---- Compatibility helpers ----
+    def get_auth_info(self) -> Dict[str, Any]:
         return {
             "auth_token": self.auth_token,
             "feed_token": self.feed_token,
             "refresh_token": self.refresh_token,
-            "api_key": self.api_key,
-            "client_id": self.client_id
+            "api_key": self.creds.api_key,
+            "client_id": self.creds.client_id,
         }
 
+    # ---- Example data method ----
     def fetch_candles(
         self,
         symbol: str,
@@ -63,13 +163,15 @@ class AngelOneSession(BaseBrokerSession):
         from_ts: Optional[int] = None,
         to_ts: Optional[int] = None,
         limit: Optional[int] = None,
-        **extra_params: Any
+        **extra_params: Any,
     ) -> Any:
         """
-        Fetch historical candlestick data via AngelOne’s REST API.
-        Delegates to SmartConnect’s getCandleData under the hood.
+        Fetch historical candlestick data via SmartConnect.getCandleData.
+        Maps our unified args to SmartConnect fields.
         """
-        # Map our unified args to SmartConnect fields
+        if not self.api:
+            raise RuntimeError("AngelOne session not initialized (self.api is None). Did you call login()?")
+
         params: Dict[str, Any] = {
             "symboltoken": symbol,
             "interval": interval,
@@ -80,11 +182,6 @@ class AngelOneSession(BaseBrokerSession):
             params["to"] = to_ts
         if limit is not None:
             params["limit"] = limit
-
-        # Attach any broker-specific extras
         params.update(extra_params)
 
-        # Perform the request
-        resp = self.api.getCandleData(**params)
-        # Optionally: validate/normalize resp here before returning
-        return resp
+        return self.api.getCandleData(**params)

@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from typing import Optional
+# main.py (very top, before imports that read env)
+from dotenv import load_dotenv; load_dotenv()
 
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse

@@ -3,7 +3,7 @@ import importlib, os
 
 def test_factory_export_and_stub(monkeypatch):
     # Run CI in stub mode (no real creds required)
-    monkeypatch.setenv("USE_STUB", "true")
+    monkeypatch.setenv("PAPER_TRADING", "true")
     m = importlib.import_module("src.minimalgotronifylicious.brokers.order_client_factory")
     assert hasattr(m, "order_client_factory") or hasattr(m, "make_client")
 

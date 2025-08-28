@@ -7,7 +7,7 @@ auth_data = {
     "totp": "BASE32SECRET"
 }
 
-client = OrderClientFactory.create("smart_connect", auth_data)
+client = OrderClientFactory.create("angel_one", auth_data)
 
 order = {
     "variety": "NORMAL",

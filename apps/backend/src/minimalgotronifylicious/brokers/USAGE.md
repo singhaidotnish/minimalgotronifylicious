@@ -9,7 +9,7 @@ auth_data = {
     "client_id": "..."
 }
 
-client = WebSocketClientFactory.create("smart_connect", auth_data)
+client = WebSocketClientFactory.create("angel_one", auth_data)
 
 # Setup event handlers
 client.set_callbacks(

@@ -42,7 +42,7 @@
 │       ├── brokers
 │       │   ├── abstract_trading_client.py
 │       │   ├── abstract_websocket_client.py
-│       │   ├── angelone_smart_connect_client.py
+│       │   ├── angelone_angel_one_client.py
 │       │   ├── angelone_websocket_client.py
 │       │   ├── angelone_websocket_event_handler.py
 │       │   ├── base_event_handler.py

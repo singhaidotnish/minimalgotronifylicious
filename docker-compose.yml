@@ -7,11 +7,18 @@ services:
       context: ./apps/backend
       dockerfile: Dockerfile.dev
     env_file:
-      - ./apps/backend/.env
+      - ./apps/backend/.env        # change to ./.env if your file is at repo root
+      # - ./apps/backend/.env.live  # uncomment for live creds (SMARTAPI_* + PAPER_TRADING=false)
     environment:
-      # picked up from root .env for local CORS and internal URLs
       PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app
+      TZ: Asia/Kolkata
+      # Paper/live switch (can be overridden in env files)
+      PAPER_TRADING: ${PAPER_TRADING:-false}
+      # CORS: expose both names to match your code
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:${FRONTEND_PORT:-3003}}
       FRONTEND_ORIGINS: ${FRONTEND_ORIGINS:-http://localhost:${FRONTEND_PORT:-3003}}
+      # Dev URLs (used by your app for self-links)
       DEV_BACKEND_HTTP: ${DEV_BACKEND_HTTP:-http://localhost:${BACKEND_HOST_PORT:-5000}}
       DEV_BACKEND_WS: ${DEV_BACKEND_WS:-ws://localhost:${BACKEND_HOST_PORT:-5000}}
       CSP_CONNECT_EXTRAS: ${CSP_CONNECT_EXTRAS:-}
@@ -23,11 +30,13 @@ services:
       sh -lc "uvicorn main:app --host 0.0.0.0 --port ${BACKEND_CONTAINER_PORT:-8000}
       --reload --reload-exclude setup.py"
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://localhost:8000/health').status==200 else sys.exit(1)"]
+      test: ["CMD-SHELL", "python - <<'PY'\nimport os,urllib.request,sys\nport=os.environ.get('BACKEND_CONTAINER_PORT','8000')\nurl=f'http://localhost:{port}/api/health'\ntry:\n  s=urllib.request.urlopen(url, timeout=2).status\n  sys.exit(0 if s==200 else 1)\nexcept Exception:\n  sys.exit(1)\nPY"]
       interval: 5s
       timeout: 2s
       retries: 15
       start_period: 10s
+    # optional (recommended)
+    restart: unless-stopped
 
   frontend:
     user: "${UID:-1000}:${GID:-1000}"
