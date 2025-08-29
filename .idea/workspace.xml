@@ -5,46 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/bin/convert_nse_scrip_master.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/binance_client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/interfaces.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/config_loader/brokers.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/deps/broker.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/trading.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/symbols/providers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/symbols/service.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/broker_registry.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/circuit_breaker.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/price.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/utils/symbols.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_auto_closed_default.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_auto_closed_policy_switch.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_binance_client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_factory_registry.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_registry_factory.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_routes_unique.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/backend/tests/test_symbols_provider_solutions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/symbols/provider.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend_Design_Map_ADHD.md" beforeDir="false" afterPath="$PROJECT_DIR$/Backend_Design_Map_ADHD.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NEXT-STEPS.md" beforeDir="false" afterPath="$PROJECT_DIR$/NEXT-STEPS.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/.env.live" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.env.live" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/.github/workflows/ci.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/.github/workflows/ci.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/api/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/order_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/brokers/order_client_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/angel_one.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/sessions/angelone_session.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_order_client_factory.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_order_client_factory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/tests/test_run_live_order.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/ui/src/lib/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ui/src/lib/config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend.zip" beforeDir="false" afterPath="$PROJECT_DIR$/backend.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend_design_digest_plan_adhd_friendly.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend_design_digest_plan_adhd_friendly.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/trading.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/trading.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

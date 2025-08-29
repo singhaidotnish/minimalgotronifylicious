@@ -13,7 +13,7 @@ from src.minimalgotronifylicious.api.brokers import router as brokers_router
 from src.minimalgotronifylicious.routers import angel_one
 from src.minimalgotronifylicious.routers.angel_one import router as angel_router
 
-import apps.backend.src.minimalgotronifylicious.routers.trading
+from src.minimalgotronifylicious.routers import trading
 
 router = APIRouter()
 router.include_router(brokers_router)
@@ -54,7 +54,7 @@ def place_order(order: OrderRequest):
     client = OrderClientFactory.create("angel_one", session)
 
     clean_order = builder.build()
-    return apps.backend.src.minimalgotronifylicious.routers.trading.place_order(clean_order)
+    return trading.place_order(clean_order)
 
 @router.get("/candles")
 def get_candles(
