@@ -4,85 +4,107 @@ BACK_SERVICE := backend
 FRONT_DIR := apps/ui
 BACK_DIR := apps/backend
 
-.PHONY: help fresh dev up down rebuild logs be-logs ui-logs exec health \
-        paper live ui-dev ui-build ui-type ui-lint fix-imports
-
-help:
-	@echo ""
-	@echo "Targets:"
-	@echo "  fresh      - down + prune + build --no-cache + up"
-	@echo "  dev        - build (with cache) + up"
-	@echo "  up/down    - start/stop stack"
-	@echo "  rebuild    - rebuild images (no cache)"
-	@echo "  logs       - tail all services"
-	@echo "  be-logs    - tail backend logs"
-	@echo "  exec       - run a command in a service (S=<service> C='<cmd>')"
-	@echo "  health     - curl backend /api/health"
-	@echo "  paper      - up using .env.paper"
-	@echo "  live       - up using .env.live"
-	@echo "  ui-*       - frontend helpers (dev/build/type/lint)"
-	@echo "  fix-imports- fix '@/src/' -> '@/' in UI src"
-	@echo ""
+.PHONY: fresh dev up down rebuild logs be-logs ui-logs exec health \
+				paper live ui-dev ui-build ui-type ui-lint fix-imports \
+				test lint
 
 # ==== Orchestrations ====
+## down + prune + build --no-cache + up
 fresh:
-	- $(DC) down -v --remove-orphans
-	- docker builder prune -f
-	$(DC) build --no-cache
-	$(DC) up --force-recreate
+	@docker compose down -v --remove-orphans || true
+	@docker system prune -f || true
+	@docker compose build --no-cache
+	@docker compose up
 
-dev:
-	$(DC) build
-	$(DC) up
+dev: ## build (with cache) + up
+	@docker compose up --build
 
-up:
-	$(DC) up
+up: ## start stack
+	@docker compose up -d
 
-down:
-	$(DC) down -v
+down: ## stop stack
+	@docker compose down
 
-rebuild:
-	$(DC) build --no-cache
+logs: ## tail all services
+	@docker compose logs -f
 
-logs:
-	$(DC) logs -f
+be-logs: ## tail backend logs
+	@docker compose logs -f backend
 
-be-logs:
-	$(DC) logs -f $(BACK_SERVICE)
+exec: ## run a command in a service (S=<service> C='<cmd>')
+	@docker compose exec $(S) sh -lc "$(C)"
 
-ui-logs:
-	$(DC) logs -f ui
-
-# run an arbitrary command in a service:
-#   make exec S=backend C='bash'
-exec:
-	@if [ -z "$(S)" ] || [ -z "$(C)" ]; then \
-		echo "Usage: make exec S=<service> C='<command>'"; exit 2; fi
-	$(DC) exec $(S) sh -lc "$(C)"
-
+## curl backend /api/health
 health:
-	@curl -fsS "http://localhost:$${BACKEND_HOST_PORT:-5000}/api/health" && echo "  ✅" || (echo "  ❌" && exit 1)
+	@curl -fsS "$(BACKEND_URL)/api/health" || true
 
-# ==== Profiles ====
+## up using .env.paper
 paper:
-	$(DC) --env-file $(BACK_DIR)/.env.paper up --build
+	@env $$(cat .env.paper | xargs) docker compose up --build
 
+## up using .env.live
 live:
-	$(DC) --env-file $(BACK_DIR)/.env.live up --build
+	@env $$(cat .env.live | xargs) docker compose up --build
 
-# ==== Frontend ====
+## start frontend dev server
 ui-dev:
-	cd $(FRONT_DIR) && npm run dev
+	@docker compose run --rm -p $(FRONTEND_PORT):$(FRONTEND_PORT) frontend npm run dev
 
-ui-build:
-	cd $(FRONT_DIR) && rm -rf node_modules .next && npm ci && npm run typecheck && npm run build
+ui-build: ## build frontend
+	@docker compose run --rm frontend npm ci
+	@docker compose run --rm frontend npm run build
 
-ui-type:
-	cd $(FRONT_DIR) && npm run typecheck
+ui-type: ## typecheck frontend
+	@docker compose run --rm frontend npm run typecheck
 
-ui-lint:
-	cd $(FRONT_DIR) && npm run lint
+ui-lint: ## lint frontend
+	@docker compose run --rm frontend npm run lint
 
-# Fix stray '@/src/' imports -> '@/' (optional)
-fix-imports:
-	@rg -l "@/src/" $(FRONT_DIR)/src | xargs -r sed -i 's#@/src/#@/#g' || true
+## build symbol caches (Binance+NSE)
+symbols: symbols-binance symbols-nse
+
+symbols-binance: ## cache Binance spot symbols
+	mkdir -p data/symbols
+	python3 apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py -o data/symbols/binance_exchangeInfo.json
+	@echo "Set BINANCE_SYMBOLS_PATH=data/symbols/binance_exchangeInfo.json in your .env"
+
+symbols-binance-fut: ## cache Binance futures symbols
+	mkdir -p data/symbols
+	python3 apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py --futures -o data/symbols/binance_futures_exchangeInfo.json
+
+symbols-nse: ## convert NSE scrip-master CSV -> JSON
+	mkdir -p data/symbols
+	python3 apps/backend/src/minimalgotronifylicious/bin/convert_nse_scrip_master.py -i data/symbols/nse_scrip_master.csv -o data/symbols/nse_scrip_master.json
+	@echo "Set NSE_SYMBOLS_PATH=data/symbols/nse_scrip_master.json in your .env"
+
+# Default target
+.DEFAULT_GOAL := help
+
+##@ General
+.PHONY: help
+help: ## Show this help (auto-generated)
+	@awk 'BEGIN{ \
+		FS=":"; \
+		section="General"; \
+		printf "\033[1m%s\033[0m\n", section \
+	} \
+	/^##@/ { \
+		section=substr($$0,5); \
+		printf "\n\033[1m%s\033[0m\n", section; \
+		next \
+	} \
+	/^[[:space:]]*$$/ { next } \
+	/^[a-zA-Z0-9_./%-]+:[^=]*##/ { \
+		split($$0,a,"##"); \
+		split(a[1],t,":"); \
+		printf "  \033[36m%-24s\033[0m %s\n", t[1], a[2]; \
+		next \
+	} \
+	/^##[^@]/ { \
+		desc=substr($$0,4); \
+		getline; \
+		if ($$0 ~ /^[a-zA-Z0-9_./%-]+:/) { \
+			split($$0,t,":"); \
+			printf "  \033[36m%-24s\033[0m %s\n", t[1], desc \
+		} \
+	}' $(MAKEFILE_LIST)

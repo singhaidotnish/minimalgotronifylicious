@@ -11,7 +11,7 @@ ADHD-friendly plan (man to man)
 
 Expose clean FastAPI endpoints under /api/smart/*.
 
-Behind them, switch between Stub and Angel One via PAPER_TRADING env.
+Behind them, switch between Stub and Angel One via USE_PAPER env.
 
 Keep the rest of your routes (/symbols.json, /api/param-options, /health) untouched.
 

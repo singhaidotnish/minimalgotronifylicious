@@ -5,6 +5,9 @@ from src.minimalgotronifylicious.config_loader import BrokerConfigLoader
 from src.minimalgotronifylicious.brokers.order_client_factory import OrderClientFactory
 from src.minimalgotronifylicious.utils.order_builder import OrderBuilder
 
+import apps.backend.src.minimalgotronifylicious.routers.trading
+
+
 def main():
 		print("🚀 Starting Live Order Placement Test for AngelOne")
 
@@ -32,7 +35,7 @@ def main():
 
 		# Step 5: Place the order
 		print("📤 Placing order:", order)
-		result = client.place_order(order)
+		result = apps.backend.src.minimalgotronifylicious.routers.trading.place_order(order)
 
 		# Step 6: Show result
 		if result.get("status") == "success":

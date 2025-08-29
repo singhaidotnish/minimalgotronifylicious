@@ -73,14 +73,18 @@ class OrderClientFactory:
 - Return the **same response** for the same id.
 
 ```python
+import apps.backend.src.minimalgotronifylicious.routers.trading
+
 _seen = {}
 
+
 @router.post("/order")
-def place_order(order: OrderIn, client=Depends(get_client), request_id: str | None = Header(default=None, convert_underscores=False)):
+def place_order(order: OrderIn, client=Depends(get_client),
+                request_id: str | None = Header(default=None, convert_underscores=False)):
     if not request_id: raise HTTPException(400, "Missing X-Request-Id")
     key = f"order:{request_id}"
     if key in _seen: return _seen[key]
-    res = client.place_order(**order.model_dump())
+    res = apps.backend.src.minimalgotronifylicious.routers.trading.place_order(**order.model_dump())
     _seen[key] = res
     return res
 ```
@@ -167,11 +171,11 @@ python -m compileall apps/backend/src
 ## 5) Paper Mode (demo today, money tomorrow)
 
 **Strategy swap via Factory**
-- `PAPER_TRADING=true` → `PaperClient` (in‑mem portfolio, orders)
-- `PAPER_TRADING=false` → `AngelOneConnectClient`
+- `USE_PAPER=true` → `PaperClient` (in‑mem portfolio, orders)
+- `USE_PAPER=false` → `AngelOneConnectClient`
 
 ```python
-if os.getenv("PAPER_TRADING","true").lower()=="true":
+if os.getenv("USE_PAPER","true").lower()=="true":
     from .paper_client import PaperClient
     return PaperClient(seed_cash=float(os.getenv("DEMO_SEED_CASH","100000")))
 ```
@@ -228,13 +232,13 @@ if os.getenv("PAPER_TRADING","true").lower()=="true":
 ## 9) Makefile “one‑buttons”
 ```makefile
 demo: ## run backend in paper mode
-	@export PAPER_TRADING=true DEMO_SEED_CASH=100000 && docker compose up --build
+	@export USE_PAPER=true DEMO_SEED_CASH=100000 && docker compose up --build
 
 fresh: ## nuke caches and rebuild
 	@docker compose down -v || true
 	@docker builder prune -f || true
 	@docker compose build --no-cache
-	@PAPER_TRADING=true docker compose up --force-recreate
+	@USE_PAPER=true docker compose up --force-recreate
 ```
 
 ---

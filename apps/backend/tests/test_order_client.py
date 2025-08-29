@@ -1,5 +1,7 @@
 from src.minimalgotronifylicious.brokers.order_client_factory import OrderClientFactory
 
+import apps.backend.src.minimalgotronifylicious.routers.trading
+
 auth_data = {
     "client_id": "P123456",
     "api_key": "abcd123",
@@ -24,5 +26,5 @@ order = {
     "quantity": "1"
 }
 
-response = client.place_order(order)
+response = apps.backend.src.minimalgotronifylicious.routers.trading.place_order(order)
 print(response)

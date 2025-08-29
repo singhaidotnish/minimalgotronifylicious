@@ -105,7 +105,7 @@ class AngelOneSession(BaseBrokerSession):
         Performs SmartApi login. Lazy-imports heavy deps to avoid breaking demo mode imports.
         """
         try:
-            # Lazy imports so module import doesn't fail in PAPER_TRADING mode
+            # Lazy imports so module import doesn't fail in USE_PAPER mode
             import pyotp  # type: ignore
             from SmartApi import SmartConnect  # type: ignore
         except Exception as e:

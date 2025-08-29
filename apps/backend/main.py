@@ -11,8 +11,8 @@ from fastapi import Request
 
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
-from src.minimalgotronifylicious.routers import angel_one
 from src.minimalgotronifylicious.api.routes import router as api_router
+from src.minimalgotronifylicious.routers.trading import router as trading_router
 # ──────────────────────────────────────────────────────────────────────────────
 # Config (single source of truth)
 #   • FRONTEND_ORIGINS: comma-separated list of allowed UI origins
@@ -107,7 +107,7 @@ async def serve_symbols():
 
 # 4) Your other API routers (unchanged)
 app.include_router(router)
-app.include_router(angel_one.router)
+app.include_router(trading_router)
 app.include_router(api_router)  # ✅ mounts /api/smart/*
 
 # 5) Param options (unchanged)

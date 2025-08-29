@@ -1,0 +1,25 @@
+defaults:
+  when_auto_open: angel_one
+  when_auto_closed: paper_trade  # flip to 'binance' whenever you want
+
+angel_one:
+  import_path: "src.minimalgotronifylicious.brokers.angelone_angel_one_client:AngelOneConnectClient"
+  needs_session: true
+  live_env_require:
+    - SMARTAPI_API_KEY
+    - SMARTAPI_CLIENT_CODE
+    - SMARTAPI_TOTP_SECRET
+  symbols_provider: "src.minimalgotronifylicious.symbols.providers:nse_provider"
+
+binance:
+  import_path: "src.minimalgotronifylicious.brokers.binance_client:BinanceClient"
+  needs_session: false
+  symbols_provider: "src.minimalgotronifylicious.symbols.providers:binance_provider"
+
+paper_trade:
+  import_path: "src.minimalgotronifylicious.brokers.paper_client:PaperClient"
+  needs_session: false
+  init_kwargs:
+    seed_cash_env: DEMO_SEED_CASH
+    default_seed: 100000
+  symbols_provider: "src.minimalgotronifylicious.symbols.providers:paper_provider"

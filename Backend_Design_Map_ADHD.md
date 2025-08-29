@@ -42,7 +42,7 @@ Each folder has an `__init__.py`. Docker sets `PYTHONPATH=/app`.
 1. Router parses request → `Depends(get_order_client)`.
 2. `get_order_client()` builds a session and calls `OrderClientFactory.create("angel_one", session)`.
 3. Factory lazy-imports `AngelOneConnectClient` and returns it.
-4. Adapter calls real SDK (or stub if `PAPER_TRADING=true`).
+4. Adapter calls real SDK (or stub if `USE_PAPER=true`).
 
 ---
 
@@ -71,24 +71,29 @@ class OrderClientFactory:
 ---
 
 ## 5) Router DI pattern (simple and stable)
+
 ```python
+import apps.backend.src.minimalgotronifylicious.routers.trading
 from fastapi import APIRouter, Depends
 from src.minimalgotronifylicious.brokers.order_client_factory import OrderClientFactory
 from src.minimalgotronifylicious.sessions.angelone_session import AngelOneSession
 
 router = APIRouter(prefix="/api")
 
+
 def get_order_client():
-    sess = AngelOneSession.from_env()
-    return OrderClientFactory.create("angel_one", sess)
+  sess = AngelOneSession.from_env()
+  return OrderClientFactory.create("angel_one", sess)
+
 
 @router.get("/ltp")
-def ltp(symbol: str, client = Depends(get_order_client)):
-    return client.ltp(symbol)
+def ltp(symbol: str, client=Depends(get_order_client)):
+  return client.ltp(symbol)
+
 
 @router.post("/order")
-def place_order(order: dict, client = Depends(get_order_client)):
-    return client.place_order(order)
+def place_order(order: dict, client=Depends(get_order_client)):
+  return apps.backend.src.minimalgotronifylicious.routers.trading.place_order(order)
 ```
 
 ---
