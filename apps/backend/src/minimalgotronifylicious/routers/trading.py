@@ -115,8 +115,8 @@ def smart_health():
 
 def paper_mode() -> bool:
     # If env forces paper, return True; otherwise false (AUTO decided in factory)
-    from src.minimalgotronifylicious.brokers.order_client_factory import _paper_env_enabled
-    return _paper_env_enabled()
+    from src.minimalgotronifylicious.utils.broker_registry import paper_env_enabled
+    return paper_env_enabled()
 
 
 def get_client(

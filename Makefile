@@ -1,8 +1,18 @@
 # ==== Core ====
 DC := docker compose
-BACK_SERVICE := backend
-FRONT_DIR := apps/ui
-BACK_DIR := apps/backend
+# Path base = directory that holds THIS Makefile (works even if `make` is run elsewhere)
+MKFILE_DIR := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+
+# Monorepo paths (repo-relative)
+FRONT_DIR  := apps/ui
+BACK_DIR   := apps/backend
+BIN_DIR    := $(BACK_DIR)/src/minimalgotronifylicious/bin
+DATA_DIR   := $(BACK_DIR)/data/symbols
+
+# NSE cache paths (overridable from CLI/env)
+NSE_SCRIP_MASTER_CSV  ?= $(DATA_DIR)/nse_scrip_master.csv
+NSE_SCRIP_MASTER_JSON ?= $(DATA_DIR)/nse_scrip_master.json
+BINANCE_SYMBOLS_JSON  ?= $(DATA_DIR)/binance_exchangeInfo.json
 
 .PHONY: fresh dev up down rebuild logs be-logs ui-logs exec health \
 				paper live ui-dev ui-build ui-type ui-lint fix-imports \
@@ -11,28 +21,28 @@ BACK_DIR := apps/backend
 # ==== Orchestrations ====
 ## down + prune + build --no-cache + up
 fresh:
-	@docker compose down -v --remove-orphans || true
+	$(DC) down -v --remove-orphans || true
 	@docker system prune -f || true
-	@docker compose build --no-cache
-	@docker compose up
+	$(DC) build --no-cache
+	$(DC) up
 
 dev: ## build (with cache) + up
-	@docker compose up --build
+	$(DC) up --build
 
 up: ## start stack
-	@docker compose up -d
+	$(DC) up -d
 
 down: ## stop stack
-	@docker compose down
+	$(DC) down
 
 logs: ## tail all services
-	@docker compose logs -f
+	$(DC) logs -f
 
 be-logs: ## tail backend logs
-	@docker compose logs -f backend
+	$(DC) logs -f backend
 
 exec: ## run a command in a service (S=<service> C='<cmd>')
-	@docker compose exec $(S) sh -lc "$(C)"
+	$(DC) exec $(S) sh -lc "$(C)"
 
 ## curl backend /api/health
 health:
@@ -48,34 +58,44 @@ live:
 
 ## start frontend dev server
 ui-dev:
-	@docker compose run --rm -p $(FRONTEND_PORT):$(FRONTEND_PORT) frontend npm run dev
+	$(DC) run --rm -p $(FRONTEND_PORT):$(FRONTEND_PORT) frontend npm run dev
 
 ui-build: ## build frontend
-	@docker compose run --rm frontend npm ci
-	@docker compose run --rm frontend npm run build
+	$(DC) run --rm frontend npm ci
+	$(DC) run --rm frontend npm run build
 
 ui-type: ## typecheck frontend
-	@docker compose run --rm frontend npm run typecheck
+	$(DC) run --rm frontend npm run typecheck
 
 ui-lint: ## lint frontend
-	@docker compose run --rm frontend npm run lint
+	$(DC) run --rm frontend npm run lint
 
 ## build symbol caches (Binance+NSE)
 symbols: symbols-binance symbols-nse
 
-symbols-binance: ## cache Binance spot symbols
-	mkdir -p data/symbols
-	python3 apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py -o data/symbols/binance_exchangeInfo.json
-	@echo "Set BINANCE_SYMBOLS_PATH=data/symbols/binance_exchangeInfo.json in your .env"
+symbols-binance:
+	mkdir -p $(DATA_DIR)
+	python3 $(BIN_DIR)/save_binance_exchangeinfo.py -o $(BINANCE_SYMBOLS_JSON)
+	@echo "Set BINANCE_SYMBOLS_PATH=$(BINANCE_SYMBOLS_JSON) in your .env"
 
 symbols-binance-fut: ## cache Binance futures symbols
-	mkdir -p data/symbols
-	python3 apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py --futures -o data/symbols/binance_futures_exchangeInfo.json
+	mkdir -p /home/sinhurry/Documents/GitHub/minimalgotronifylicious/apps/backend/data/symbols
+	python3 apps/backend/src/minimalgotronifylicious/bin/save_binance_exchangeinfo.py --futures -o /home/sinhurry/Documents/GitHub/minimalgotronifylicious/apps/backend/data/symbols/binance_futures_exchangeInfo.json
 
+## Convert NSE scrip-master CSV → JSON for UI picker
 symbols-nse: ## convert NSE scrip-master CSV -> JSON
-	mkdir -p data/symbols
-	python3 apps/backend/src/minimalgotronifylicious/bin/convert_nse_scrip_master.py -i data/symbols/nse_scrip_master.csv -o data/symbols/nse_scrip_master.json
-	@echo "Set NSE_SYMBOLS_PATH=data/symbols/nse_scrip_master.json in your .env"
+	@mkdir -p $(DATA_DIR)
+	@if [ ! -s "$(NSE_SCRIP_MASTER_CSV)" ]; then \
+	  echo "⚠️  Missing: $(NSE_SCRIP_MASTER_CSV)"; \
+	  echo "   Put the NSE scrip-master CSV there (or run with NSE_SCRIP_MASTER_CSV=<path>) and re-run:"; \
+	  echo "   make symbols-nse"; \
+	else \
+	  python3 $(BIN_DIR)/convert_nse_scrip_master.py \
+	    -i "$(NSE_SCRIP_MASTER_CSV)" \
+	    -o "$(NSE_SCRIP_MASTER_JSON)"; \
+	  echo "Set NSE_SYMBOLS_PATH=$(NSE_SCRIP_MASTER_JSON) in your .env"; \
+	fi
+
 
 # Default target
 .DEFAULT_GOAL := help
