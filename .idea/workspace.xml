@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="94780d51-7ba4-42d4-860f-27d645dc802f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/bin/convert_nse_scrip_master.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/bin/convert_nse_scrip_master.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/trading.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/backend/src/minimalgotronifylicious/routers/trading.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tree_structure-monorepo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tree_structure-monorepo.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,15 +30,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/sinhurry/Documents/GitHub/minimalgotronifylicious/apps/backend/src/minimalgotronifylicious/routers/trading.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sinhurry/Documents/GitHub/minimalgotronifylicious/apps/backend/src/minimalgotronifylicious/routers/trading.py&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/ui" />
