@@ -7,7 +7,6 @@ from dotenv import load_dotenv; load_dotenv()
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Request
 
 from app.param_options import PARAM_OPTIONS
 from src.minimalgotronifylicious.api import router
@@ -22,8 +21,7 @@ from src.minimalgotronifylicious.routers.trading import router as trading_router
 #   • CSP_CONNECT_EXTRAS: comma-separated list of extra endpoints for connect-src
 #       (use this to allow any temporary ws://localhost:XXXXX or third-party wss)
 # ──────────────────────────────────────────────────────────────────────────────
-
-
+from src.minimalgotronifylicious.routers.options import router as options_router
 
 def csv_env(name: str, default: str = "") -> list[str]:
     """ADHD tip: tiny helper to parse comma-separated envs safely."""
@@ -56,16 +54,6 @@ DOCS_CSP = (
     "font-src 'self' data: https://cdn.jsdelivr.net;"
 )
 
-@app.middleware("http")
-async def add_csp_for_docs(request: Request, call_next):
-    resp = await call_next(request)
-    p = request.url.path
-    if p.startswith("/docs") or p.startswith("/redoc") or p.startswith("/openapi"):
-        # Only relax CSP for docs endpoints so Swagger loads
-        resp.headers["content-security-policy"] = DOCS_CSP
-    return resp
-
-
 # 1) CORS (env-driven; no hardcoded localhost in code)
 app.add_middleware(
     CORSMiddleware,
@@ -92,12 +80,6 @@ def build_csp() -> str:
     ]
     return "; ".join(parts) + ";"
 
-@app.middleware("http")
-async def add_csp_header(request: Request, call_next):
-    response = await call_next(request)
-    response.headers["Content-Security-Policy"] = build_csp()
-    return response
-
 # 3) Static file
 @app.get("/symbols.json", response_class=FileResponse)
 async def serve_symbols():
@@ -109,6 +91,7 @@ async def serve_symbols():
 app.include_router(router)
 app.include_router(trading_router)
 app.include_router(api_router)  # ✅ mounts /api/smart/*
+app.include_router(options_router)
 
 # 5) Param options (unchanged)
 @app.get("/api/param-options")
@@ -124,17 +107,11 @@ def health():
     return {"status": "ok"}
 
 @app.middleware("http")
-async def relax_csp_for_docs(request: Request, call_next):
-    resp = await call_next(request)
+async def add_csp_header(request: Request, call_next):
+    response = await call_next(request)
     p = request.url.path
-
-    if p.startswith("/docs") or p.startswith("/redoc") or p.startswith("/openapi"):
-        # Instead of pop/delete, just overwrite CSP with a permissive one for docs only.
-        resp.headers["content-security-policy"] = (
-            "default-src 'self'; "
-            "img-src 'self' data: https://fastapi.tiangolo.com; "
-            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-            "font-src 'self' data: https://cdn.jsdelivr.net;"
-        )
-    return resp
+    if p.startswith(("/docs", "/redoc", "/openapi")):
+        response.headers["Content-Security-Policy"] = DOCS_CSP
+    else:
+        response.headers["Content-Security-Policy"] = build_csp()
+    return response
