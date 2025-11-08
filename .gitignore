@@ -1,3 +1,8 @@
+.idea/
+.DS_Store
+.vscode/
+Thumbs.db
+
 # env & secrets
 .env
 .env.live
@@ -27,13 +32,7 @@ __pycache__/
 *.sqlite3
 *.db
 
-# editor / os junk
-.DS_Store
-.idea/
-.vscode/
-Thumbs.db
 
 # docker junk
 **/.dockerignore~
 **/Dockerfile~
-.idea/workspace.xml
